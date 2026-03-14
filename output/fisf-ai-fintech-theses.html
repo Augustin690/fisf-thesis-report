@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FISF Theses — AI, Machine Learning & FinTech Focus</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/5.5.0/echarts.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      fontFamily: {
+        display: ['"DM Serif Display"', 'Georgia', 'serif'],
+        body: ['"Inter"', 'system-ui', 'sans-serif'],
+        mono: ['"JetBrains Mono"', 'monospace'],
+      },
+      colors: {
+        fudan: { 50:'#f0f4ff', 100:'#dce4f8', 200:'#b8c9f0', 400:'#6b8bd4', 500:'#3d5fa0', 600:'#2a4a82', 700:'#1e3768', 800:'#14264d', 900:'#0c1833' },
+        accent: { gold:'#c9a84c', amber:'#e8b94a', warm:'#f4e4c1' },
+        neon: { cyan:'#06b6d4', purple:'#a855f7', pink:'#ec4899', green:'#10b981', orange:'#f97316' }
+      }
+    }
+  }
+}
+</script>
+<style>
+/* === BASE === */
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Inter', system-ui, sans-serif;
+  background: #0f172a;
+  color: #e2e8f0;
+  margin: 0;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+body::before {
+  content: '';
+  position: fixed; inset: 0; z-index: 0; pointer-events: none;
+  background: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+  background-size: 200px;
+}
+
+/* === PROGRESS BAR === */
+.progress-bar {
+  position: fixed; top: 0; left: 0; height: 3px; z-index: 9999;
+  background: linear-gradient(90deg, #06b6d4, #a855f7, #ec4899);
+  width: 0%; transition: width 0.1s linear;
+}
+
+/* === HERO === */
+.hero-section {
+  min-height: 80vh;
+  display: flex; align-items: center; justify-content: center;
+  position: relative;
+  background: linear-gradient(165deg, #0c1833 0%, #1a1040 40%, #1e1b4b 70%, #0f172a 100%);
+  overflow: hidden;
+}
+.hero-section::after {
+  content: ''; position: absolute; inset: 0; pointer-events: none;
+  background: radial-gradient(ellipse at 70% 20%, rgba(6,182,212,0.12) 0%, transparent 60%),
+              radial-gradient(ellipse at 20% 80%, rgba(168,85,247,0.1) 0%, transparent 50%),
+              radial-gradient(ellipse at 50% 50%, rgba(236,72,153,0.06) 0%, transparent 40%);
+}
+.hero-grid {
+  position: absolute; inset: 0; pointer-events: none; opacity: 0.04;
+  background-image:
+    linear-gradient(rgba(6,182,212,0.5) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(6,182,212,0.5) 1px, transparent 1px);
+  background-size: 60px 60px;
+}
+.hero-float { animation: heroFloat 6s ease-in-out infinite; }
+@keyframes heroFloat { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-12px)} }
+.glow-text {
+  background: linear-gradient(135deg, #06b6d4, #a855f7, #ec4899);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* === GLASS CARDS === */
+.glass-card {
+  background: rgba(30,41,59,0.7);
+  backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(99,102,241,0.15);
+  border-radius: 16px;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.2);
+  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+}
+.glass-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 40px rgba(6,182,212,0.08);
+  border-color: rgba(99,102,241,0.3);
+}
+
+/* === CHART CONTAINER === */
+.chart-container {
+  background: rgba(30,41,59,0.6);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(99,102,241,0.12);
+  border-radius: 20px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.15);
+}
+
+/* === TAG BADGES === */
+.tag-badge {
+  display: inline-flex; align-items: center; gap: 4px;
+  padding: 3px 10px; border-radius: 100px;
+  font-size: 0.68rem; font-weight: 600; letter-spacing: 0.03em;
+  text-transform: uppercase; white-space: nowrap;
+}
+.tag-ai { background: rgba(6,182,212,0.15); color: #22d3ee; border: 1px solid rgba(6,182,212,0.25); }
+.tag-ml { background: rgba(168,85,247,0.15); color: #c084fc; border: 1px solid rgba(168,85,247,0.25); }
+.tag-fintech { background: rgba(16,185,129,0.15); color: #34d399; border: 1px solid rgba(16,185,129,0.25); }
+.tag-digital { background: rgba(249,115,22,0.15); color: #fb923c; border: 1px solid rgba(249,115,22,0.25); }
+.tag-blockchain { background: rgba(236,72,153,0.15); color: #f472b6; border: 1px solid rgba(236,72,153,0.25); }
+.tag-esg { background: rgba(34,197,94,0.15); color: #4ade80; border: 1px solid rgba(34,197,94,0.25); }
+.tag-sentiment { background: rgba(251,191,36,0.15); color: #fbbf24; border: 1px solid rgba(251,191,36,0.25); }
+.tag-internet { background: rgba(99,102,241,0.15); color: #818cf8; border: 1px solid rgba(99,102,241,0.25); }
+.tag-default { background: rgba(148,163,184,0.12); color: #94a3b8; border: 1px solid rgba(148,163,184,0.2); }
+
+/* === DEGREE BADGES === */
+.deg-mfin { background: rgba(6,182,212,0.15); color: #22d3ee; }
+.deg-mba { background: rgba(168,85,247,0.15); color: #c084fc; }
+.deg-emba { background: rgba(249,115,22,0.15); color: #fb923c; }
+
+/* === FILTER BUTTONS === */
+.filter-btn {
+  padding: 6px 16px; border-radius: 100px;
+  font-size: 0.78rem; font-weight: 500;
+  background: rgba(51,65,85,0.5);
+  color: #94a3b8;
+  border: 1px solid rgba(99,102,241,0.1);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.filter-btn:hover { background: rgba(99,102,241,0.12); color: #c7d2fe; }
+.filter-btn.active {
+  background: rgba(99,102,241,0.2); color: #e0e7ff;
+  border-color: rgba(99,102,241,0.4);
+  box-shadow: 0 0 12px rgba(99,102,241,0.15);
+}
+
+/* === THESIS ROWS === */
+.thesis-row {
+  padding: 16px 20px;
+  border-bottom: 1px solid rgba(99,102,241,0.08);
+  transition: background 0.2s ease;
+}
+.thesis-row:hover { background: rgba(99,102,241,0.05); }
+.thesis-row:last-child { border-bottom: none; }
+
+/* === SECTION HEADERS === */
+.section-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.7rem; font-weight: 500;
+  letter-spacing: 0.15em; text-transform: uppercase;
+  color: #06b6d4;
+}
+.section-title {
+  font-family: 'DM Serif Display', Georgia, serif;
+  color: #f1f5f9;
+}
+
+/* === STAT CARDS === */
+.stat-number {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 2.5rem; font-weight: 700;
+  line-height: 1;
+}
+
+/* === SCROLLBAR === */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: #0f172a; }
+::-webkit-scrollbar-thumb { background: #334155; border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: #475569; }
+
+/* === BACK LINK === */
+.back-link {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-size: 0.82rem; color: #06b6d4;
+  text-decoration: none; font-weight: 500;
+  transition: color 0.2s;
+}
+.back-link:hover { color: #22d3ee; }
+</style>
+</head>
+<body>
+<div class="progress-bar" id="progressBar"></div>
+
+<!-- HERO SECTION -->
+<section class="hero-section">
+  <div class="hero-grid"></div>
+  <div class="relative z-10 max-w-5xl mx-auto px-6 text-center hero-float">
+    <p class="section-label mb-4 tracking-widest">Fudan University / Fanhai International School of Finance</p>
+    <h1 class="font-display text-5xl md:text-7xl font-normal mb-6">
+      <span class="glow-text">AI, ML & FinTech</span><br>
+      <span class="text-white/90 text-3xl md:text-4xl mt-2 block">Thesis Collection</span>
+    </h1>
+    <p class="text-slate-400 text-lg md:text-xl max-w-2xl mx-auto mb-8 leading-relaxed">
+      67 theses exploring artificial intelligence, machine learning, digital transformation, blockchain, and financial technology — curated from 308 FISF theses (2020-2025).
+    </p>
+    <div class="flex justify-center gap-6 flex-wrap">
+      <div class="glass-card px-6 py-4 text-center">
+        <div class="stat-number glow-text">67</div>
+        <div class="text-slate-400 text-xs mt-1 font-mono uppercase tracking-wider">Tech Theses</div>
+      </div>
+      <div class="glass-card px-6 py-4 text-center">
+        <div class="stat-number text-purple-400">21.8%</div>
+        <div class="text-slate-400 text-xs mt-1 font-mono uppercase tracking-wider">of All FISF</div>
+      </div>
+      <div class="glass-card px-6 py-4 text-center">
+        <div class="stat-number text-pink-400">17</div>
+        <div class="text-slate-400 text-xs mt-1 font-mono uppercase tracking-wider">Supervisors</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STATS + CHARTS SECTION -->
+<section class="relative z-10 max-w-7xl mx-auto px-6 py-20">
+  <div class="mb-4"><span class="section-label">01 / Overview</span></div>
+  <h2 class="section-title text-3xl md:text-4xl mb-12">Topic Landscape</h2>
+
+  <!-- CHARTS ROW -->
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
+    <div class="chart-container p-6">
+      <h3 class="text-sm font-semibold text-slate-300 mb-4 font-mono uppercase tracking-wider">Theses by Topic Tag</h3>
+      <div id="chartTopic" style="width:100%;height:380px;"></div>
+    </div>
+    <div class="chart-container p-6">
+      <h3 class="text-sm font-semibold text-slate-300 mb-4 font-mono uppercase tracking-wider">Year Distribution</h3>
+      <div id="chartYear" style="width:100%;height:380px;"></div>
+    </div>
+  </div>
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+    <div class="chart-container p-6">
+      <h3 class="text-sm font-semibold text-slate-300 mb-4 font-mono uppercase tracking-wider">Degree Breakdown</h3>
+      <div id="chartDegree" style="width:100%;height:340px;"></div>
+    </div>
+    <div class="chart-container p-6">
+      <h3 class="text-sm font-semibold text-slate-300 mb-4 font-mono uppercase tracking-wider">Top Supervisors (Tech Theses)</h3>
+      <div id="chartSupervisor" style="width:100%;height:340px;"></div>
+    </div>
+  </div>
+</section>
+
+<!-- THESIS LISTING SECTION -->
+<section class="relative z-10 max-w-7xl mx-auto px-6 py-16">
+  <div class="mb-4"><span class="section-label">02 / Full Listing</span></div>
+  <h2 class="section-title text-3xl md:text-4xl mb-6">All 67 Theses</h2>
+
+  <!-- FILTERS -->
+  <div class="flex flex-wrap gap-2 mb-8" id="filterBar">
+    <button class="filter-btn active" data-filter="all" onclick="filterTheses('all',this)">All (67)</button>
+    <!-- JS will populate these -->
+  </div>
+
+  <!-- THESIS LIST -->
+  <div class="glass-card overflow-hidden" id="thesisList">
+    <!-- JS will populate -->
+  </div>
+  <div class="text-center mt-6 text-slate-500 text-sm font-mono" id="resultCount"></div>
+</section>
+
+<!-- INSIGHTS -->
+<section class="relative z-10 max-w-4xl mx-auto px-6 py-16">
+  <div class="mb-4"><span class="section-label">03 / Insights</span></div>
+  <h2 class="section-title text-3xl md:text-4xl mb-8">Key Takeaways</h2>
+  <div class="space-y-6" id="insightsContainer">
+    <!-- PLACEHOLDER: JS/static insights -->
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="relative z-10 border-t border-slate-800 mt-16 py-10 text-center text-slate-500 text-xs font-mono">
+  <p>Data source: thesis.fudan.edu.cn &mdash; Fudan University Thesis Repository</p>
+  <p class="mt-1">FISF AI/ML/FinTech Thesis Analysis &mdash; 67 of 308 theses &mdash; Compiled March 2025</p>
+</footer>
+
+<script>
+// === THESIS DATA ===
+const theses = [
+{"title":"Research on New Clustered Data Center Management Models in Internet Enterprises: A Case Study of Company B","author":"曹豫","degree":"MFin","year":2025,"supervisor":"蒋亮","tags":["Big Data","Internet Finance"]},
+{"title":"Analysis of Pathways and Effects of ESG Practices Enhancing Enterprise Value: A Case Study of Securities Company X","author":"康淑婷","degree":"MBA","year":2024,"supervisor":"施文韵","tags":["ESG Tech"]},
+{"title":"New Framework for Corporate Cross-border Payments: Synergistic Evolution of Geopolitics, Financial Regulation, and Frontier Technology","author":"朱晓梅","degree":"EMBA","year":2024,"supervisor":"汤海涵","tags":["Digital Payment","Emerging Technology"]},
+{"title":"Management Optimization of Fintech Services for Commercial Banks: Software Testing Optimization at Bank HG","author":"戚大伟","degree":"EMBA","year":2024,"supervisor":"马畅","tags":["FinTech"]},
+{"title":"Impact of Industrial Robot Application on Labor Market: Evidence from A-Share Manufacturing Listed Companies","author":"郑屹","degree":"MFin","year":2023,"supervisor":"John Harold Rogers","tags":["Automation"]},
+{"title":"Research on Digital Transformation and Risk Resilience in Electronic Manufacturing: A Case Study of Foxconn","author":"余培雅","degree":"MBA","year":2023,"supervisor":"吴文斌","tags":["Digital Transformation"]},
+{"title":"Research on ESG Evaluation System Construction and Optimization for Semiconductor Enterprises: A Case Study of Enterprise XYZ","author":"刁春华","degree":"EMBA","year":2023,"supervisor":"唐敦哲","tags":["ESG Tech"]},
+{"title":"Impact of AI Development Level on Agency Costs of Listed Companies","author":"周欣颖","degree":"MFin","year":2023,"supervisor":"唐敦哲","tags":["AI"]},
+{"title":"Impact of Digital Transformation on Comprehensive Enterprise Performance","author":"林旭姿","degree":"MFin","year":2023,"supervisor":"唐敦哲","tags":["Digital Transformation"]},
+{"title":"Supply Chain Digitalization in Photovoltaic Industry: A Case Study of Longi Green Energy","author":"张露文","degree":"MBA","year":2023,"supervisor":"唐敦哲","tags":["Digital Transformation"]},
+{"title":"Impact of Fintech Innovation Regulatory Pilot Programs on Enterprise Productivity","author":"费沸","degree":"MFin","year":2023,"supervisor":"唐敦哲","tags":["FinTech","RegTech"]},
+{"title":"Research on Customer Profiling and Digital Strategies for Personal Pension Business at Bank A","author":"阙丹怡","degree":"MBA","year":2023,"supervisor":"孙林","tags":["Digital Transformation"]},
+{"title":"Performance Analysis of M&A Transformation in Internet Finance Platforms: A Case Study of East Money's Acquisition of Tongxin Securities","author":"程荞","degree":"MBA","year":2023,"supervisor":"孙林","tags":["Internet Finance"]},
+{"title":"Impact of Tightened HFT Regulation on Quantitative Private Fund Competitiveness: A Case Study of Fund Company Z","author":"胡晓慧","degree":"MBA","year":2023,"supervisor":"孙林","tags":["Quantitative"]},
+{"title":"Comparative Study of Virtual Digital Humans versus Live Streaming by Real Persons: A Case Study of Douyin","author":"付至威","degree":"MFin","year":2023,"supervisor":"张纯信","tags":["Digital Technology"]},
+{"title":"Research on Development Strategy of SMEs in Quantum Information Technology: A Case Study of Enterprise D","author":"陆阳","degree":"EMBA","year":2023,"supervisor":"张纯信","tags":["Emerging Technology"]},
+{"title":"Manufacturing Digital Transformation Strategy and Implementation Effectiveness: A Case Study of Shoe Enterprise N","author":"赖建宏","degree":"EMBA","year":2023,"supervisor":"张纯信","tags":["Digital Transformation"]},
+{"title":"Integration of Sentiment Index and Market Return Prediction: PLS Analysis with Multi-source Sentiment Proxies","author":"狄泽宇","degree":"MFin","year":2023,"supervisor":"张纯信","tags":["Sentiment Analysis"]},
+{"title":"Analysis of GenAI Empowering Meeting Software Product Innovation: A Case Study of Company W","author":"李诚尧","degree":"MBA","year":2023,"supervisor":"张纯信","tags":["AI"]},
+{"title":"Research on Duplicate Guarantee Risk Control in Movable Property Finance via Knowledge Graphs: A Case Study of Credit Center A","author":"张心远","degree":"MBA","year":2023,"supervisor":"施东辉","tags":["AI"]},
+{"title":"Research on Innovation and Application of Smart Elderly Care Service Model: A Case Study of Company D","author":"殷凡","degree":"MBA","year":2023,"supervisor":"施东辉","tags":["Automation"]},
+{"title":"Research on Competitive Strategy of Financial Products of Internet Enterprises: A Case Study of Meituan","author":"顾珏炜","degree":"MBA","year":2023,"supervisor":"施文韵","tags":["Internet Finance"]},
+{"title":"Research on ESG Transformation of Trust Companies: A Case Study of Trust Company J","author":"朱迪","degree":"MBA","year":2023,"supervisor":"施文韵","tags":["ESG Tech"]},
+{"title":"Comparative Research on Digital Transformation Strategy of Sino-US Manufacturing Based on Dynamic Capabilities Theory: Haier Group and General Electric","author":"洪梦怡","degree":"MFin","year":2023,"supervisor":"朱蕾","tags":["Digital Transformation"]},
+{"title":"Empowering Business-Finance Integration Through Intelligent Digital Applications: A Case Study of Company H","author":"樊祎迪","degree":"MBA","year":2023,"supervisor":"朱蕾","tags":["Automation"]},
+{"title":"Path to ESG Development for Small and Medium-Sized Enterprises: A Case Study of Enterprise X","author":"沈巨峰","degree":"MFin","year":2023,"supervisor":"李志青","tags":["ESG Tech"]},
+{"title":"Research on Xiaomi Automobile Development Strategy Under AI Background","author":"张济原","degree":"MBA","year":2023,"supervisor":"杨春柳","tags":["AI"]},
+{"title":"Research on AI Industry Service Platforms Empowering Digital Transformation: A Case Study of 'Model Digital Factory'","author":"陈昊","degree":"MBA","year":2023,"supervisor":"杨春柳","tags":["AI","Digital Transformation"]},
+{"title":"Impact of PE on Digital Transformation of Manufacturing: Evidence from A-share Listed Companies","author":"黃競麗","degree":"MFin","year":2023,"supervisor":"杨春柳","tags":["Digital Transformation"]},
+{"title":"Research on Impact of Investor Sentiment on Stock Returns and Volatility: Based on Financing Constraints and Risk-taking","author":"林泽伟","degree":"MFin","year":2023,"supervisor":"杨春柳","tags":["Sentiment Analysis"]},
+{"title":"Mechanism of Market Stabilization Role of the 'National Team' from a Sentiment Perspective","author":"吕彦泽","degree":"MFin","year":2023,"supervisor":"汤海涵","tags":["Sentiment Analysis"]},
+{"title":"Research on Digital Marketing Customer Acquisition Strategy of Education Company A","author":"陈文良","degree":"EMBA","year":2023,"supervisor":"汤海涵","tags":["Internet Finance"]},
+{"title":"Research on Platform Strategy of Industrial Bank","author":"李艺伟","degree":"MBA","year":2023,"supervisor":"汤海涵","tags":["Digital Platform"]},
+{"title":"Research on Path and Economic Consequences of Supply Chain Digital Transformation in Company D","author":"周涵怡","degree":"MBA","year":2023,"supervisor":"汤海涵","tags":["Digital Transformation"]},
+{"title":"Research on Digital Transformation of Intelligent Manufacturing in Zhengzhou Coal Mining Machinery Group","author":"黄宇栋","degree":"MBA","year":2023,"supervisor":"王遐昕","tags":["Digital Transformation","Intelligent Systems"]},
+{"title":"Research on AI Empowering Enterprise Compliance Management: A Case Study of Company J's Intelligent Compliance System","author":"高梓瑜","degree":"MBA","year":2023,"supervisor":"王遐昕","tags":["AI","Automation"]},
+{"title":"Research on Third-party Payment Innovation Under Online Payment Agent Services: A Case Study of Company A","author":"刘爱娜","degree":"MBA","year":2023,"supervisor":"王遐昕","tags":["Internet Finance","Digital Payment"]},
+{"title":"Research on Empowering Commercial Bank Intensive Operations with Digital Workforce: A Case Study of Bank G","author":"曹凡","degree":"MBA","year":2023,"supervisor":"王遐昕","tags":["Digital Transformation"]},
+{"title":"Research on Credit Risk Early Warning Model for Listed Companies Based on SSA-XGBoost","author":"马逸杰","degree":"MFin","year":2023,"supervisor":"童国士","tags":["Machine Learning"]},
+{"title":"Impact of Digital Inclusive Finance Development on Urban-Rural Consumption Gap","author":"戴若西","degree":"MFin","year":2023,"supervisor":"童国士","tags":["Digital Finance"]},
+{"title":"Impact of Internet Development in Export Destinations on China's Cross-border E-commerce Exports","author":"田鹏","degree":"MFin","year":2023,"supervisor":"童国士","tags":["Internet Finance"]},
+{"title":"Government Service Informatization Promoting Enterprise Digital Transformation: Evidence from National Pilot Policy","author":"程弋洋","degree":"MFin","year":2023,"supervisor":"童国士","tags":["Digital Transformation"]},
+{"title":"Research on Impact of Enterprise Digital Transformation on Cost of Equity","author":"曾凤清","degree":"MFin","year":2023,"supervisor":"童国士","tags":["Digital Transformation"]},
+{"title":"Strategic Research on Chinese Cross-border E-commerce Under Deglobalization: Insights from TikTok's Success","author":"李怡华","degree":"MFin","year":2023,"supervisor":"蒋亮","tags":["Internet Finance"]},
+{"title":"Research on Development Strategy of Intelligent Measurement Business for Industrial Measurement Enterprises in China: A Case Study of Company Z","author":"孙涛","degree":"EMBA","year":2023,"supervisor":"蒋亮","tags":["Intelligent Systems"]},
+{"title":"Prediction of Personal Non-performing Loan Repayment Based on Machine Learning","author":"夏怡卿","degree":"MFin","year":2023,"supervisor":"蒋亮","tags":["Machine Learning"]},
+{"title":"Attribution of Regional Development Differences in Live Streaming E-commerce from Platform Expansion Perspective: Douyin/TikTok Globalization","author":"李安钰","degree":"EMBA","year":2023,"supervisor":"陈诗一","tags":["Internet Finance"]},
+{"title":"Innovative Application of Blockchain in Carbon Database Construction and Revenue Sharing Methods","author":"林力","degree":"EMBA","year":2023,"supervisor":"陈诗一","tags":["Blockchain"]},
+{"title":"Research on Promotion Strategy of Unmanned Agricultural Technology Digital Platforms: A Case Study of Company D","author":"施丽丽","degree":"EMBA","year":2023,"supervisor":"陈钊","tags":["Automation","Digital Platform"]},
+{"title":"Software-Hardware Synergy Strategy Design for Industrial Automation Service Enterprises: A Case Study of Company A","author":"洪先文","degree":"EMBA","year":2023,"supervisor":"陈钊","tags":["Automation"]},
+{"title":"Analysis of Internal Risk Management Effectiveness Under Increased Assessment of Inclusive Finance Business: A Case Study of ICBC Branch X","author":"董彦升","degree":"MBA","year":2023,"supervisor":"马畅","tags":["Digital Finance"]},
+{"title":"Research on Data Asset Valuation of Internet Companies: A Case Study of TRS","author":"邹颖琛","degree":"MBA","year":2023,"supervisor":"马畅","tags":["Big Data"]},
+{"title":"Digital Transformation and Enterprise Globalization: Evidence from China","author":"王均溢","degree":"MFin","year":2023,"supervisor":"马畅","tags":["Digital Transformation"]},
+{"title":"ESG Rating Introduction and Corporate Greenwashing: Evidence from Chinese A-share Manufacturing Companies","author":"王裕堃","degree":"MFin","year":2023,"supervisor":"高华声","tags":["ESG Tech"]},
+{"title":"ESG Rating Divergence, Information Disclosure and Investor Protection: Empirical Analysis of China's A-Share Market","author":"朱志郅","degree":"MFin","year":2023,"supervisor":"高华声","tags":["ESG Tech"]},
+{"title":"The ESG Paradox: Short-term Costs and Long-term Resilience Under Global Shocks","author":"张瀚予","degree":"MFin","year":2023,"supervisor":"鲁小萌","tags":["ESG Tech"]},
+{"title":"Impact of ESG Practice on Enterprise Value in Lithium Battery Companies: A Case Study of Tianqi Lithium","author":"肖奕立","degree":"MBA","year":2022,"supervisor":"施文韵","tags":["ESG Tech"]},
+{"title":"Research on Opportunities and Challenges of Wealth Management Digitalization: A Case Study of Commercial Bank Z","author":"张静静","degree":"EMBA","year":2022,"supervisor":"汤海涵","tags":["Digital Transformation"]},
+{"title":"Impact of IPO Market Performance on Secondary Market Stock Returns and Investor Sentiment","author":"陈冠安","degree":"MFin","year":2022,"supervisor":"王遐昕","tags":["Sentiment Analysis"]},
+{"title":"Application of Deep Reinforcement Learning with Attention Mechanism to Stock Portfolio Weight Allocation: China A-Share Market","author":"钱泽葭","degree":"MFin","year":2022,"supervisor":"童国士","tags":["Machine Learning"]},
+{"title":"Impact of Acquirer's Digital Transformation Level on M&A Performance","author":"余昊宇","degree":"MBA","year":2022,"supervisor":"童国士","tags":["Digital Transformation"]},
+{"title":"Enterprise Strategy of Digital Marketing Companies Under AIGC Technology: A Case Study of Enterprise R","author":"刘畅","degree":"MFin","year":2022,"supervisor":"童国士","tags":["AI","Internet Finance"]},
+{"title":"Market Sentiment and Price Prediction in Chinese Real Estate Market","author":"龚沛承","degree":"MFin","year":2022,"supervisor":"蒋亮","tags":["Sentiment Analysis"]},
+{"title":"Analysis of Value Creation When Finance Empowers Internet Healthcare Platforms: A Case Study of Ping An Good Doctor","author":"郭利敏","degree":"EMBA","year":2022,"supervisor":"钱军","tags":["Internet Finance"]},
+{"title":"Research on Demand for Commercial Applications of Cloud Computing: Financial User Perspective","author":"杨志全","degree":"EMBA","year":2022,"supervisor":"黄毅","tags":["Cloud Computing"]},
+{"title":"Research on Index Futures Price Volatility Prediction and Trading Strategy Based on Machine Learning","author":"许蔚","degree":"EMBA","year":2021,"supervisor":"施东辉","tags":["Machine Learning"]},
+{"title":"Optimization of Performance Evaluation for Digital Transformation in Mechanical Processing Factories","author":"陈月华","degree":"MFin","year":2020,"supervisor":"陈钊","tags":["Digital Transformation"]}
+];
+
+// === SUPERVISOR NAME MAP ===
+const supervisorNameMap = {
+  "蒋亮": "Liang Jiang", "施文韵": "Wenyun Shi", "汤海涵": "Haihan Tang",
+  "马畅": "Chang Ma", "John Harold Rogers": "John H. Rogers", "吴文斌": "Wenbin Wu",
+  "唐敦哲": "Dunzhe Tang", "孙林": "Lin Sun", "张纯信": "Charles Chang",
+  "施东辉": "Donghui Shi", "朱蕾": "Julie Zhu", "李志青": "Zhiqing Li",
+  "杨春柳": "Chloe Yang", "王遐昕": "Xiaxin Wang", "童国士": "Guoshi Tong",
+  "陈诗一": "Shiyi Chen", "陈钊": "Zhao Chen", "高华声": "Huasheng Gao",
+  "鲁小萌": "Xiaomeng Lu", "钱军": "Jun Qian", "黄毅": "Yi Huang"
+};
+
+// === TAG STYLING MAP ===
+const tagStyleMap = {
+  "AI": "tag-ai", "Machine Learning": "tag-ml", "FinTech": "tag-fintech",
+  "Digital Transformation": "tag-digital", "Blockchain": "tag-blockchain",
+  "ESG Tech": "tag-esg", "Sentiment Analysis": "tag-sentiment",
+  "Internet Finance": "tag-internet", "Big Data": "tag-ml",
+  "Digital Finance": "tag-fintech", "Digital Payment": "tag-fintech",
+  "Digital Platform": "tag-internet", "Digital Technology": "tag-digital",
+  "Automation": "tag-ai", "Intelligent Systems": "tag-ai",
+  "Cloud Computing": "tag-ml", "Emerging Technology": "tag-blockchain",
+  "RegTech": "tag-fintech", "Quantitative": "tag-ml"
+};
+
+// === TAG COLORS FOR CHARTS ===
+const tagChartColors = {
+  "Digital Transformation": "#f97316", "Internet Finance": "#818cf8",
+  "ESG Tech": "#4ade80", "AI": "#22d3ee", "Automation": "#06b6d4",
+  "Sentiment Analysis": "#fbbf24", "Machine Learning": "#c084fc",
+  "Big Data": "#a855f7", "Digital Payment": "#34d399", "Emerging Technology": "#f472b6",
+  "FinTech": "#10b981", "Digital Platform": "#6366f1", "Intelligent Systems": "#0ea5e9",
+  "Digital Finance": "#2dd4bf", "RegTech": "#22c55e", "Quantitative": "#d946ef",
+  "Digital Technology": "#fb923c", "Blockchain": "#ec4899", "Cloud Computing": "#8b5cf6"
+};
+
+// =============================================
+// COMPUTE AGGREGATES
+// =============================================
+const tagCounts = {};
+const yearCounts = {};
+const degreeCounts = {};
+const supervisorCounts = {};
+
+theses.forEach(t => {
+  t.tags.forEach(tag => { tagCounts[tag] = (tagCounts[tag] || 0) + 1; });
+  yearCounts[t.year] = (yearCounts[t.year] || 0) + 1;
+  degreeCounts[t.degree] = (degreeCounts[t.degree] || 0) + 1;
+  supervisorCounts[t.supervisor] = (supervisorCounts[t.supervisor] || 0) + 1;
+});
+
+// Sort tags by count
+const sortedTags = Object.entries(tagCounts).sort((a, b) => b[1] - a[1]);
+const sortedSupervisors = Object.entries(supervisorCounts).sort((a, b) => b[1] - a[1]).slice(0, 12);
+
+// =============================================
+// RENDER FILTER BUTTONS
+// =============================================
+const filterBar = document.getElementById('filterBar');
+sortedTags.forEach(([tag, count]) => {
+  const btn = document.createElement('button');
+  btn.className = 'filter-btn';
+  btn.setAttribute('data-filter', tag);
+  btn.onclick = function() { filterTheses(tag, this); };
+  btn.textContent = tag + ' (' + count + ')';
+  filterBar.appendChild(btn);
+});
+
+// =============================================
+// RENDER THESIS LIST
+// =============================================
+function renderTheses(data) {
+  const container = document.getElementById('thesisList');
+  if (data.length === 0) {
+    container.innerHTML = '<div class="p-12 text-center text-slate-500">No theses match this filter.</div>';
+    document.getElementById('resultCount').textContent = '0 results';
+    return;
+  }
+  let html = '';
+  data.forEach((t, i) => {
+    const engName = supervisorNameMap[t.supervisor] || t.supervisor;
+    const degClass = t.degree === 'MFin' ? 'deg-mfin' : t.degree === 'MBA' ? 'deg-mba' : 'deg-emba';
+    const tagsHtml = t.tags.map(tag => {
+      const cls = tagStyleMap[tag] || 'tag-default';
+      return '<span class="tag-badge ' + cls + '">' + tag + '</span>';
+    }).join(' ');
+
+    html += '<div class="thesis-row">' +
+      '<div class="flex flex-col md:flex-row md:items-start gap-3">' +
+        '<div class="flex items-center gap-2 md:w-24 flex-shrink-0">' +
+          '<span class="font-mono text-xs text-slate-500">' + t.year + '</span>' +
+          '<span class="tag-badge ' + degClass + ' text-[0.62rem] px-2 py-0.5">' + t.degree + '</span>' +
+        '</div>' +
+        '<div class="flex-1 min-w-0">' +
+          '<div class="text-sm text-slate-200 leading-relaxed mb-1.5">' + t.title + '</div>' +
+          '<div class="flex flex-wrap items-center gap-2">' +
+            '<span class="text-xs text-slate-400">' + t.author + '</span>' +
+            '<span class="text-slate-600 text-xs">&middot;</span>' +
+            '<span class="text-xs text-cyan-400/70">' + engName + '</span>' +
+          '</div>' +
+          '<div class="flex flex-wrap gap-1.5 mt-2">' + tagsHtml + '</div>' +
+        '</div>' +
+      '</div>' +
+    '</div>';
+  });
+  container.innerHTML = html;
+  document.getElementById('resultCount').textContent = data.length + ' of 67 theses shown';
+}
+
+// =============================================
+// FILTER LOGIC
+// =============================================
+let currentFilter = 'all';
+function filterTheses(tag, btn) {
+  currentFilter = tag;
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+  if (tag === 'all') {
+    renderTheses(theses);
+  } else {
+    renderTheses(theses.filter(t => t.tags.includes(tag)));
+  }
+}
+
+// Initial render
+renderTheses(theses);
+
+// =============================================
+// CHARTS
+// =============================================
+const chartFont = 'Inter, system-ui, sans-serif';
+const monoFont = 'JetBrains Mono, monospace';
+
+// --- Topic Bar Chart ---
+const topicChart = echarts.init(document.getElementById('chartTopic'), null, { renderer: 'svg' });
+topicChart.setOption({
+  tooltip: {
+    trigger: 'axis', axisPointer: { type: 'shadow' },
+    backgroundColor: 'rgba(15,23,42,0.95)', borderColor: 'rgba(99,102,241,0.3)',
+    textStyle: { fontFamily: chartFont, color: '#e2e8f0', fontSize: 12 },
+    formatter: function(p) { return '<b>' + p[0].name + '</b><br/>Theses: <b style="color:#22d3ee">' + p[0].value + '</b>'; }
+  },
+  grid: { left: 140, right: 30, top: 10, bottom: 20 },
+  xAxis: { type: 'value', axisLine: { show: false }, axisTick: { show: false },
+    axisLabel: { fontFamily: monoFont, fontSize: 11, color: '#64748b' },
+    splitLine: { lineStyle: { color: 'rgba(99,102,241,0.08)' } }
+  },
+  yAxis: { type: 'category', inverse: true,
+    data: sortedTags.map(e => e[0]),
+    axisLine: { show: false }, axisTick: { show: false },
+    axisLabel: { fontFamily: chartFont, fontSize: 11, color: '#94a3b8' }
+  },
+  series: [{
+    type: 'bar', barWidth: 16, barCategoryGap: '30%',
+    data: sortedTags.map(e => ({
+      value: e[1],
+      itemStyle: { color: tagChartColors[e[0]] || '#6366f1', borderRadius: [0, 4, 4, 0] }
+    })),
+    label: { show: true, position: 'right', fontFamily: monoFont, fontSize: 11, color: '#94a3b8' }
+  }]
+});
+
+// --- Year Bar Chart ---
+const yearLabels = Object.keys(yearCounts).sort();
+const yearChart = echarts.init(document.getElementById('chartYear'), null, { renderer: 'svg' });
+yearChart.setOption({
+  tooltip: {
+    trigger: 'axis', axisPointer: { type: 'shadow' },
+    backgroundColor: 'rgba(15,23,42,0.95)', borderColor: 'rgba(99,102,241,0.3)',
+    textStyle: { fontFamily: chartFont, color: '#e2e8f0', fontSize: 12 }
+  },
+  grid: { left: 50, right: 30, top: 20, bottom: 40 },
+  xAxis: { type: 'category', data: yearLabels,
+    axisLine: { lineStyle: { color: 'rgba(99,102,241,0.2)' } },
+    axisTick: { show: false },
+    axisLabel: { fontFamily: monoFont, fontSize: 12, color: '#94a3b8' }
+  },
+  yAxis: { type: 'value',
+    axisLine: { show: false }, axisTick: { show: false },
+    axisLabel: { fontFamily: monoFont, fontSize: 11, color: '#64748b' },
+    splitLine: { lineStyle: { color: 'rgba(99,102,241,0.08)' } }
+  },
+  series: [{
+    type: 'bar', barWidth: 40,
+    data: yearLabels.map(y => ({
+      value: yearCounts[y],
+      itemStyle: {
+        color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+          { offset: 0, color: '#a855f7' }, { offset: 1, color: '#6366f1' }
+        ]),
+        borderRadius: [6, 6, 0, 0]
+      }
+    })),
+    label: { show: true, position: 'top', fontFamily: monoFont, fontSize: 13, fontWeight: 600, color: '#c084fc' },
+    markLine: {
+      silent: true, symbol: 'none',
+      data: [{ yAxis: 52, label: { formatter: '77.6% from 2023', position: 'insideEndTop', fontFamily: chartFont, fontSize: 10, color: '#a855f7' },
+        lineStyle: { color: 'rgba(168,85,247,0.3)', type: 'dashed' } }]
+    }
+  }]
+});
+
+// --- Degree Donut ---
+const degreeColors = { MFin: '#22d3ee', MBA: '#c084fc', EMBA: '#fb923c' };
+const degreeChart = echarts.init(document.getElementById('chartDegree'), null, { renderer: 'svg' });
+degreeChart.setOption({
+  tooltip: {
+    trigger: 'item',
+    backgroundColor: 'rgba(15,23,42,0.95)', borderColor: 'rgba(99,102,241,0.3)',
+    textStyle: { fontFamily: chartFont, color: '#e2e8f0', fontSize: 12 },
+    formatter: '{b}: <b>{c}</b> ({d}%)'
+  },
+  series: [{
+    type: 'pie', radius: ['50%', '78%'], center: ['50%', '50%'],
+    padAngle: 3, itemStyle: { borderRadius: 6 },
+    label: {
+      show: true, fontFamily: chartFont, fontSize: 13, color: '#e2e8f0',
+      formatter: function(p) { return '{name|' + p.name + '}\n{val|' + p.value + ' theses}'; },
+      rich: {
+        name: { fontFamily: chartFont, fontSize: 14, fontWeight: 600, color: '#f1f5f9', padding: [0,0,4,0] },
+        val: { fontFamily: monoFont, fontSize: 12, color: '#94a3b8' }
+      }
+    },
+    labelLine: { length: 16, length2: 12, lineStyle: { color: '#475569' } },
+    data: Object.entries(degreeCounts).map(([k, v]) => ({
+      name: k, value: v,
+      itemStyle: { color: degreeColors[k] || '#6366f1' }
+    })).sort((a, b) => b.value - a.value)
+  }]
+});
+
+// --- Supervisor Horizontal Bar ---
+const supChart = echarts.init(document.getElementById('chartSupervisor'), null, { renderer: 'svg' });
+supChart.setOption({
+  tooltip: {
+    trigger: 'axis', axisPointer: { type: 'shadow' },
+    backgroundColor: 'rgba(15,23,42,0.95)', borderColor: 'rgba(99,102,241,0.3)',
+    textStyle: { fontFamily: chartFont, color: '#e2e8f0', fontSize: 12 }
+  },
+  grid: { left: 120, right: 40, top: 10, bottom: 10 },
+  xAxis: { type: 'value',
+    axisLine: { show: false }, axisTick: { show: false },
+    axisLabel: { fontFamily: monoFont, fontSize: 11, color: '#64748b' },
+    splitLine: { lineStyle: { color: 'rgba(99,102,241,0.08)' } }
+  },
+  yAxis: { type: 'category', inverse: true,
+    data: sortedSupervisors.map(e => supervisorNameMap[e[0]] || e[0]),
+    axisLine: { show: false }, axisTick: { show: false },
+    axisLabel: { fontFamily: chartFont, fontSize: 11, color: '#94a3b8' }
+  },
+  series: [{
+    type: 'bar', barWidth: 14,
+    data: sortedSupervisors.map((e, i) => ({
+      value: e[1],
+      itemStyle: {
+        color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [
+          { offset: 0, color: '#6366f1' }, { offset: 1, color: '#06b6d4' }
+        ]),
+        borderRadius: [0, 4, 4, 0]
+      }
+    })),
+    label: { show: true, position: 'right', fontFamily: monoFont, fontSize: 11, color: '#94a3b8' }
+  }]
+});
+
+// Resize all charts
+window.addEventListener('resize', () => {
+  topicChart.resize(); yearChart.resize(); degreeChart.resize(); supChart.resize();
+});
+
+// =============================================
+// INSIGHTS
+// =============================================
+const insights = [
+  { icon: "&#x1F4C8;", title: "Digital Transformation Dominates",
+    text: "17 of 67 theses (25.4%) focus on digital transformation — by far the most common tech topic, spanning manufacturing, banking, and supply chain contexts." },
+  { icon: "&#x1F916;", title: "AI & Machine Learning Rising",
+    text: "11 theses cover AI or ML topics, including deep reinforcement learning for portfolio allocation, XGBoost credit risk models, knowledge graphs, and GenAI applications." },
+  { icon: "&#x1F4F1;", title: "Internet Finance & Platforms",
+    text: "10 theses examine internet finance: from TikTok/Douyin's platform economics to Meituan's financial products and cross-border e-commerce." },
+  { icon: "&#x1F331;", title: "ESG Tech Cluster",
+    text: "8 theses focus on ESG technology — including ESG rating systems, greenwashing detection, and the 'ESG Paradox' of short-term costs vs long-term resilience." },
+  { icon: "&#x1F393;", title: "MFin Students Lead Tech Research",
+    text: "MFin students authored 30 of 67 tech-related theses (44.8%), with a strong preference for quantitative and AI-driven topics over case studies." },
+  { icon: "&#x23F3;", title: "2023: The Inflection Point",
+    text: "52 of 67 tech theses (77.6%) are from 2023 alone, reflecting the ChatGPT-era surge in AI/digital research interest among FISF students." }
+];
+
+const insightsContainer = document.getElementById('insightsContainer');
+insights.forEach((ins, i) => {
+  insightsContainer.innerHTML += '<div class="glass-card p-6 flex gap-5 items-start anim-item">' +
+    '<div class="text-3xl flex-shrink-0 mt-0.5">' + ins.icon + '</div>' +
+    '<div>' +
+      '<h3 class="text-base font-semibold text-slate-100 mb-1.5">' + ins.title + '</h3>' +
+      '<p class="text-sm text-slate-400 leading-relaxed">' + ins.text + '</p>' +
+    '</div>' +
+  '</div>';
+});
+
+// =============================================
+// GSAP SCROLL ANIMATIONS
+// =============================================
+gsap.registerPlugin(ScrollTrigger);
+gsap.utils.toArray('.chart-container, .glass-card, .anim-item').forEach((el, i) => {
+  gsap.from(el, {
+    scrollTrigger: { trigger: el, start: 'top 88%', toggleActions: 'play none none none' },
+    y: 30, opacity: 0, duration: 0.7, delay: i * 0.04, ease: 'power2.out'
+  });
+});
+
+// =============================================
+// PROGRESS BAR
+// =============================================
+window.addEventListener('scroll', () => {
+  const h = document.documentElement;
+  const pct = (h.scrollTop / (h.scrollHeight - h.clientHeight)) * 100;
+  document.getElementById('progressBar').style.width = pct + '%';
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,515 @@
+#!/usr/bin/env python3
+"""
+Replace Chinese thesis titles with English translations in the HTML thesisData block.
+"""
+import json
+import re
+import unicodedata
+
+# ============================================================
+# FULL TRANSLATION MAPPING: Chinese title -> English title
+# ============================================================
+TRANSLATIONS = {
+    # BATCH 1 (1-45)
+    "银行资本充足率的影响因素与优化策略 ——以G银行为例": "Impact Factors and Optimization Strategies of Bank Capital Adequacy Ratio: A Case Study of Bank G",
+    "A银行个人养老金客户画像与数字化策略研究": "Research on Customer Profiling and Digital Strategies for Personal Pension Business at Bank A",
+    "上市公司市值管理现状及策略-宝钢股份为例": "Current Status and Strategies of Market Value Management in Listed Companies: A Case Study of Baosteel Group",
+    "互联网金融平台并购转型绩效分析：以东方财富并购同信证券为例": "Performance Analysis of M&A Transformation in Internet Finance Platforms: A Case Study of East Money's Acquisition of Tongxin Securities",
+    "商业银行供应链融资新模式研究——基于J银行案例的策略优化探讨": "Research on New Models of Supply Chain Finance in Commercial Banks: Strategic Optimization Based on Bank J Case Study",
+    "A证券公司培训体系优化研究": "Research on Optimization of Training System at Securities Company A",
+    "郑煤机集团智能制造数字化转型研究": "Research on Digital Transformation of Intelligent Manufacturing in Zhengzhou Coal Mining Machinery Group",
+    "证券公司自营投资策略研究-以G证券公司为例": "Research on Proprietary Investment Strategies of Securities Companies: A Case Study of Securities Company G",
+    "减持新规下企业分红行为的差异化路径 对经营绩效的影响 ——基于剑桥科技与恒铭达的案例比较分析": "Differentiated Paths of Corporate Dividend Behavior Under New Reduction Rules and Impact on Operating Performance: A Comparative Case Analysis",
+    "关于中小型券商投行业务差异化竞争战略的研究 —以A证券为例": "Research on Differentiated Competitive Strategies for Investment Banking in Small and Medium Securities Companies: A Case Study of Securities Company A",
+    "锂电企业实践ESG对企业价值的影响——以天齐锂业为例": "Impact of ESG Practice on Enterprise Value in Lithium Battery Companies: A Case Study of Tianqi Lithium",
+    "A光伏企业股权激励对企业绩效的影响研究": "Research on the Impact of Equity Incentives on Enterprise Performance in Photovoltaic Company A",
+    "公司跨境支付新框架：地缘政治、金融监管与前沿技术的协同演进": "New Framework for Corporate Cross-border Payments: Synergistic Evolution of Geopolitics, Financial Regulation, and Frontier Technology",
+    "广发证券公司发展战略研究": "Research on Development Strategy of Guangfa Securities",
+    "科技园区对科技企业融资服务路径优化研究——以中关村科技园为例": "Research on Optimization of Financing Service Paths for Technology Enterprises in Science Parks: A Case Study of Zhongguancun",
+    "报行合一政策下保险中介业务转型分析 ——以 DT 公司为例": "Analysis of Insurance Intermediary Business Transformation Under Integration Policy: A Case Study of Company DT",
+    "碳中和债券发行动因及效应分析——以上市公司紫 金矿业集团\u201c21 紫金矿业 GN001\u201d为例": "Analysis of Motivations and Effects of Carbon-Neutral Bond Issuance: A Case Study of Zijin Mining Group",
+    "绿色金融发展对非绿色企业的绩效影响": "Impact of Green Finance Development on Performance of Non-Green Enterprises",
+    "中小城商行制造业贷款管理问题与优化策略研究-以A银行为例": "Research on Manufacturing Loan Management Issues and Optimization in Small City Commercial Banks: A Case Study of Bank A",
+    "L体育公司体育赛事营销策略研究": "Research on Sports Event Marketing Strategies of Sports Company L",
+    "实体清单政策对企业研发活动的影响：以中芯国际为例": "Impact of Entity List Policy on Corporate R&D Activities: A Case Study of SMIC",
+    "Q公司财务共享服务中心绩效评价指标体系优化研究": "Research on Optimization of Performance Evaluation Index System for Shared Financial Services Center at Company Q",
+    "情绪视角下\u201c国家队\u201d的股市维稳作用机制": "Mechanism of Market Stabilization Role of the 'National Team' from a Sentiment Perspective",
+    "银行普惠业务考核占比加重背景下银行内部风险管理效益分析——以工商银行X支行为例": "Analysis of Internal Risk Management Effectiveness Under Increased Assessment of Inclusive Finance Business: A Case Study of ICBC Branch X",
+    "短期国际资本流动与资产价格": "Short-term International Capital Flows and Asset Prices",
+    "逆全球化下中国跨境电商公司的战略研究 ——基于TikTok的成功启示视角": "Strategic Research on Chinese Cross-border E-commerce Under Deglobalization: Insights from TikTok's Success",
+    "基于沪深300ETF期权的随机波动率模型定价分析": "Pricing Analysis of Stochastic Volatility Models Based on CSI 300 ETF Options",
+    "环境规制对重污染企业绿色转型影响——基于新《环保法》的准自然实验": "Impact of Environmental Regulation on Green Transformation of Heavy Polluting Enterprises: A Quasi-natural Experiment Based on the New Environmental Protection Law",
+    "管理层讨论与分析信息效率对股价同步性的影响——以2019~2023 A股上市公司样本为例": "Impact of MD&A Information Efficiency on Stock Price Synchronicity: Evidence from A-share Listed Companies (2019-2023)",
+    "中国传统仿制药企业转型创新药企业发展战略研究——以A公司为例": "Research on Transformation Strategy from Traditional Generic to Innovative Drug Enterprises in China: A Case Study of Company A",
+    "企业战略研究——以照明企业 OP 公司为例": "Research on Corporate Strategy: A Case Study of Lighting Company OP",
+    "汇川技术发展战略研究": "Research on Development Strategy of Inovance Technology",
+    "F银行在华零售业务的发展战略研究": "Research on Development Strategy of Retail Business in China for Bank F",
+    "中国医疗器械流通行业并购整合研究：基于J公司案例": "Research on M&A Integration in China's Medical Device Distribution Industry: A Case Study of Company J",
+    "新时期民营企业内部腐败特征及治理举措研究 ------ 以 XX 集团为例": "Research on Internal Corruption Characteristics and Governance Measures in Private Enterprises: A Case Study of Group XX",
+    "基于品牌社区关系视角下顾客忠诚度对医疗美容行业影响的浅析": "Analysis of Customer Loyalty Impact on the Medical Aesthetics Industry from Brand Community Perspective",
+    "外资银行对中国商业银行风险承担的影响研究": "Research on the Impact of Foreign Banks on Risk-Taking of Chinese Commercial Banks",
+    "保障性租赁住房REITs融资动因与风险研究 ——以华润有巢REIT为例": "Research on Financing Motivations and Risks of Public Rental Housing REITs: A Case Study of CR Home Nest REIT",
+    "数字经济时代财富管理数字化机遇与挑战研究：以Z商业银行为例": "Research on Opportunities and Challenges of Wealth Management Digitalization: A Case Study of Commercial Bank Z",
+    "上市公司面值退市的原因分析 ——以广汇汽车为例": "Analysis of Reasons for Par Value Delisting in Listed Companies: A Case Study of Guanghui Automotive",
+    "融资租赁在楼宇节能设备产业发展的创新模式研究": "Research on Innovative Financing Leasing Models in Building Energy-Saving Equipment Industry",
+    "折扣化超市供应链效率现状及提升策略研究 —以HMNB为例": "Research on Supply Chain Efficiency and Enhancement Strategies in Discount Supermarkets: A Case Study of HMNB",
+    "数字化改造机加工工厂的绩效评估方案优化": "Optimization of Performance Evaluation for Digital Transformation in Mechanical Processing Factories",
+    "SQ轻钢结构屋面光伏集成公司商业模式创新研究": "Research on Business Model Innovation of Light Steel Roof Photovoltaic Integration Company SQ",
+    "商业银行助力银发经济推动中国式养老高质量发展的路径研究": "Research on Pathways for Commercial Banks to Support Silver Economy and Chinese-style Elderly Care Development",
+
+    # BATCH 2 (46-90)
+    "互联网企业集群式数据中心管理新模式研究 ——以\u201cB 公司\u201d为例": "Research on New Clustered Data Center Management Models in Internet Enterprises: A Case Study of Company B",
+    "中国公募基金中小投资者权益保护路径优化研究 ——以A基金公司为例": "Research on Optimizing Investor Protection for Small Investors in Chinese Public Funds: A Case Study of Fund Company A",
+    "公司重大诉讼事件对股价影响的实证研究": "An Empirical Study on the Impact of Major Litigation Events on Stock Prices",
+    "融资融券业务风险识别与风控管理优化研究 ——以A证券公司为例": "Research on Risk Identification and Control Optimization in Margin Trading: A Case Study of Securities Company A",
+    "虚拟数字人vs真人直播比较研究：以抖音平台为例": "Comparative Study of Virtual Digital Humans versus Live Streaming by Real Persons: A Case Study of Douyin",
+    "非雇佣关系状态下保险经纪团队管理研究——以 X 保 险经纪公司 Y 团队为例": "Research on Insurance Brokerage Team Management Under Non-Employment Relationships: A Case Study of Team Y at Firm X",
+    "基于系统动力学的新型给药装置行业多维驱动机制研究—以X公司为例": "Research on Multi-Dimensional Driving Mechanisms of Novel Drug Delivery Devices Based on System Dynamics: A Case Study of Company X",
+    "平台扩张视角下直播电商区域发展差异的归因——以抖音/TikTok全球化为例": "Attribution of Regional Development Differences in Live Streaming E-commerce from Platform Expansion Perspective: Douyin/TikTok Globalization",
+    "境外耐心资本对国内被投资企业发展的影响 ——以巴菲特对比亚迪的投资为例": "Impact of Overseas Patient Capital on Domestic Invested Enterprises: A Case Study of Buffett's Investment in BYD",
+    "新能源换电盈利模式案例分析——以A公司为例": "Case Analysis of Battery Swapping Profitability Models in New Energy: A Case Study of Company A",
+    "后疫情时代 A 公司薪酬管理优化研究": "Research on Compensation Management Optimization of Company A in the Post-Pandemic Era",
+    "美国制裁政策对中国光伏产业的经济影响以及其应对研究": "Research on Economic Impact of U.S. Sanctions on China's Photovoltaic Industry and Countermeasures",
+    "新能源汽车行业上市企业拓普集团的再融资策略研究": "Research on Refinancing Strategies of Tuopu Group in the New Energy Vehicle Industry",
+    "H企业财务风险评价与防范研究": "Research on Financial Risk Evaluation and Prevention for Enterprise H",
+    "本土因子挖掘及其在二级市场中的有效性评价": "Discovery of Local Factors and Evaluation of Their Effectiveness in Secondary Markets",
+    "工业测量企业在中国智能测量业务发展战略研究 ——以\u201cZ公司\u201d为例": "Research on Development Strategy of Intelligent Measurement Business for Industrial Measurement Enterprises in China: A Case Study of Company Z",
+    "中小企业ESG发展之道——以X企业为例": "Path to ESG Development for Small and Medium-Sized Enterprises: A Case Study of Enterprise X",
+    "金融赋能互联网医疗生态平台的价值剖析——以平安好医生为例": "Analysis of Value Creation When Finance Empowers Internet Healthcare Platforms: A Case Study of Ping An Good Doctor",
+    "公募REITs底层资产运营对其市值管理的影响分析 --以国君临港REIT与华安张江REIT为例": "Analysis of Impact of Underlying Asset Operations on Market Value of Public REITs: Guojun Lingang REIT and Huaan Zhangjiang REIT",
+    "基于市场的公募基金营销策略优化研究 ——以A公司为例": "Research on Market-Based Optimization of Public Fund Marketing Strategies: A Case Study of Company A",
+    "量子信息技术中小企业的发展战略研究—— 以 D 企业为例": "Research on Development Strategy of SMEs in Quantum Information Technology: A Case Study of Enterprise D",
+    "AZSS公司市值管理困境与突破路径研究": "Research on Market Value Management Dilemmas and Breakthrough Paths of Company AZSS",
+    "中小银行并购重组动因及绩效研究—以L银行为例": "Research on M&A and Reorganization Motivations and Performance of Small and Medium Banks: A Case Study of Bank L",
+    "\u201c资管新规\u201d下信托业务转型研究—以A公司为例": "Research on Trust Business Transformation Under Asset Management Regulations: A Case Study of Company A",
+    "体验教育与品牌管理的跨界融合创新案例研究——小小骑士丝绸之路拉力赛": "Case Study of Cross-Disciplinary Integration Between Experiential Education and Brand Management: Little Knight Silk Road Rally",
+    "教育A公司数字化营销获客策略研究": "Research on Digital Marketing Customer Acquisition Strategy of Education Company A",
+    "基于科创债角度的地方城投转型策略研究—以安徽省为例": "Research on Local LGFV Transformation Strategy from Sci-Tech Innovation Bond Perspective: A Case Study of Anhui Province",
+    "创新创业孵化与实践研究——以青年创业为例": "Research on Innovation and Entrepreneurship Incubation: A Case Study of Youth Entrepreneurship",
+    "制造业数字化转型策略与实施成效 —以N制鞋企业为例": "Manufacturing Digital Transformation Strategy and Implementation Effectiveness: A Case Study of Shoe Enterprise N",
+    "半导体产业企业 ESG 评价体系构建与优化研究 ——以 XYZ 企业为例": "Research on ESG Evaluation System Construction and Optimization for Semiconductor Enterprises: A Case Study of Enterprise XYZ",
+    "海外并购模式下中国汽车出海战略研究——基于吉利集团并购多案例研究": "Research on China's Auto Overseas Expansion Under Overseas M&A: Multi-Case Study of Geely Group",
+    "基于机器学习的指期货价格波动预测与交易策略研究": "Research on Index Futures Price Volatility Prediction and Trading Strategy Based on Machine Learning",
+    "美国经验视角下香港SPAC市场高门槛对DeSPAC超额收益影响的实证分析": "Empirical Analysis of High Barriers in HK SPAC Market on DeSPAC Excess Returns from U.S. Experience Perspective",
+    "不动产证券化进程中 民营企业REITs发展的必由之路": "The Necessary Path for Private Enterprise REIT Development in Real Estate Securitization",
+    "国企分拆上市对于经营业绩的影响-以中国交建分拆借壳祁连山为例": "Impact of SOE Spin-Off Listing on Operating Performance: A Case Study of CCCC's Spin-Off via Qilian Mountain",
+    "离岸家族信托作为风险管理工具在提升中国家族企业传承中的作用": "The Role of Offshore Family Trusts as Risk Management Tools in Chinese Family Enterprise Succession",
+    "无人农技服务数字化平台的推广策略研究-以D公司为例": "Research on Promotion Strategy of Unmanned Agricultural Technology Digital Platforms: A Case Study of Company D",
+    "国家集采决策和实践的博弈论分析及对药企影响的案例研究": "Game Theory Analysis of National Centralized Procurement and Its Impact on Pharmaceutical Enterprises",
+    "逆全球化下S晶圆代工企业的发展战略研究": "Research on Development Strategy of Wafer Foundry Enterprise S Under Deglobalization",
+    "土壤修复项目的管理战略研究: 基于KD环保集团的案例分析": "Research on Management Strategy of Soil Remediation Projects: A Case Study of KD Environmental Group",
+    "小型IT服务企业差异化战略构建与成效分析： 以FX公司通信宽带代理业务转型为例": "Differentiation Strategy and Effectiveness Analysis for Small IT Service Enterprises: A Case Study of Company FX",
+    "GS公司眼科医疗器械营销渠道优化策略研究": "Research on Marketing Channel Optimization for Ophthalmology Medical Devices at Company GS",
+    "差异化竞争战略对于高科技仪器公司的影响研究 ——以A公司为例": "Research on Impact of Differentiated Competitive Strategies on High-Tech Instrument Companies: A Case Study of Company A",
+    "私募股权基金公司项目投后管理的优化研究 ——以X公司Y项目为例": "Research on Optimization of Post-Investment Management in PE Fund Companies: A Case Study of Project Y at Company X",
+    "国际消费中心城市建设对消费提升的影响分析 ——以成都为例": "Analysis of Impact of International Consumption Center City on Consumer Spending: A Case Study of Chengdu",
+
+    # BATCH 3 (91-135)
+    "中国体育用品企业跨国并购策略对品牌全球化战略的驱动效应——基于安踏集团核心竞争力构建的案例研究": "Driving Effect of Cross-border M&A Strategy on Brand Globalization of Chinese Sports Goods Enterprises: A Case Study of Anta Group",
+    "中国半导体第三方检测公司发展战略研究 ——以J检测公司为例": "Development Strategy of Chinese Third-Party Semiconductor Testing Companies: A Case Study of Testing Company J",
+    "清洁电器跨国企业全球供应链管理竞争优势和品牌策略研究 ——以 P 公司为例": "Research on Global Supply Chain Management Advantages and Brand Strategy of Multinational Clean Appliance Enterprises: A Case Study of Company P",
+    "工业自动化服务企业软硬件协同战略设计 ——以A公司为例": "Software-Hardware Synergy Strategy Design for Industrial Automation Service Enterprises: A Case Study of Company A",
+    "A公募基金公司投资交易行为合规风险管控研究": "Research on Compliance Risk Management of Investment Trading Behavior in Fund Company A",
+    "混合所有制改革中的\u201c初创即混合\u201d模式研究 ——以杭州湾大桥发展公司运营管理实践为例": "Research on 'Mixed from Inception' Model in Mixed Ownership Reform: A Case Study of Hangzhou Bay Bridge Development Company",
+    "区块链在碳数据库建设及分润方法上的创新应用": "Innovative Application of Blockchain in Carbon Database Construction and Revenue Sharing Methods",
+    "从\u201c国产化替代\u201d到\u201c跨境出海\u201d的国际化研究与应用-LDM公司\u201c两次出海\u201d的实践与挑战": "Internationalization from 'Domestic Substitution' to 'Cross-border Expansion': Company LDM's Two-wave Expansion",
+    "大宗商品贸易中信用评估体系与企业风险管理研究 ——以A公司为例": "Research on Credit Assessment System and Enterprise Risk Management in Commodity Trading: A Case Study of Company A",
+    "文化娱乐信息对金融市场的影响—以脱口秀大会为例": "Impact of Cultural Entertainment Information on Financial Markets: A Case Study of Stand-up Comedy Festival",
+    "议价能力变化下航运金融企业应对方法研究 ——以集装箱租赁企业为例": "Research on Adaptation of Shipping Finance Enterprises Under Bargaining Power Changes: A Case Study of Container Leasing",
+    "文旅行业实施资产证券化提升价值研究": "Research on Value Enhancement Through Asset Securitization in Cultural Tourism Industry",
+    "列入美国实体清单会增加股价崩盘风险吗？——来自中国A股市场的证据": "Does Inclusion in the US Entity List Increase Stock Price Crash Risk? Evidence from China's A-share Market",
+    "金融科技服务商业银行的管理优化 -以 HG 银行的软件测试优化为例": "Management Optimization of Fintech Services for Commercial Banks: Software Testing Optimization at Bank HG",
+    "中美贸易摩擦背景下海洋油气大型装备国产化战略研究——以中国海油为例": "Research on Localization Strategy of Marine Oil and Gas Equipment Under US-China Trade Friction: A Case Study of CNOOC",
+    "机构投资者的重要性 基于公募基金持有人结构的实证分析": "The Importance of Institutional Investors: Empirical Analysis Based on Public Fund Holder Structure",
+    "多元化民营企业\u201c投资+运营\u201d战略研究-以复星集团对南钢股份投资运营为例": "Research on 'Investment Plus Operation' Strategy of Diversified Private Enterprises: A Case Study of Fosun Group and Nanjing Steel",
+    "团队制基金与基金表现的关系": "The Relationship Between Team-based Funds and Fund Performance",
+    "上市公司人工智能发展程度对公司代理成本的影响": "Impact of AI Development Level on Agency Costs of Listed Companies",
+    "混合所有制改革对A股制造业上市国企非效率投资的影响": "Impact of Mixed Ownership Reform on Inefficient Investment of State-owned Manufacturing Enterprises on A-shares",
+    "医保支付方式改革对中国医药上市公司的影响": "Impact of Medical Insurance Payment Method Reform on Chinese Pharmaceutical Listed Companies",
+    "财富管理之路：中国与全球家族办公室战略比较研究": "The Path of Wealth Management: A Comparative Study of Family Office Strategies in China and Globally",
+    "资本市场开放与企业战略激进度——基于\u201c沪深港通\u201d交易制度的实验证据": "Capital Market Opening and Corporate Strategic Aggressiveness: Evidence Based on Stock Connect",
+    "所有权安排与子公司的超额现金持有": "Ownership Structure and Excess Cash Holdings of Subsidiaries",
+    "互联网企业金融产品的竞争策略研究 ——以美团为例": "Research on Competitive Strategy of Financial Products of Internet Enterprises: A Case Study of Meituan",
+    "科创板股票引入做市商的流动性影响及价格效应": "Liquidity Impact and Price Effects of Introducing Market Makers in STAR Market Stocks",
+    "创业投资机构类型与企业创新：基于创业板上市公司的实证研究": "Venture Capital Institution Types and Corporate Innovation: An Empirical Study Based on ChiNext-listed Companies",
+    "限制大股东减持政策对股票流动性影响的实证研究": "Empirical Study on Impact of Large Shareholder Reduction Restriction Policy on Stock Liquidity",
+    "私人二级市场和数据对风险投资基金运营决策 和报告的效用": "Utility of Private Secondary Market and Data for VC Fund Operational Decisions and Reporting",
+    "私募股权投资对企业经营绩效的影响分析—基于创业板公司数据的实证检验": "Impact Analysis of PE Investment on Corporate Operating Performance: Empirical Evidence from ChiNext Companies",
+    "投资者非理性行为与股价异常波动案例研究 ——以川大智胜为例": "Case Study of Irrational Investor Behavior and Abnormal Stock Price Fluctuations: A Case Study of Chuanda Zhisheng",
+    "基于机器学习对个人不良贷款还款的预测": "Prediction of Personal Non-performing Loan Repayment Based on Machine Learning",
+    "\u201c一带一路\u201d倡议与跨境并购绩效": "The Belt and Road Initiative and Cross-border M&A Performance",
+    "民营企业国有化对分红的影响:来自中国上市公司的证据": "Impact of Nationalization of Private Enterprises on Dividends: Evidence from Chinese Listed Companies",
+    "基于财务视角的电子制造业数字化转型与抗风险能力研究—以Foxconn为例": "Research on Digital Transformation and Risk Resilience in Electronic Manufacturing: A Case Study of Foxconn",
+    "银行供应链金融价值创造的研究——以A公司为例": "Research on Value Creation of Bank Supply Chain Finance: A Case Study of Company A",
+    "中国车企出海战略研究——以A公司为例": "Research on Chinese Auto Enterprises' International Expansion Strategy: A Case Study of Company A",
+    "人工智能赋能企业合规管理研究 ——以J公司智能合规管理系统为例": "Research on AI Empowering Enterprise Compliance Management: A Case Study of Company J's Intelligent Compliance System",
+    "基于动态能力理论的中美制造企业数字化转型的策略比较研究——以海尔集团和通用电气为例": "Comparative Research on Digital Transformation Strategy of Sino-US Manufacturing Based on Dynamic Capabilities Theory: Haier Group and General Electric",
+    "营养功能糖果行业的品牌战略研究 ——以 M 公司为例": "Research on Brand Strategy of Nutritional Functional Candy Industry: A Case Study of Company M",
+    "基金公司运营外包业务的策略研究——以H基金公司为例": "Research on Operational Outsourcing Strategy of Fund Companies: A Case Study of Fund Company H",
+    "互联网公司数据资产定价研究-以拓尔思为例": "Research on Data Asset Valuation of Internet Companies: A Case Study of TRS",
+    "税收优惠对高新技术企业内部薪酬差距的影响": "Impact of Tax Incentives on Internal Salary Gap in High-tech Enterprises",
+    "私募股权基金管理与退出行为对医药企业的价值创造——以博雅生物为例": "Value Creation of PE Fund Management and Exit Behavior on Pharmaceutical Enterprises: A Case Study of Boya Bio",
+    "\u201c房产幻象\u201d与家庭金融风险资产配置——基于中国家庭金融调查数据的实证研究": "The 'Real Estate Illusion' and Household Financial Risk Asset Allocation: Empirical Study Based on CHFS Data",
+
+    # BATCH 4 (136-180)
+    "媒体关注是否影响企业的漂绿行为——以辉丰股份为例": "Does Media Attention Affect Corporate Greenwashing? A Case Study of Huifeng Stock",
+    "比亚迪新能源汽车营销策略研究": "Research on Marketing Strategy of BYD New Energy Vehicles",
+    "区域差异驱动下跨境物流企业战略调整：以极兔在东南亚的发展为例": "Strategic Adjustment of Cross-border Logistics Driven by Regional Differences: A Case Study of J&T Express in Southeast Asia",
+    "电信运营商通讯类服务与定存类金融产品结合营销策略研究—以中国电信翼支付号卡套餐产品为例": "Research on Marketing Strategy Combining Telecom Services with Deposit Products: A Case Study of China Telecom Wing Pay",
+    "实际控制人控股比例与公司IPO后绩效表现的研究": "Research on Actual Controller's Shareholding Ratio and Post-IPO Performance",
+    "基于国债收益率曲线的企业融资策略分析": "Analysis of Corporate Financing Strategy Based on Government Bond Yield Curve",
+    "S黄金上市公司发展战略研究": "Research on Development Strategy of Gold Listed Company S",
+    "混合所有制改革对国有企业财务价值的影响研究——以S公司为例": "Research on Impact of Mixed Ownership Reform on Financial Value of SOEs: A Case Study of Company S",
+    "早期机构融资轮次对企业上市后财务表现的影响": "Impact of Early-stage Institutional Financing Rounds on Post-IPO Financial Performance",
+    "中美双边紧张关系对股票崩盘风险的影响：基于中国市场的研究": "Impact of US-China Bilateral Tensions on Stock Crash Risk: A Study Based on the Chinese Market",
+    "从退出视角解析政府风险投资对企业绩效的影响": "Analysis of Government VC Impact on Enterprise Performance from the Exit Perspective",
+    "定向可转债支付方式对企业并购绩效的影响 ——以神马股份为例": "Impact of Directed Convertible Bond Payment on M&A Performance: A Case Study of Shenma Stock",
+    "人工智能背景下小米汽车发展战略研究": "Research on Xiaomi Automobile Development Strategy Under AI Background",
+    "\u201c新闻\u201d对人民币兑美元汇率的影响 ——基于宏观经济数据预期差的实证分析": "Impact of 'News' on RMB/USD Exchange Rate: Empirical Analysis Based on Macroeconomic Data Expectation Differential",
+    "政府引导基金对我国上市企业创新质量的影响研究": "Research on Impact of Government Guidance Funds on Innovation Quality of Listed Enterprises in China",
+    "低利率环境下中国保险公司资产负债管理的应对策略研究——基于T寿险公司的分析": "Research on Asset-Liability Management Strategies of Chinese Insurers in Low Interest Rate Environment: Analysis of Life Insurance Company T",
+    "专利抵质押会促进创业吗?来自中国的实证分析": "Does Patent Pledge Promote Entrepreneurship? Empirical Evidence from China",
+    "绿色信贷政策实施对商业银行信贷风险的影响研究": "Research on Impact of Green Credit Policy on Commercial Bank Credit Risk",
+    "产业链风险，现金持有行为与公司创新": "Supply Chain Risk, Cash Holding Behavior and Corporate Innovation",
+    "民营化工企业的市场风险管理研究 —以苯乙烯加工企业J公司为例": "Research on Market Risk Management of Private Chemical Enterprises: A Case Study of Styrene Processing Company J",
+    "资本市场开放与环境信息披露质量：基于陆港通的经验证据": "Capital Market Opening and Environmental Information Disclosure Quality: Evidence from Stock Connect",
+    "兴业银行平台战略研究": "Research on Platform Strategy of Industrial Bank",
+    "高频交易监管收紧对量化私募基金竞争力的影响及应对策略——以 Z 基金公司为例": "Impact of Tightened HFT Regulation on Quantitative Private Fund Competitiveness: A Case Study of Fund Company Z",
+    "美国货币政策冲击对中国对外直接投资活动的影响：基于TVP-SV-VAR模型的时间背景分析": "Impact of US Monetary Policy Shocks on China's Outbound FDI: Time-varying Analysis Based on TVP-SV-VAR Model",
+    "基于 SSA-XGBoost 的上市公司信用风险预警模型研究": "Research on Credit Risk Early Warning Model for Listed Companies Based on SSA-XGBoost",
+    "跨境并购融资与企业绩效:国家集成电路产业基金  在通富微电并购案中的作用": "Cross-border M&A Financing and Enterprise Performance: Role of National IC Industry Fund in Tongfu Microelectronics Case",
+    "国际商务卡发行的管理策略研究—以A公司为例": "Research on Management Strategy of International Business Card Issuance: A Case Study of Company A",
+    "理财公司营销渠道的管理策略优化研究 ——以C银行理财子公司为例": "Research on Marketing Channel Strategy Optimization of Wealth Management Subsidiary: A Case Study of Bank C",
+    "公募基金分红行为对资金流的影响研究": "Research on Impact of Public Fund Dividend Behavior on Fund Flows",
+    "战略联盟深度对股价崩盘风险的影响研究": "Research on Impact of Strategic Alliance Depth on Stock Price Crash Risk",
+    "通过城投公司治理对内债化解的分析——以津城建为例": "Analysis of Domestic Debt Resolution Through LGFV Governance: A Case Study of Tianjin City Construction",
+    "制造业企业绿色技术创新与商业信用融资 ——基于供应链议价权的视角": "Green Technology Innovation and Trade Credit Financing in Manufacturing: From Supply Chain Bargaining Power Perspective",
+    "\u201c双碳\u201d目标下石油企业碳信息披露评价研究 ——以中国石化为例": "Research on Carbon Information Disclosure Evaluation of Oil Enterprises Under 'Dual Carbon' Goals: A Case Study of Sinopec",
+    "碳排放权交易制度对企业绩效的影响研究——以华能国际为例": "Research on Impact of Carbon Emission Trading System on Enterprise Performance: A Case Study of Huaneng International",
+    "融合情绪指数与市场收益预测—基于多源情绪代理的偏最小二乘法分析": "Integration of Sentiment Index and Market Return Prediction: PLS Analysis with Multi-source Sentiment Proxies",
+    "文旅产业投融资方案研究 ——以Y市影视城项目为例": "Research on Investment and Financing in Cultural Tourism Industry: A Case Study of City Y Film Studio Project",
+    "Y 银行上海分行科创贷产品营销策略研究": "Research on Marketing Strategy of Sci-Tech Innovation Loan at Bank Y Shanghai Branch",
+    "商业银行投行业务信用风险管理研究-以S银行为例": "Research on Credit Risk Management of Commercial Bank Investment Banking: A Case Study of Bank S",
+    "数字化转型对企业综合绩效的影响": "Impact of Digital Transformation on Comprehensive Enterprise Performance",
+    "国资基石投资者可以抑制上市后股价波动吗——来自香港市场的证据": "Can State-owned Cornerstone Investors Suppress Post-IPO Stock Volatility? Evidence from Hong Kong",
+    "私募股权投资特征对上市公司的多维影响": "Multi-dimensional Impact of PE Investment Characteristics on Listed Companies",
+    "中国投资对中美洲的影响：以萨尔瓦多为案例研究": "Impact of Chinese Investment on Central America: A Case Study of El Salvador",
+    "证券公司基金投顾业务运营模式研究——以A证券为例": "Research on Fund Advisory Business Operating Models of Securities Companies: A Case Study of Securities Company A",
+    "三道红线政策对房地产企业融资表现的影响": "Impact of Three Red Lines Policy on Financing Performance of Real Estate Enterprises",
+    "大宗商品金融化与商品期货市场风险研究——以私募基金管理公司为例": "Research on Commodity Financialization and Futures Market Risk: A Case Study of Private Fund Management Companies",
+
+    # BATCH 5 (181-225)
+    "创业团队关系类型、研发投入与公司成长——来自科创企业的经验证据": "Entrepreneurial Team Relationship Types, R&D Investment, and Company Growth: Evidence from Sci-Tech Enterprises",
+    "业绩承诺机制对重大资产重组并购价格的影响分析": "Analysis of Impact of Performance Commitment Mechanisms on Major Asset Restructuring M&A Prices",
+    "共管模式对公募基金业绩的影响研究 ——以S基金公司为例": "Research on Impact of Co-Management Model on Public Fund Performance: A Case Study of Fund Company S",
+    "数字化转型与企业全球化——来自中国的证据": "Digital Transformation and Enterprise Globalization: Evidence from China",
+    "\u201c35 号文\u201d对城投平台债务化解方式的影响": "Impact of Document No. 35 on Debt Resolution Methods of Municipal Investment Platforms",
+    "绿色创新能力如何影响财务绩效——从行业差异与媒体关注角度": "How Green Innovation Capability Affects Financial Performance: From Industry Differences and Media Attention Perspectives",
+    "L手机游戏公司营销策略优化": "Marketing Strategy Optimization for Mobile Game Company L",
+    "企业开展期货套期保值的适当性问题研究 -以猪肉加工企业J为例": "Research on Appropriateness of Futures Hedging by Enterprises: A Case Study of Pork Processing Enterprise J",
+    "注册制下公司治理对首次公开募股后股票表现的影响": "Impact of Corporate Governance on Post-IPO Stock Performance Under the Registration System",
+    "代理成本如何影响 REITs 市场表现？基于中国 REITs 市场的实证研究": "How Do Agency Costs Affect REITs Market Performance? Empirical Study of China's REITs Market",
+    "碳排放权抵押贷款对企业融资和贷款金额决定因素的影响研究——以华能国际为例": "Research on Impact of Carbon Emission Rights Pledge Loans on Enterprise Financing: A Case Study of Huaneng International",
+    "跨行业并购的企业价值创造研究——以钧达股份并购捷泰科技为例": "Research on Value Creation in Cross-Industry M&A: A Case Study of Junda Shares Acquiring Jetai Technology",
+    "政府干预、银行竞争与企业债务违约风险": "Government Intervention, Bank Competition, and Corporate Debt Default Risk",
+    "经济放缓时期的商业银行战略研究": "Strategic Research on Commercial Banks During Economic Slowdown",
+    "智能数字化应用深入赋能企业业财融合–以H公司为例": "Empowering Business-Finance Integration Through Intelligent Digital Applications: A Case Study of Company H",
+    "点心债在城投企业境外债务管理中的应用研究 ——以 P城投为例": "Research on Application of Dim Sum Bonds in Offshore Debt Management of LGFVs: A Case Study of LGFV P",
+    "资本市场开放对企业绿色创新的影响——基于A股纳入MSCI指数的准自然实验": "Impact of Capital Market Opening on Green Innovation: A Quasi-Natural Experiment Based on A-Share Inclusion in MSCI Index",
+    "财政政策能促进制造业回流吗？——基于14国面板数据的研究": "Can Fiscal Policy Promote Manufacturing Repatriation? A Study Based on Panel Data from 14 Countries",
+    "信贷资产证券化、信贷扩张与商业银行风险": "Credit Asset Securitization, Credit Expansion, and Commercial Bank Risk",
+    "机构投资者报价分歧对IPO企业长期股价表现的影响": "Impact of Institutional Investor Valuation Disagreement on Long-Term Stock Performance of IPO Firms",
+    "人工智能产业服务平台赋能企业数字化转型研究： 以某市\u201c模数工场\u201d平台为例": "Research on AI Industry Service Platforms Empowering Digital Transformation: A Case Study of 'Model Digital Factory'",
+    "光伏行业的供应链数字化:以隆基绿能为例": "Supply Chain Digitalization in Photovoltaic Industry: A Case Study of Longi Green Energy",
+    "D公司供应链数字化转型的路径及经济后果研究": "Research on Path and Economic Consequences of Supply Chain Digital Transformation in Company D",
+    "碳排放政策对企业生产率和绿色要素生产率的影响": "Impact of Carbon Emission Policy on Enterprise Productivity and Green Factor Productivity",
+    "中文版家族企业去家族化与企业融资偏好——来自中国2008-2023年上市家族企业": "De-Familization of Family Enterprises and Financing Preferences: Evidence from Chinese Listed Family Enterprises (2008-2023)",
+    "工业机器人应用对劳动力市场的影响——基于A股制造业上市公司的经验证据": "Impact of Industrial Robot Application on Labor Market: Evidence from A-Share Manufacturing Listed Companies",
+    "公司风险投资与母公司创新绩效——基于A股上市国有企业的研究": "Corporate Venture Capital and Parent Company Innovation Performance: A Study of A-Share Listed SOEs",
+    "注册制度改革能降低内幕交易吗——来自创业板的证据": "Can Registration System Reform Reduce Insider Trading? Evidence from ChiNext",
+    "买方机构调研强度与主题对于股价的影响": "Impact of Buy-Side Institutional Research Intensity and Topics on Stock Prices",
+    "昆仑能源变革管理模型的构建和应用": "Construction and Application of Change Management Model for Kunlun Energy",
+    "新型城镇化背景下房地产企业战略转型研究——以L公司为例": "Strategic Transformation of Real Estate Enterprises Under New Urbanization: A Case Study of Company L",
+    "基于注意力机制的深度强化学习模型于股票投资组合权重分配的应用：以中国A股市场为例": "Application of Deep Reinforcement Learning with Attention Mechanism to Stock Portfolio Weight Allocation: China A-Share Market",
+    "企业感知经济政策不确定性对对外直接投资的影响": "Impact of Perceived Economic Policy Uncertainty on Outward Foreign Direct Investment",
+    "投资者互动平台信息价值对股票异常收益的影响": "Impact of Information Value on Investor Interactive Platforms on Stock Abnormal Returns",
+    "ETF价格偏离：影响因素、机制与市场影响": "ETF Price Deviations: Influencing Factors, Mechanisms, and Market Impact",
+    "蔚来汽车发行绿色电池资产证券化的动因及效应研究": "Research on Motivations and Effects of NIO's Green Battery Asset Securitization",
+    "财政补贴对城投公司融资成本的影响": "Impact of Fiscal Subsidies on Financing Costs of Municipal Investment Companies",
+    "企业金融化对创新的影响——基于金融资产期限结构的视角": "Impact of Enterprise Financialization on Innovation: From Financial Asset Maturity Structure Perspective",
+    "中国上市公司财务高管性别对企业财务杠杆的影响": "Impact of Gender of Financial Executives on Financial Leverage in Chinese Listed Companies",
+    "员工持股能够提高企业绿色信息披露的质量吗？": "Can Employee Stock Ownership Improve Quality of Enterprise Green Information Disclosure?",
+    "绿色金融资产证券化融资动因及效应研究—— 以\u201c20华润电投ABN001\u201d资产支持票据为例": "Research on Green Finance Asset Securitization: A Case Study of '20 CR Power Investment ABN001' Asset-Backed Notes",
+    "中国被动ETF投资者的正反馈交易行为": "Positive Feedback Trading Behavior of Chinese Passive ETF Investors",
+    "宠物经济下宠物食品公司商业模式转型-以乖宝宠物为例": "Business Model Transformation of Pet Food Companies in the Pet Economy: A Case Study of Guaibao Pet",
+    "高管科技背景对企业创新的影响：中国上市公司的实证分析": "Impact of Executive Technology Background on Corporate Innovation: Empirical Analysis of Chinese Listed Companies",
+    "经济政策不确定性对企业违规行为的影响": "Impact of Economic Policy Uncertainty on Corporate Non-Compliance Behavior",
+
+    # BATCH 6 (226-270)
+    "KST分拆上市解决融资问题策略研究": "Research on KST Spin-off Listing Strategy to Address Financing Problems",
+    "网联代付背景下第三方支付创新模式研究 —以A公司为例": "Research on Third-party Payment Innovation Under Online Payment Agent Services: A Case Study of Company A",
+    "中国经济政策不确定性对商业银行经营效率的影响": "Impact of Chinese Economic Policy Uncertainty on Commercial Bank Operating Efficiency",
+    "模拟芯片企业技术创新战略研究——以 N 公司为例": "Research on Technology Innovation Strategy of Analog Chip Enterprises: A Case Study of Company N",
+    "基于四重分析框架下国债利率期限结构研究": "Research on Government Bond Yield Term Structure Based on Quadruple Analysis Framework",
+    "谁是最聪明的外资机构投资者： A股QFII的投资回报与投资偏好分析": "Who Are the Smartest Foreign Institutional Investors: QFII Investment Returns and Preferences in A-shares",
+    "房地产企业审计中财务舞弊的识别与应对——以A公司审计失败为例": "Identification and Response to Financial Fraud in Real Estate Audits: A Case Study of Audit Failure of Company A",
+    "降佣降费对卖方分析师行业的影响": "Impact of Commission and Fee Reduction on the Sell-side Analyst Industry",
+    "低利率环境下F人寿保险公司产品策略研究": "Research on Product Strategy of Life Insurance Company F in Low Interest Rate Environment",
+    "私募股权对制造企业数字化转型的影响：来自A股上市公司实证证据": "Impact of PE on Digital Transformation of Manufacturing: Evidence from A-share Listed Companies",
+    "金融科技创新监管试点对企业生产力的影响": "Impact of Fintech Innovation Regulatory Pilot Programs on Enterprise Productivity",
+    "保险降费背景下商业银行保险产品销售策略的优化与创新——以J银行A支行为例": "Optimization and Innovation of Insurance Product Sales in Commercial Banks Under Fee Reduction: A Case Study of Branch A of Bank J",
+    "凤凰雪球的定价与风险管理研究": "Research on Pricing and Risk Management of Phoenix Snowball Products",
+    "\u201c国家队\u201d持股对A股上市公司全要素生产率的影响": "Impact of 'National Team' Holdings on Total Factor Productivity of A-share Listed Companies",
+    "中小型公募基金公司业务发展战略研究—— 以Z基金公司为例": "Research on Business Development Strategy of Small Public Fund Companies: A Case Study of Fund Company Z",
+    "现金持有和企业韧性的关系：来自新冠疫情的证据": "Cash Holdings and Enterprise Resilience: Evidence from the COVID-19 Pandemic",
+    "中国房地产市场情绪与价格预测": "Market Sentiment and Price Prediction in Chinese Real Estate Market",
+    "物流上市公司降本增效策略研究 ——以D公司为例": "Research on Cost Reduction and Efficiency Improvement of Logistics Listed Companies: A Case Study of Company D",
+    "个人不良贷款的影响因素：基于家庭金融脆弱性的分析": "Influencing Factors of Personal NPLs: Analysis Based on Household Financial Vulnerability",
+    "数字普惠金融发展对城乡消费差距的影响": "Impact of Digital Inclusive Finance Development on Urban-Rural Consumption Gap",
+    "地方政府城投债规模对企业金融化的影响研究": "Research on Impact of Local Government LGFV Bond Scale on Corporate Financialization",
+    "美国断供冲击下中国企业的国产替代与自主创新": "Domestic Substitution and Independent Innovation of Chinese Enterprises Under U.S. Supply Chain Disruption",
+    "首次公开募股市场表现对于二级市场 股票收益率与股民情绪的影响": "Impact of IPO Market Performance on Secondary Market Stock Returns and Investor Sentiment",
+    "房地产政策对涉房城投债融资成本的影响研究——以\u201c三道红线\u201d为例": "Research on Impact of Real Estate Policy on LGFV Bond Financing Costs: A Case Study of the 'Three Red Lines'",
+    "对赌条款特征对并购长期绩效的影响": "Impact of Earnout Clause Characteristics on Long-term M&A Performance",
+    "企业过度投资对A股折价的影响研究": "Research on Impact of Corporate Overinvestment on A-share Discounts",
+    "ESG评级引入与企业漂绿：来自中国A股制造业上市公司的证据": "ESG Rating Introduction and Corporate Greenwashing: Evidence from Chinese A-share Manufacturing Companies",
+    "地方产业政策对企业并购绩效的影响研究": "Research on Impact of Local Industrial Policy on Enterprise M&A Performance",
+    "可持续发展报告指引对A股上市公司 二级市场表现的影响": "Impact of Sustainability Reporting Guidelines on Secondary Market Performance of A-share Companies",
+    "基于Omega模型优化的A股市场动量与反转再平衡策略": "Momentum and Reversal Rebalancing Strategy in A-share Market Optimized by Omega Model",
+    "家族企业代际传承中的战略变革研究-以森马服饰为例": "Research on Strategic Transformation in Intergenerational Succession of Family Enterprises: A Case Study of Semir",
+    "国货美妆冲击背景下外资美妆公司营销策略研究 ——以L集团为例": "Research on Marketing Strategy of Foreign Cosmetics Companies Under Impact of Domestic Brands: A Case Study of Group L",
+    "直营挑战下仪器设备分销商的市场策略研究 ——以Z公司为例": "Research on Market Strategy of Instrument Distributors Under Direct Sales Challenges: A Case Study of Company Z",
+    "生成式人工智能赋能会议软件产品创新的路径与效 果分析：以 W 公司为例": "Analysis of GenAI Empowering Meeting Software Product Innovation: A Case Study of Company W",
+    "基于知识图谱的动产融资重复担保风险控制研究——以A征信中心为例": "Research on Duplicate Guarantee Risk Control in Movable Property Finance via Knowledge Graphs: A Case Study of Credit Center A",
+    "主并方数字化转型水平对并购绩效的影响": "Impact of Acquirer's Digital Transformation Level on M&A Performance",
+    "收入风险是否激励家庭提升金融资产配置效率？ ——基于CHFS的微观实证": "Does Income Risk Incentivize Households to Improve Financial Asset Allocation Efficiency? Micro-level Evidence from CHFS",
+    "业绩承诺视角下信息技术行业并购的创新绩效研究 ——以昆仑万维为例": "Research on Innovation Performance of IT Industry M&A from Performance Commitment Perspective: A Case Study of Kunlun Tech",
+    "二级资本债券发行对城市商业银行资产质量的影响及风险应对管理研究——以宁波银行为例": "Research on Impact of Tier-2 Capital Bond Issuance on City Commercial Bank Asset Quality: A Case Study of Ningbo Bank",
+    "所有制对不同生命周期企业出海的影响——以中国制造业上市公司为例": "Impact of Ownership on Overseas Expansion at Different Life Cycle Stages: Chinese Manufacturing Listed Companies",
+    "管理层过度自信与股权质押": "Management Overconfidence and Equity Pledge",
+    "美联储货币政策对中国股市影响的研究——基于传导渠道和货币政策意外视角": "Research on Fed Monetary Policy Impact on Chinese Stock Market: Transmission Channels and Policy Surprise Perspectives",
+    "外资银行财富管理业务在华战略转型 ---以Y银行为例": "Strategic Transformation of Foreign Bank Wealth Management in China: A Case Study of Bank Y",
+    "券商自营票据业务运营研究 ——以H券商为例": "Research on Securities Company Proprietary Bill Trading Operations: A Case Study of Securities Firm H",
+    "X公司消费医疗市场融资租赁产品策略研究": "Research on Finance Lease Product Strategy for Consumer Healthcare Market of Company X",
+
+    # BATCH 7 (271-314)
+    "陆股通交易信息披露机制的调整对A股波动性的影响": "Impact of Stock Connect Trading Disclosure Mechanism Adjustments on A-Share Volatility",
+    "出口目的国互联网发展环境对中国跨境电商出口的影响": "Impact of Internet Development in Export Destinations on China's Cross-border E-commerce Exports",
+    "中国股市的舆情效应研究": "Research on Public Opinion Effects in China's Stock Market",
+    "宏观审慎监管对商业银行间风险传染的影响研究": "Research on Impact of Macroprudential Regulation on Risk Contagion Among Commercial Banks",
+    "中小股东监管意识提高对新质生产力的影响 ——基于中国投服中心的研究": "Impact of Enhanced Minority Shareholder Regulatory Awareness on New Quality Productivity: A Study Based on China Securities Investor Services Center",
+    "转换公司债赎回公告对股价的影响：以中国台湾市场为例": "Impact of Convertible Bond Redemption Announcements on Stock Prices: Evidence from Taiwan Market",
+    "股票市场波动对保险需求的影响研究": "Research on Impact of Stock Market Volatility on Insurance Demand",
+    "破产司法改革对地区创业创新活动的影响： 来自破产法庭试点的证据": "Impact of Bankruptcy Judicial Reform on Regional Entrepreneurship and Innovation: Evidence from Bankruptcy Court Pilots",
+    "ESG 实践提升企业价值的路径和效果分析—以X 证 券为例": "Analysis of Pathways and Effects of ESG Practices Enhancing Enterprise Value: A Case Study of Securities Company X",
+    "股份制商业银行零售业务电话外呼策略研究 ——以X银行S分行为例": "Research on Outbound Call Strategy in Retail Banking of Joint-Stock Commercial Banks: A Case Study of Branch S of Bank X",
+    "数字劳动力赋能商业银行集约运营管理模式研究 ——以G银行为例": "Research on Empowering Commercial Bank Intensive Operations with Digital Workforce: A Case Study of Bank G",
+    "全球半导体出口管制政策对中国上市半导体公司财务绩效的影响": "Impact of Global Semiconductor Export Controls on Financial Performance of Chinese Listed Semiconductor Companies",
+    "企业盈余管理行为的同伴效应：来自A股上市公司的证据": "Peer Effects in Corporate Earnings Management: Evidence from A-Share Listed Companies",
+    "创业板企业第二类限制性股票实施研究 ——以东方财富为例": "Research on Type II Restricted Stock Implementation in ChiNext Enterprises: A Case Study of East Money",
+    "财富管理业务在基层网点的竞争策略研究-以A银行网点为例": "Research on Competitive Strategy of Wealth Management at Grassroots Branches: A Case Study of Bank A",
+    "股市对特朗普遇刺事件的反应：行业扶持、税收与 贸易政策": "Stock Market Reaction to Trump Assassination Attempt: Industry Support, Tax and Trade Policy",
+    "ESG悖论：全球冲击下的短期成本与长期韧性": "The ESG Paradox: Short-term Costs and Long-term Resilience Under Global Shocks",
+    "信托公司ESG转型发展研究——以J信托为例": "Research on ESG Transformation of Trust Companies: A Case Study of Trust Company J",
+    "美国对俄罗斯金融制裁的效果测度与分析——基于指数构建与宏观经济影响的实证研究": "Measurement and Analysis of US Financial Sanctions Against Russia: Empirical Study Based on Index Construction and Macroeconomic Impact",
+    "政务服务信息化促进企业数字化转型——来自信息惠民国家试点政策的证据": "Government Service Informatization Promoting Enterprise Digital Transformation: Evidence from National Pilot Policy",
+    "机构交易信息和股价的关系: 来自台湾市场的证据": "Relationship Between Institutional Trading Information and Stock Prices: Evidence from Taiwan Market",
+    "货币政策冲击对跨境资本流动的时变影响研究——基于TVP-SV-VAR模型的实证分析": "Research on Time-Varying Impact of Monetary Policy Shocks on Cross-border Capital Flows: Empirical Analysis Based on TVP-SV-VAR Model",
+    "员工持股计划对企业创新的影响研究": "Research on Impact of Employee Stock Ownership Plans on Corporate Innovation",
+    "控股股东高股权质押背景下\u201c假回购\u201d的实证研究": "Empirical Research on 'Pseudo Buyback' Under High Equity Pledge by Controlling Shareholders",
+    "逆向混合所有制改革下地方国有资本投资上市民营企业的选择与价值影响： 基于绵阳地方国资的案例分析": "Selection and Value Impact of Local SOE Capital Investment in Listed Private Enterprises Under Reverse Mixed Ownership Reform: A Case Study of Mianyang",
+    "投资者情绪对股票收益与波动的影响研究：基于融资 约束与风险承担": "Research on Impact of Investor Sentiment on Stock Returns and Volatility: Based on Financing Constraints and Risk-taking",
+    "利率市场化和利率自律机制下工行SH分行公司信贷发展战略研究": "Research on Corporate Credit Strategy of ICBC SH Branch Under Interest Rate Liberalization and Self-discipline Mechanism",
+    "智慧养老服务模式创新及应用研究——以D公司为例": "Research on Innovation and Application of Smart Elderly Care Service Model: A Case Study of Company D",
+    "消费电子行业下游供应链中信息安全管理研究 —— 以Z公司为例": "Research on Information Security Management in Consumer Electronics Supply Chain: A Case Study of Company Z",
+    "产业政策如何影响企业投融资行为": "How Industrial Policy Affects Corporate Investment and Financing Behavior",
+    "高管-员工薪酬差距对企业创新的影响": "Impact of Executive-Employee Compensation Gap on Corporate Innovation",
+    "企业数字化转型对权益资本成本的影响研究": "Research on Impact of Enterprise Digital Transformation on Cost of Equity",
+    "基金经理\u201c专业对口\u201d程度对中国公募基金业绩的影响": "Impact of Fund Managers' Professional Match on Chinese Public Fund Performance",
+    "国家集成电路产业投资基金减持对企业投资效率的影响": "Impact of National IC Industry Investment Fund Reduction on Corporate Investment Efficiency",
+    "ESG评级分歧、信息披露与投资者保护：基于中国A股市场的实证分析": "ESG Rating Divergence, Information Disclosure and Investor Protection: Empirical Analysis of China's A-Share Market",
+    "关于中国碳市场价格影响因素的实证研究": "Empirical Research on Price Impact Factors of China's Carbon Market",
+    "国资参股对民营上市公司经营绩效的影响": "Impact of State-owned Capital Participation on Operating Performance of Private Listed Companies",
+    "绿色债券发行对企业财务稳定性的影响：来自中国企业的证据": "Impact of Green Bond Issuance on Enterprise Financial Stability: Evidence from Chinese Enterprises",
+    "经济政策不确定性对保险行业股市表现的影响": "Impact of Economic Policy Uncertainty on Insurance Industry Stock Market Performance",
+    "女性健康对创业的影响 ——基于对X地区女性的调研": "Impact of Female Health on Entrepreneurship: A Survey-Based Study of Women in Region X",
+    "AIGC 技术发展背景下数字营销公司的企业战略 --以 R 企业为例": "Enterprise Strategy of Digital Marketing Companies Under AIGC Technology: A Case Study of Enterprise R",
+    "医疗联合体政策实施效果研究": "Research on Implementation Effectiveness of Medical Alliance Policy",
+    "云计算商业应用的需求研究：金融用户视角": "Research on Demand for Commercial Applications of Cloud Computing: Financial User Perspective",
+
+    # Already-English title (keep as-is)
+    "Is China paying for the electrification of vehicles: the effect of Chinese EV subsidies on global emissions and reliance on fossil fuels": "Is China paying for the electrification of vehicles: the effect of Chinese EV subsidies on global emissions and reliance on fossil fuels",
+}
+
+
+def normalize(s):
+    """Normalize a string for fuzzy matching: normalize unicode, collapse whitespace."""
+    # Normalize unicode (NFKC normalizes fullwidth chars, compatibility chars, etc.)
+    s = unicodedata.normalize('NFKC', s)
+    # Replace various dash-like characters with standard dash
+    s = s.replace('\u2014', '—').replace('\u2013', '–')
+    # Collapse all whitespace runs to single space
+    s = re.sub(r'\s+', ' ', s).strip()
+    return s
+
+
+def build_normalized_map():
+    """Build a mapping from normalized Chinese title -> English translation."""
+    norm_map = {}
+    for cn, en in TRANSLATIONS.items():
+        norm_key = normalize(cn)
+        norm_map[norm_key] = en
+    return norm_map
+
+
+def main():
+    # Build normalized lookup
+    norm_map = build_normalized_map()
+    print(f"Translation dictionary has {len(TRANSLATIONS)} entries")
+    print(f"Normalized map has {len(norm_map)} entries")
+
+    # Save the translation mapping as JSON
+    with open('/workspace/thesis_translations.json', 'w', encoding='utf-8') as f:
+        json.dump(TRANSLATIONS, f, ensure_ascii=False, indent=2)
+    print("Saved translation mapping to /workspace/thesis_translations.json")
+
+    # Read the HTML file
+    html_path = '/workspace/output/fisf-thesis-supervisors.html'
+    with open(html_path, 'r', encoding='utf-8') as f:
+        html_content = f.read()
+
+    # Find the thesisData block
+    # It starts with "const thesisData = {" and ends with "};"
+    start_marker = 'const thesisData = {'
+    start_idx = html_content.find(start_marker)
+    if start_idx == -1:
+        print("ERROR: Could not find 'const thesisData = {' in HTML")
+        return
+
+    # Find the matching closing "};"
+    # We need to find the end of the thesisData object
+    # Look for "};\n" after the start
+    # Since it's a JS object, we need to find the matching brace
+    brace_count = 0
+    end_idx = -1
+    in_string = False
+    escape_next = False
+    search_start = start_idx + len(start_marker) - 1  # position of the opening {
+
+    for i in range(search_start, len(html_content)):
+        c = html_content[i]
+        if escape_next:
+            escape_next = False
+            continue
+        if c == '\\' and in_string:
+            escape_next = True
+            continue
+        if c == '"' and not escape_next:
+            in_string = not in_string
+            continue
+        if in_string:
+            continue
+        if c == '{':
+            brace_count += 1
+        elif c == '}':
+            brace_count -= 1
+            if brace_count == 0:
+                end_idx = i
+                break
+
+    if end_idx == -1:
+        print("ERROR: Could not find matching closing brace for thesisData")
+        return
+
+    thesis_block = html_content[start_idx:end_idx + 1]
+    print(f"Found thesisData block: {len(thesis_block)} characters")
+
+    # Now we need to replace each Chinese title in the thesisData block
+    # The format is: ["中文标题","author","degree","year"]
+    # We want to replace the Chinese title with the English translation
+    #
+    # Strategy: Find all quoted strings that match our translation keys,
+    # but ONLY when they appear as the first element of an array (after "[")
+
+    matched = 0
+    unmatched = []
+
+    # We'll process the thesis_block by finding all array entries
+    # Pattern: ["TITLE","AUTHOR","DEGREE","YEAR"]
+    # We need to find each title (first quoted string after [) and replace it
+
+    new_block = []
+    i = 0
+    block = thesis_block
+
+    while i < len(block):
+        # Look for the pattern: ["
+        if block[i] == '[' and i + 1 < len(block) and block[i + 1] == '"':
+            # Found start of an array entry, extract the title
+            # Find the closing quote for the title
+            title_start = i + 2  # after ["
+            # Find the end of the title string (unescaped ")
+            j = title_start
+            while j < len(block):
+                if block[j] == '\\':
+                    j += 2  # skip escaped char
+                    continue
+                if block[j] == '"':
+                    break
+                j += 1
+
+            title = block[title_start:j]
+            # Unescape the title for lookup
+            title_unescaped = title.replace('\\"', '"').replace('\\\\', '\\')
+
+            norm_title = normalize(title_unescaped)
+
+            if norm_title in norm_map:
+                en_title = norm_map[norm_title]
+                # Escape the English title for JSON/JS embedding
+                en_title_escaped = en_title.replace('\\', '\\\\').replace('"', '\\"')
+                new_block.append('["')
+                new_block.append(en_title_escaped)
+                new_block.append('"')
+                matched += 1
+                i = j + 1  # skip past the closing quote
+            else:
+                # Check if it's already English (starts with ASCII letter/digit)
+                if title_unescaped and ord(title_unescaped[0]) < 128:
+                    # Already English title, keep as-is
+                    new_block.append(block[i])
+                    i += 1
+                else:
+                    unmatched.append(title_unescaped[:60])
+                    new_block.append(block[i])
+                    i += 1
+        else:
+            new_block.append(block[i])
+            i += 1
+
+    new_block_str = ''.join(new_block)
+
+    print(f"\nMatched and translated: {matched} titles")
+    if unmatched:
+        print(f"Unmatched Chinese titles: {len(unmatched)}")
+        for t in unmatched:
+            print(f"  UNMATCHED: {t}")
+
+    # Replace the thesis block in the HTML
+    new_html = html_content[:start_idx] + new_block_str + html_content[end_idx + 1:]
+
+    # Write the updated HTML
+    with open(html_path, 'w', encoding='utf-8') as f:
+        f.write(new_html)
+    print(f"\nUpdated HTML written to {html_path}")
+
+    # Verify by counting English titles in the new content
+    en_count = 0
+    for en in TRANSLATIONS.values():
+        if en in new_html and en != "Is China paying for the electrification of vehicles: the effect of Chinese EV subsidies on global emissions and reliance on fossil fuels":
+            en_count += 1
+    print(f"Verification: Found {en_count} unique English translations in updated HTML")
+
+
+if __name__ == '__main__':
+    main()

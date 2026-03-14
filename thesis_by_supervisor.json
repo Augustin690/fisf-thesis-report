@@ -1,0 +1,2148 @@
+{
+  "supervisors": {
+    "John Harold Rogers": {
+      "english_name": "John Harold Rogers",
+      "profile_url": "https://www.johnrogerseconomist.net/",
+      "total": 7,
+      "mfin": 7,
+      "mba": 0,
+      "emba": 0,
+      "theses": [
+        {
+          "title": "工业机器人应用对劳动力市场的影响——基于A股制造业上市公司的经验证据",
+          "author": "郑屹",
+          "degree": "MFin",
+          "year": "2023"
+        },
+        {
+          "title": "个人不良贷款的影响因素：基于家庭金融脆弱性的分析",
+          "author": "谭皓昀",
+          "degree": "MFin",
+          "year": "2023"
+        },
+        {
+          "title": "美联储货币政策对中国股市影响的研究——基于传导渠道和货币政策意外视角",
+          "author": "汪琦阳",
+          "degree": "MFin",
+          "year": "2023"
+        },
+        {
+          "title": "美国对俄罗斯金融制裁的效果测度与分析——基于指数构建与宏观经济影响的实证研究",
+          "author": "许庞泽",
+          "degree": "MFin",
+          "year": "2023"
+        },
+        {
+          "title": "宏观审慎监管对商业银行间风险传染的影响研究",
+          "author": "高大维",
+          "degree": "MFin",
+          "year": "2022"
+        },
+        {
+          "title": "中美双边紧张关系对股票崩盘风险的影响：基于中国市场的研究",
+          "author": "赖采轩",
+          "degree": "MFin",
+          "year": "2021"
+        },
+        {
+          "title": "美国货币政策冲击对中国对外直接投资活动的影响：基于TVP-SV-VAR模型的时间背景分析",
+          "author": "Qiu Jun Wu",
+          "degree": "MFin",
+          "year": "2021"
+        }
+      ]
+    },
+    "吴文斌": {
+      "english_name": "Wenbin Wu",
+      "profile_url": "https://fisf.fudan.edu.cn/en_show-112-74.html",
+      "total": 20,
+      "mfin": 2,
+      "mba": 15,
+      "emba": 3,
+      "theses": [
+        {
+          "title": "SQ轻钢结构屋面光伏集成公司商业模式创新研究",
+          "author": "洪善早",
+          "degree": "EMBA",
+          "year": "2024"
+        },
+        {
+          "title": "上市公司市值管理现状及策略-宝钢股份为例",
+          "author": "王静",
+          "degree": "MBA",
+          "year": "2023"
+        },
+        {
+          "title": "商业银行供应链融资新模式研究——基于J银行案例的策略优化探讨",
+          "author": "袁卓群",
+          "degree": "MBA",
+          "year": "2023"
+        },
+        {
+          "title": "关于中小型券商投行业务差异化竞争战略的研究 —以A证券为例",
+          "author": "罗锦",
+          "degree": "MBA",
+          "year": "2023"
+        },
+        {
+          "title": "新能源换电盈利模式案例分析——以A公司为例",
+          "author": "史晶杰",
+          "degree": "EMBA",
+          "year": "2023"
+        },
+        {
+          "title": "大宗商品贸易中信用评估体系与企业风险管理研究 ——以A公司为例",
+          "author": "刘聪",
+          "degree": "EMBA",
+          "year": "2023"
+        },
+        {
+          "title": "基于财务视角的电子制造业数字化转型与抗风险能力研究—以Foxconn为例",
+          "author": "余培雅",
+          "degree": "MBA",
+          "year": "2023"
+        },
+        {
+          "title": "中国车企出海战略研究——以A公司为例",
+          "author": "金卫",
+          "degree": "MBA",
+          "year": "2023"
+        },
+        {
+          "title": "基于国债收益率曲线的企业融资策略分析",
+          "author": "袁弘旸",
+          "degree": "MBA",
+          "year": "2023"
+        },
+        {
+          "title": "跨境并购融资与企业绩效:国家集成电路产业基金  在通富微电并购案中的作用",
+          "author": "周怡娟",
+          "degree": "MBA",
+          "year": "2023"
+        },
+        {
+          "title": "通过城投公司治理对内债化解的分析——以津城建为例",
+          "author": "陆文怡",
+          "degree": "MBA",
+          "year": "2023"
+        },
+        {
+          "title": "共管模式对公募基金业绩的影响研究 ——以S基金公司为例",
+          "author": "胡嘉",
+          "degree": "MBA",
+          "year": "2023"
+        },
+        {
+          "title": "点心债在城投企业境外债务管理中的应用研究 ——以 P城投为例",
+          "author": "曹璟",
+          "degree": "MBA",
+          "year": "2023"
+        },
+        {
+          "title": "KST分拆上市解决融资问题策略研究",
+          "author": "徐逸",
+          "degree": "MBA",
+          "year": "2023"
+        },
+        {
+          "title": "财富管理业务在基层网点的竞争策略研究-以A银行网点为例",
+          "author": "苏少力",
+          "degree": "MBA",
+          "year": "2023"
+        },
+        {
+          "title": "国资参股对民营上市公司经营绩效的影响",
+          "author": "俞非",
+          "degree": "MFin",
+          "year": "2023"
+        },
+        {
+          "title": "银行资本充足率的影响因素与优化策略 ——以G银行为例",
+          "author": "张雨荷",
+          "degree": "MBA",
+          "year": "2022"
+        },
+        {
+          "title": "中国传统仿制药企业转型创新药企业发展战略研究——以A公司为例",
+          "author": "江晶洁",
+          "degree": "MBA",
+          "year": "2022"
+        },
+        {
+          "title": "私募股权投资对企业经营绩效的影响分析—基于创业板公司数据的实证检验",
+          "author": "钟楠",
+          "degree": "MFin",
+          "year": "2022"
+        },
+        {
+          "title": "银行供应链金融价值创造的研究——以A公司为例",
+          "author": "姚岱均",
+          "degree": "MBA",
+          "year": "2022"
+        }
+      ]
+    },
+    "周亦凡": {
+      "english_name": "Yifan Zhou",
+      "profile_url": "https://scholar.xjtlu.edu.cn/en/persons/YifanZhou/",
+      "total": 1,
+      "mfin": 1,
+      "mba": 0,
+      "emba": 0,
+      "theses": [
+        {
+          "title": "高管科技背景对企业创新的影响：中国上市公司的实证分析",
+          "author": "YUJIE ZHOU",
+          "degree": "MFin",
+          "year": "2022"
+        }
+      ]
+    },
+    "唐敦哲": {
+      "english_name": "Dunzhe Tang",
+      "profile_url": "https://fisf.fudan.edu.cn/en_show-112-159.html",
+      "total": 30,
+      "mfin": 25,
+      "mba": 3,
+      "emba": 2,
+      "theses": [
+        {
+          "title": "环境规制对重污染企业绿色转型影响——基于新《环保法》的准自然实验",
+          "author": "仲贝翎",
+          "degree": "MFin",
+          "year": "2023"
+        },
+        {
+          "title": "半导体产业企业 ESG 评价体系构建与优化研究 ——以 XYZ 企业为例",
+          "author": "刁春华",
+          "degree": "EMBA",
+          "year": "2023"
+        },
+        {
+          "title": "机构投资者的重要性 基于公募基金持有人结构的实证分析",
+          "author": "李享",
+          "degree": "MFin",
+          "year": "2023"
+        },
+        {
+          "title": "上市公司人工智能发展程度对公司代理成本的影响",
+          "author": "周欣颖",
+          "degree": "MFin",
+          "year": "2023"
+        },
+        {
+          "title": "医保支付方式改革对中国医药上市公司的影响",
+          "author": "梅竹松",
+          "degree": "MFin",
+          "year": "2023"
+        },
+        {
+          "title": "财富管理之路：中国与全球家族办公室战略比较研究",
+          "author": "李晓晴",
+          "degree": "MFin",
+          "year": "2023"
+        },
+        {
+          "title": "资本市场开放与企业战略激进度——基于“沪深港通”交易制度的实验证据",
+          "author": "程薇璇",
+          "degree": "MFin",
+          "year": "2023"
+        },
+        {
+          "title": "所有权安排与子公司的超额现金持有",
+          "author": "周心宁",
+          "degree": "MFin",
+          "year": "2023"
+        },
+        {
+          "title": "科创板股票引入做市商的流动性影响及价格效应",
+          "author": "梅煜东",
+          "degree": "MFin",
+          "year": "2023"
+        },
+        {
+          "title": "创业投资机构类型与企业创新：基于创业板上市公司的实证研究",
+          "author": "徐一凡",
+          "degree": "MFin",
+          "year": "2023"
+        },
+        {
+          "title": "限制大股东减持政策对股票流动性影响的实证研究",
+          "author": "陈楚风",
+          "degree": "MFin",
+          "year": "2023"
+        },
+        {
+          "title": "“房产幻象”与家庭金融风险资产配置——基于中国家庭金融调查数据的实证研究",
+          "author": "郭芮汐",
+          "degree": "MFin",
+          "year": "2023"
+        },
+        {
+          "title": "混合所有制改革对国有企业财务价值的影响研究——以S公司为例",
+          "author": "张佳成",
+          "degree": "MBA",
+          "year": "2023"
+        },
+        {
+          "title": "数字化转型对企业综合绩效的影响",
+          "author": "林旭姿",
+          "degree": "MFin",
+          "year": "2023"
+        },
+        {
+          "title": "中国投资对中美洲的影响：以萨尔瓦多为案例研究",
+          "author": "CARLOS ROBERTO LOPEZ ALDANA",
+          "degree": "MBA",
+          "year": "2023"
+        },
+        {
+          "title": "三道红线政策对房地产企业融资表现的影响",
+          "author": "周芑岙",
+          "degree": "MFin",
+          "year": "2023"
+        },
+        {
+          "title": "创业团队关系类型、研发投入与公司成长——来自科创企业的经验证据",
+          "author": "王颜涛",
+          "degree": "MFin",
+          "year": "2023"
+        },
+        {
+          "title": "光伏行业的供应链数字化:以隆基绿能为例",
+          "author": "张露文",
+          "degree": "MBA",
+          "year": "2023"
+        },
+        {
+          "title": "公司风险投资与母公司创新绩效——基于A股上市国有企业的研究",
+          "author": "甘泉",
+          "degree": "MFin",
+          "year": "2023"
+        },
+        {
+          "title": "投资者互动平台信息价值对股票异常收益的影响",
+          "author": "林楷哲",
+          "degree": "MFin",
+          "year": "2023"
+        },
+        {
+          "title": "中国上市公司财务高管性别对企业财务杠杆的影响",
+          "author": "刘欣琳",
+          "degree": "MFin",
+          "year": "2023"
+        },
+        {
+          "title": "金融科技创新监管试点对企业生产力的影响",
+          "author": "费沸",
+          "degree": "MFin",
+          "year": "2023"
+        },
+        {
+          "title": "陆股通交易信息披露机制的调整对A股波动性的影响",
+          "author": "姚奕良",
+          "degree": "MFin",
+          "year": "2023"
+        },
+        {
+          "title": "中小股东监管意识提高对新质生产力的影响 ——基于中国投服中心的研究",
+          "author": "陈佳怡",
+          "degree": "MFin",
+          "year": "2023"
+        },
+        {
+          "title": "破产司法改革对地区创业创新活动的影响： 来自破产法庭试点的证据",
+          "author": "陈小戎",
+          "degree": "MFin",
+          "year": "2023"
+        },
+        {
+          "title": "国家集成电路产业投资基金减持对企业投资效率的影响",
+          "author": "黄馨",
+          "degree": "MFin",
+          "year": "2023"
+        },
+        {
+          "title": "绿色债券发行对企业财务稳定性的影响：来自中国企业的证据",
+          "author": "XING HAN LAN",
+          "degree": "MFin",
+          "year": "2023"
+        },
+        {
+          "title": "管理层讨论与分析信息效率对股价同步性的影响——以2019~2023 A股上市公司样本为例",
+          "author": "陈达",
+          "degree": "MFin",
+          "year": "2022"
+        },
+        {
+          "title": "企业战略研究——以照明企业 OP 公司为例",
+          "author": "贲经义",
+          "degree": "EMBA",
+          "year": "2022"
+        },
+        {
+          "title": "注册制下公司治理对首次公开募股后股票表现的影 响",
+          "author": "曾宪达",
+          "degree": "MFin",
+          "year": "2022"
+        }
+      ]
+    },
+    "孙林": {
+      "english_name": "Lin Sun",
+      "profile_url": "https://fisf.fudan.edu.cn/en_show-112-70.html",
+      "total": 13,
+      "mfin": 3,
+      "mba": 8,
+      "emba": 2,
+      "theses": [
+        {
+          "title": "A银行个人养老金客户画像与数字化策略研究",
+          "author": "阙丹怡",
+          "degree": "MBA",
+          "year": "2023"
+        },
+        {
+          "title": "互联网金融平台并购转型绩效分析：以东方财富并购同信证券为例",
+          "author": "程荞",
+          "degree": "MBA",
+          "year": "2023"
+        },
+        {
+          "title": "融资租赁在楼宇节能设备产业发展的创新模式研究",
+          "author": "何建军",
+          "degree": "EMBA",
+          "year": "2023"
+        },
+        {
+          "title": "基金公司运营外包业务的策略研究——以H基金公司为例",
+          "author": "孙栋轩",
+          "degree": "MBA",
+          "year": "2023"
+        },
+        {
+          "title": "高频交易监管收紧对量化私募基金竞争力的影响及应对策略——以 Z 基金公司为例",
+          "author": "胡晓慧",
+          "degree": "MBA",
+          "year": "2023"
+        },
+        {
+          "title": "公募基金分红行为对资金流的影响研究",
+          "author": "刘欣语",
+          "degree": "MFin",
+          "year": "2023"
+        },
+        {
+          "title": "买方机构调研强度与主题对于股价的影响",
+          "author": "廖妍昕",
+          "degree": "MFin",
+          "year": "2023"
+        },
+        {
+          "title": "蔚来汽车发行绿色电池资产证券化的动因及效应研究",
+          "author": "张劭",
+          "degree": "MBA",
+          "year": "2023"
+        },
+        {
+          "title": "宠物经济下宠物食品公司商业模式转型-以乖宝宠物为例",
+          "author": "吴萌萌",
+          "degree": "MBA",
+          "year": "2023"
+        },
+        {
+          "title": "X公司消费医疗市场融资租赁产品策略研究",
+          "author": "王妤",
+          "degree": "MBA",
+          "year": "2023"
+        },
+        {
+          "title": "消费电子行业下游供应链中信息安全管理研究 —— 以Z公司为例",
+          "author": "白慧林",
+          "degree": "MBA",
+          "year": "2023"
+        },
+        {
+          "title": "基金经理“专业对口”程度对中国公募基金业绩的影响",
+          "author": "盛开",
+          "degree": "MFin",
+          "year": "2023"
+        },
+        {
+          "title": "基于市场的公募基金营销策略优化研究 ——以A公司为例",
+          "author": "陆庆",
+          "degree": "EMBA",
+          "year": "2021"
+        }
+      ]
+    },
+    "张宗新": {
+      "english_name": "Zongxin Zhang",
+      "profile_url": "https://econ.fudan.edu.cn/info/1028/14266.htm",
+      "total": 6,
+      "mfin": 0,
+      "mba": 0,
+      "emba": 6,
+      "theses": [
+        {
+          "title": "保障性租赁住房REITs融资动因与风险研究 ——以华润有巢REIT为例",
+          "author": "王妍",
+          "degree": "EMBA",
+          "year": "2025"
+        },
+        {
+          "title": "本土因子挖掘及其在二级市场中的有效性评价",
+          "author": "袁国华",
+          "degree": "EMBA",
+          "year": "2025"
+        },
+        {
+          "title": "中国公募基金中小投资者权益保护路径优化研究 ——以A基金公司为例",
+          "author": "许野",
+          "degree": "EMBA",
+          "year": "2023"
+        },
+        {
+          "title": "融资融券业务风险识别与风控管理优化研究 ——以A证券公司为例",
+          "author": "叶佳",
+          "degree": "EMBA",
+          "year": "2023"
+        },
+        {
+          "title": "私募股权基金公司项目投后管理的优化研究 ——以X公司Y项目为例",
+          "author": "李琦琦",
+          "degree": "EMBA",
+          "year": "2023"
+        },
+        {
+          "title": "A公募基金公司投资交易行为合规风险管控研究",
+          "author": "张耀文",
+          "degree": "EMBA",
+          "year": "2023"
+        }
+      ]
+    },
+    "张纯信": {
+      "english_name": "Charles Chang",
+      "profile_url": "https://fisf.fudan.edu.cn/en_show-112-75.html",
+      "total": 11,
+      "mfin": 4,
+      "mba": 3,
+      "emba": 4,
+      "theses": [
+        {
+          "title": "私人二级市场和数据对风险投资基金运营决策 和报告的效用",
+          "author": "NICHOLAS JAMES JOHNSTONE",
+          "degree": "MBA",
+          "year": "2025"
+        },
+        {
+          "title": "虚拟数字人vs真人直播比较研究：以抖音平台为例",
+          "author": "付至威",
+          "degree": "MFin",
+          "year": "2023"
+        },
+        {
+          "title": "量子信息技术中小企业的发展战略研究—— 以 D 企业为例",
+          "author": "陆阳",
+          "degree": "EMBA",
+          "year": "2023"
+        },
+        {
+          "title": "体验教育与品牌管理的跨界融合创新案例研究——小小骑士丝绸之路拉力赛",
+          "author": "李铁军",
+          "degree": "MFin",
+          "year": "2023"
+        },
+        {
+          "title": "创新创业孵化与实践研究——以青年创业为例",
+          "author": "陳謙民",
+          "degree": "EMBA",
+          "year": "2023"
+        },
+        {
+          "title": "制造业数字化转型策略与实施成效 —以N制鞋企业为例",
+          "author": "赖建宏",
+          "degree": "EMBA",
+          "year": "2023"
+        },
+        {
+          "title": "产业链风险，现金持有行为与公司创新",
+          "author": "金可欣",
+          "degree": "MFin",
+          "year": "2023"
+        },
+        {
+          "title": "融合情绪指数与市场收益预测—基于多源情绪代理的偏最小二乘法分析",
+          "author": "狄泽宇",
+          "degree": "MFin",
+          "year": "2023"
+        },
+        {
+          "title": "碳排放权抵押贷款对企业融资和贷款金额决定因素的影响研究——以华能国际为例",
+          "author": "孙斐倩",
+          "degree": "MBA",
+          "year": "2023"
+        },
+        {
+          "title": "生成式人工智能赋能会议软件产品创新的路径与效 果分析：以 W 公司为例",
+          "author": "李诚尧",
+          "degree": "MBA",
+          "year": "2023"
+        },
+        {
+          "title": "外资银行对中国商业银行风险承担的影响研究",
+          "author": "郑凯萱",
+          "degree": "EMBA",
+          "year": "2021"
+        }
+      ]
+    },
+    "施东辉": {
+      "english_name": "Donghui Shi",
+      "profile_url": "https://fisf.fudan.edu.cn/en_show-112-106.html",
+      "total": 9,
+      "mfin": 0,
+      "mba": 6,
+      "emba": 3,
+      "theses": [
+        {
+          "title": "公司重大诉讼事件对股价影响的实证研究",
+          "author": "冒小建",
+          "degree": "EMBA",
+          "year": "2025"
+        },
+        {
+          "title": "AZSS公司市值管理困境与突破路径研究",
+          "author": "唐普阔",
+          "degree": "EMBA",
+          "year": "2025"
+        },
+        {
+          "title": "中国医疗器械流通行业并购整合研究：基于J公司案例",
+          "author": "陆启勇",
+          "degree": "MBA",
+          "year": "2023"
+        },
+        {
+          "title": "比亚迪新能源汽车营销策略研究",
+          "author": "戎行之",
+          "degree": "MBA",
+          "year": "2023"
+        },
+        {
+          "title": "凤凰雪球的定价与风险管理研究",
+          "author": "张敏捷",
+          "degree": "MBA",
+          "year": "2023"
+        },
+        {
+          "title": "基于知识图谱的动产融资重复担保风险控制研究——以A征信中心为例",
+          "author": "张心远",
+          "degree": "MBA",
+          "year": "2023"
+        },
+        {
+          "title": "智慧养老服务模式创新及应用研究——以D公司为例",
+          "author": "殷凡",
+          "degree": "MBA",
+          "year": "2023"
+        },
+        {
+          "title": "A光伏企业股权激励对企业绩效的影响研究",
+          "author": "周寒阳",
+          "degree": "MBA",
+          "year": "2022"
+        },
+        {
+          "title": "基于机器学习的指期货价格波动预测与交易策略研究",
+          "author": "许蔚",
+          "degree": "EMBA",
+          "year": "2021"
+        }
+      ]
+    },
+    "施文韵": {
+      "english_name": "Wenyun Shi",
+      "profile_url": "https://fisf.fudan.edu.cn/en_show-112-170.html",
+      "total": 24,
+      "mfin": 0,
+      "mba": 22,
+      "emba": 2,
+      "theses": [
+        {
+          "title": "ESG 实践提升企业价值的路径和效果分析—以X 证 券为例",
+          "author": "康淑婷",
+          "degree": "MBA",
+          "year": "2024"
+        },
+        {
+          "title": "证券公司自营投资策略研究-以G证券公司为例",
+          "author": "户永红",
+          "degree": "MBA",
+          "year": "2023"
+        },
+        {
+          "title": "报行合一政策下保险中介业务转型分析 ——以 DT 公司为例",
+          "author": "王岩",
+          "degree": "MBA",
+          "year": "2023"
+        },
+        {
+          "title": "国家集采决策和实践的博弈论分析及对药企影响的案例研究",
+          "author": "高静丽",
+          "degree": "EMBA",
+          "year": "2023"
+        },
+        {
+          "title": "GS公司眼科医疗器械营销渠道优化策略研究",
+          "author": "戴珂珂",
+          "degree": "EMBA",
+          "year": "2023"
+        },
+        {
+          "title": "中美贸易摩擦背景下海洋油气大型装备国产化战略研究——以中国海油为例",
+          "author": "崔奕奕",
+          "degree": "MBA",
+          "year": "2023"
+        },
+        {
+          "title": "互联网企业金融产品的竞争策略研究 ——以美团为例",
+          "author": "顾珏炜",
+          "degree": "MBA",
+          "year": "2023"
+        },
+        {
+          "title": "私募股权基金管理与退出行为对医药企业的价值创造——以博雅生物为例",
+          "author": "董文辛",
+          "degree": "MBA",
+          "year": "2023"
+        },
+        {
+          "title": "定向可转债支付方式对企业并购绩效的影响 ——以神马股份为例",
+          "author": "朱干",
+          "degree": "MBA",
+          "year": "2023"
+        },
+        {
+          "title": "低利率环境下中国保险公司资产负债管理的应对策略研究——基于T寿险公司的分析",
+          "author": "徐洁仪",
+          "degree": "MBA",
+          "year": "2023"
+        },
+        {
+          "title": "文旅产业投融资方案研究 ——以Y市影视城项目为例",
+          "author": "易建邦",
+          "degree": "MBA",
+          "year": "2023"
+        },
+        {
+          "title": "商业银行投行业务信用风险管理研究-以S银行为例",
+          "author": "肖奂洋",
+          "degree": "MBA",
+          "year": "2023"
+        },
+        {
+          "title": "证券公司基金投顾业务运营模式研究——以A证券为例",
+          "author": "陈佳婧",
+          "degree": "MBA",
+          "year": "2023"
+        },
+        {
+          "title": "“35 号文”对城投平台债务化解方式的影响",
+          "author": "李靖旸",
+          "degree": "MBA",
+          "year": "2023"
+        },
+        {
+          "title": "跨行业并购的企业价值创造研究——以钧达股份并购捷泰科技为例",
+          "author": "陈嘉慧",
+          "degree": "MBA",
+          "year": "2023"
+        },
+        {
+          "title": "物流上市公司降本增效策略研究 ——以D公司为例",
+          "author": "张宏宇",
+          "degree": "MBA",
+          "year": "2023"
+        },
+        {
+          "title": "美国断供冲击下中国企业的国产替代与自主创新",
+          "author": "曾德利",
+          "degree": "MBA",
+          "year": "2023"
+        },
+        {
+          "title": "对赌条款特征对并购长期绩效的影响",
+          "author": "陈曼珂",
+          "degree": "MBA",
+          "year": "2023"
+        },
+        {
+          "title": "直营挑战下仪器设备分销商的市场策略研究 ——以Z公司为例",
+          "author": "宫少博",
+          "degree": "MBA",
+          "year": "2023"
+        },
+        {
+          "title": "外资银行财富管理业务在华战略转型 ---以Y银行为例",
+          "author": "许名扬",
+          "degree": "MBA",
+          "year": "2023"
+        },
+        {
+          "title": "创业板企业第二类限制性股票实施研究 ——以东方财富为例",
+          "author": "王陈洲",
+          "degree": "MBA",
+          "year": "2023"
+        },
+        {
+          "title": "信托公司ESG转型发展研究——以J信托为例",
+          "author": "朱迪",
+          "degree": "MBA",
+          "year": "2023"
+        },
+        {
+          "title": "锂电企业实践ESG对企业价值的影响——以天齐锂业为例",
+          "author": "肖奕立",
+          "degree": "MBA",
+          "year": "2022"
+        },
+        {
+          "title": "券商自营票据业务运营研究 ——以H券商为例",
+          "author": "周蕾",
+          "degree": "MBA",
+          "year": "2022"
+        }
+      ]
+    },
+    "朱蕾": {
+      "english_name": "Julie Lei Zhu",
+      "profile_url": "https://fisf.fudan.edu.cn/en_show-112-96.html",
+      "total": 10,
+      "mfin": 1,
+      "mba": 5,
+      "emba": 4,
+      "theses": [
+        {
+          "title": "H企业财务风险评价与防范研究",
+          "author": "翟林丰",
+          "degree": "EMBA",
+          "year": "2025"
+        },
+        {
+          "title": "折扣化超市供应链效率现状及提升策略研究 —以HMNB为例",
+          "author": "胡大雷",
+          "degree": "EMBA",
+          "year": "2023"
+        },
+        {
+          "title": "商业银行助力银发经济推动中国式养老高质量发展的路径研究",
+          "author": "蒋令宏",
+          "degree": "EMBA",
+          "year": "2023"
+        },
+        {
+          "title": "国企分拆上市对于经营业绩的影响-以中国交建分拆借壳祁连山为例",
+          "author": "王延",
+          "degree": "MBA",
+          "year": "2023"
+        },
+        {
+          "title": "逆全球化下S晶圆代工企业的发展战略研究",
+          "author": "江山",
+          "degree": "EMBA",
+          "year": "2023"
+        },
+        {
+          "title": "基于动态能力理论的中美制造企业数字化转型的策略比较研究——以海尔集团和通用电气为例",
+          "author": "洪梦怡",
+          "degree": "MFin",
+          "year": "2023"
+        },
+        {
+          "title": "实际控制人控股比例与公司IPO后绩效表现的研究",
+          "author": "姚逸波",
+          "degree": "MBA",
+          "year": "2023"
+        },
+        {
+          "title": "业绩承诺机制对重大资产重组并购价格的影响分析",
+          "author": "沈钊冉",
+          "degree": "MBA",
+          "year": "2023"
+        },
+        {
+          "title": "智能数字化应用深入赋能企业业财融合–以H公司为例",
+          "author": "樊祎迪",
+          "degree": "MBA",
+          "year": "2023"
+        },
+        {
+          "title": "房地产企业审计中财务舞弊的识别与应对——以A公司审计失败为例",
+          "author": "毕程欢",
+          "degree": "MBA",
+          "year": "2023"
+        }
+      ]
+    },
+    "李志青": {
+      "english_name": "Zhiqing Li",
+      "profile_url": "https://econ.fudan.edu.cn/info/1028/14145.htm",
+      "total": 2,
+      "mfin": 1,
+      "mba": 0,
+      "emba": 1,
+      "theses": [
+        {
+          "title": "中小企业ESG发展之道——以X企业为例",
+          "author": "沈巨峰",
+          "degree": "MFin",
+          "year": "2023"
+        },
+        {
+          "title": "土壤修复项目的管理战略研究: 基于KD环保集团的案例分析",
+          "author": "史童伟",
+          "degree": "EMBA",
+          "year": "2023"
+        }
+      ]
+    },
+    "杨春柳": {
+      "english_name": "Chunliu (Chloe) Yang",
+      "profile_url": "https://fisf.fudan.edu.cn/en_show-112-86.html",
+      "total": 18,
+      "mfin": 8,
+      "mba": 10,
+      "emba": 0,
+      "theses": [
+        {
+          "title": "Q公司财务共享服务中心绩效评价指标体系优化研究",
+          "author": "沈康翔",
+          "degree": "MBA",
+          "year": "2023"
+        },
+        {
+          "title": "基于沪深300ETF期权的随机波动率模型定价分析",
+          "author": "高培皓",
+          "degree": "MFin",
+          "year": "2023"
+        },
+        {
+          "title": "人工智能背景下小米汽车发展战略研究",
+          "author": "张济原",
+          "degree": "MBA",
+          "year": "2023"
+        },
+        {
+          "title": "理财公司营销渠道的管理策略优化研究 ——以C银行理财子公司为例",
+          "author": "何谐",
+          "degree": "MBA",
+          "year": "2023"
+        },
+        {
+          "title": "碳排放权交易制度对企业绩效的影响研究——以华能国际为例",
+          "author": "朱鸿嘉",
+          "degree": "MBA",
+          "year": "2023"
+        },
+        {
+          "title": "大宗商品金融化与商品期货市场风险研究——以私募基金管理公司为例",
+          "author": "王超凡",
+          "degree": "MBA",
+          "year": "2023"
+        },
+        {
+          "title": "L手机游戏公司营销策略优化",
+          "author": "柳萌",
+          "degree": "MBA",
+          "year": "2023"
+        },
+        {
+          "title": "机构投资者报价分歧对IPO企业长期股价表现的影响",
+          "author": "林梓林",
+          "degree": "MFin",
+          "year": "2023"
+        },
+        {
+          "title": "人工智能产业服务平台赋能企业数字化转型研究： 以某市“模数工场”平台为例",
+          "author": "陈昊",
+          "degree": "MBA",
+          "year": "2023"
+        },
+        {
+          "title": "中国被动ETF投资者的正反馈交易行为",
+          "author": "王紫琪",
+          "degree": "MFin",
+          "year": "2023"
+        },
+        {
+          "title": "中国经济政策不确定性对商业银行经营效率的影响",
+          "author": "郑燕",
+          "degree": "MFin",
+          "year": "2023"
+        },
+        {
+          "title": "私募股权对制造企业数字化转型的影响：来自A股上市公司实证证据",
+          "author": "黃競麗",
+          "degree": "MFin",
+          "year": "2023"
+        },
+        {
+          "title": "保险降费背景下商业银行保险产品销售策略的优化与创新——以J银行A支行为例",
+          "author": "黄海涛",
+          "degree": "MBA",
+          "year": "2023"
+        },
+        {
+          "title": "中小型公募基金公司业务发展战略研究—— 以Z基金公司为例",
+          "author": "王文博",
+          "degree": "MBA",
+          "year": "2023"
+        },
+        {
+          "title": "股份制商业银行零售业务电话外呼策略研究 ——以X银行S分行为例",
+          "author": "王帝",
+          "degree": "MBA",
+          "year": "2023"
+        },
+        {
+          "title": "全球半导体出口管制政策对中国上市半导体公司财务绩效的影响",
+          "author": "王关塍",
+          "degree": "MFin",
+          "year": "2023"
+        },
+        {
+          "title": "投资者情绪对股票收益与波动的影响研究：基于融资 约束与风险承担",
+          "author": "林泽伟",
+          "degree": "MFin",
+          "year": "2023"
+        },
+        {
+          "title": "机构交易信息和股价的关系: 来自台湾市场的证据",
+          "author": "简叡",
+          "degree": "MFin",
+          "year": "2022"
+        }
+      ]
+    },
+    "汤海涵": {
+      "english_name": "Haihan Tang",
+      "profile_url": "https://fisf.fudan.edu.cn/en_show-112-72.html",
+      "total": 15,
+      "mfin": 5,
+      "mba": 5,
+      "emba": 5,
+      "theses": [
+        {
+          "title": "公司跨境支付新框架：地缘政治、金融监管与前沿技术的协同演进",
+          "author": "朱晓梅",
+          "degree": "EMBA",
+          "year": "2024"
+        },
+        {
+          "title": "A证券公司培训体系优化研究",
+          "author": "杨小霞",
+          "degree": "MBA",
+          "year": "2023"
+        },
+        {
+          "title": "L体育公司体育赛事营销策略研究",
+          "author": "党天珩",
+          "degree": "MBA",
+          "year": "2023"
+        },
+        {
+          "title": "实体清单政策对企业研发活动的影响：以中芯国际为例",
+          "author": "徐俊冰",
+          "degree": "MBA",
+          "year": "2023"
+        },
+        {
+          "title": "情绪视角下“国家队”的股市维稳作用机制",
+          "author": "吕彦泽",
+          "degree": "MFin",
+          "year": "2023"
+        },
+        {
+          "title": "基于系统动力学的新型给药装置行业多维驱动机制研究—以X公司为例",
+          "author": "戴思天",
+          "degree": "EMBA",
+          "year": "2023"
+        },
+        {
+          "title": "“资管新规”下信托业务转型研究—以A公司为例",
+          "author": "郑泽轩",
+          "degree": "EMBA",
+          "year": "2023"
+        },
+        {
+          "title": "教育A公司数字化营销获客策略研究",
+          "author": "陈文良",
+          "degree": "EMBA",
+          "year": "2023"
+        },
+        {
+          "title": "团队制基金与基金表现的关系",
+          "author": "苏方觉晓",
+          "degree": "MFin",
+          "year": "2023"
+        },
+        {
+          "title": "兴业银行平台战略研究",
+          "author": "李艺伟",
+          "degree": "MBA",
+          "year": "2023"
+        },
+        {
+          "title": "D公司供应链数字化转型的路径及经济后果研究",
+          "author": "周涵怡",
+          "degree": "MBA",
+          "year": "2023"
+        },
+        {
+          "title": "企业过度投资对A股折价的影响研究",
+          "author": "王馨怡",
+          "degree": "MFin",
+          "year": "2023"
+        },
+        {
+          "title": "收入风险是否激励家庭提升金融资产配置效率？ ——基于CHFS的微观实证",
+          "author": "叶满",
+          "degree": "MFin",
+          "year": "2023"
+        },
+        {
+          "title": "关于中国碳市场价格影响因素的实证研究",
+          "author": "傅正义",
+          "degree": "MFin",
+          "year": "2023"
+        },
+        {
+          "title": "数字经济时代财富管理数字化机遇与挑战研究：以Z商业银行为例",
+          "author": "张静静",
+          "degree": "EMBA",
+          "year": "2022"
+        }
+      ]
+    },
+    "王永钦": {
+      "english_name": "Yongqin Wang",
+      "profile_url": "https://fisf.fudan.edu.cn/en_show-112-156.html",
+      "total": 4,
+      "mfin": 2,
+      "mba": 0,
+      "emba": 2,
+      "theses": [
+        {
+          "title": "中小银行并购重组动因及绩效研究—以L银行为例",
+          "author": "韩翔",
+          "degree": "EMBA",
+          "year": "2023"
+        },
+        {
+          "title": "基于科创债角度的地方城投转型策略研究—以安徽省为例",
+          "author": "田甜",
+          "degree": "EMBA",
+          "year": "2023"
+        },
+        {
+          "title": "所有制对不同生命周期企业出海的影响——以中国制造业上市公司为例",
+          "author": "张雨莛",
+          "degree": "MFin",
+          "year": "2023"
+        },
+        {
+          "title": "管理层过度自信与股权质押",
+          "author": "罗卿",
+          "degree": "MFin",
+          "year": "2023"
+        }
+      ]
+    },
+    "王遐昕": {
+      "english_name": "Xiaxin Wang",
+      "profile_url": "https://fisf.fudan.edu.cn/en_show-112-89.html",
+      "total": 18,
+      "mfin": 5,
+      "mba": 12,
+      "emba": 1,
+      "theses": [
+        {
+          "title": "非雇佣关系状态下保险经纪团队管理研究——以 X 保 险经纪公司 Y 团队为例",
+          "author": "谭露",
+          "degree": "EMBA",
+          "year": "2025"
+        },
+        {
+          "title": "郑煤机集团智能制造数字化转型研究",
+          "author": "黄宇栋",
+          "degree": "MBA",
+          "year": "2023"
+        },
+        {
+          "title": "小型IT服务企业差异化战略构建与成效分析： 以FX公司通信宽带代理业务转型为例",
+          "author": "项彪",
+          "degree": "MFin",
+          "year": "2023"
+        },
+        {
+          "title": "人工智能赋能企业合规管理研究 ——以J公司智能合规管理系统为例",
+          "author": "高梓瑜",
+          "degree": "MBA",
+          "year": "2023"
+        },
+        {
+          "title": "区域差异驱动下跨境物流企业战略调整：以极兔在东南亚的发展为例",
+          "author": "姚雨晴",
+          "degree": "MBA",
+          "year": "2023"
+        },
+        {
+          "title": "民营化工企业的市场风险管理研究 —以苯乙烯加工企业J公司为例",
+          "author": "池碧钰",
+          "degree": "MBA",
+          "year": "2023"
+        },
+        {
+          "title": "“双碳”目标下石油企业碳信息披露评价研究 ——以中国石化为例",
+          "author": "甘予馨",
+          "degree": "MBA",
+          "year": "2023"
+        },
+        {
+          "title": "昆仑能源变革管理模型的构建和应用",
+          "author": "张方圆",
+          "degree": "MBA",
+          "year": "2023"
+        },
+        {
+          "title": "新型城镇化背景下房地产企业战略转型研究——以L公司为例",
+          "author": "周启航",
+          "degree": "MBA",
+          "year": "2023"
+        },
+        {
+          "title": "网联代付背景下第三方支付创新模式研究 —以A公司为例",
+          "author": "刘爱娜",
+          "degree": "MBA",
+          "year": "2023"
+        },
+        {
+          "title": "模拟芯片企业技术创新战略研究——以 N 公司为例",
+          "author": "赵冉",
+          "degree": "MBA",
+          "year": "2023"
+        },
+        {
+          "title": "谁是最聪明的外资机构投资者： A股QFII的投资回报与投资偏好分析",
+          "author": "蒙楠冰",
+          "degree": "MFin",
+          "year": "2023"
+        },
+        {
+          "title": "数字劳动力赋能商业银行集约运营管理模式研究 ——以G银行为例",
+          "author": "曹凡",
+          "degree": "MBA",
+          "year": "2023"
+        },
+        {
+          "title": "逆向混合所有制改革下地方国有资本投资上市民营企业的选择与价值影响： 基于绵阳地方国资的案例分析",
+          "author": "潘琳",
+          "degree": "MFin",
+          "year": "2023"
+        },
+        {
+          "title": "利率市场化和利率自律机制下工行SH分行公司信贷发展战略研究",
+          "author": "施斯",
+          "degree": "MBA",
+          "year": "2023"
+        },
+        {
+          "title": "中小城商行制造业贷款管理问题与优化策略研究-以A银行为例",
+          "author": "朱嘉薇",
+          "degree": "MBA",
+          "year": "2022"
+        },
+        {
+          "title": "首次公开募股市场表现对于二级市场 股票收益率与股民情绪的影响",
+          "author": "陈冠安",
+          "degree": "MFin",
+          "year": "2022"
+        },
+        {
+          "title": "产业政策如何影响企业投融资行为",
+          "author": "胡雨轩",
+          "degree": "MFin",
+          "year": "2022"
+        }
+      ]
+    },
+    "童国士": {
+      "english_name": "Guoshi Tong",
+      "profile_url": "https://fisf.fudan.edu.cn/en_show-112-160.html",
+      "total": 29,
+      "mfin": 26,
+      "mba": 2,
+      "emba": 1,
+      "theses": [
+        {
+          "title": "从“国产化替代”到“跨境出海”的国际化研究与应用-LDM公司“两次出海”的实践与挑战",
+          "author": "沈侃",
+          "degree": "EMBA",
+          "year": "2023"
+        },
+        {
+          "title": "混合所有制改革对A股制造业上市国企非效率投资的影响",
+          "author": "郭亮",
+          "degree": "MFin",
+          "year": "2023"
+        },
+        {
+          "title": "“一带一路”倡议与跨境并购绩效",
+          "author": "刘葳洋",
+          "degree": "MFin",
+          "year": "2023"
+        },
+        {
+          "title": "民营企业国有化对分红的影响:来自中国上市公司的证据",
+          "author": "李智超",
+          "degree": "MFin",
+          "year": "2023"
+        },
+        {
+          "title": "早期机构融资轮次对企业上市后财务表现的影响",
+          "author": "余勤",
+          "degree": "MFin",
+          "year": "2023"
+        },
+        {
+          "title": "资本市场开放与环境信息披露质量：基于陆港通的经验证据",
+          "author": "李美婷",
+          "degree": "MFin",
+          "year": "2023"
+        },
+        {
+          "title": "基于 SSA-XGBoost 的上市公司信用风险预警模型研究",
+          "author": "马逸杰",
+          "degree": "MFin",
+          "year": "2023"
+        },
+        {
+          "title": "资本市场开放对企业绿色创新的影响——基于A股纳入MSCI指数的准自然实验",
+          "author": "魏先佳",
+          "degree": "MFin",
+          "year": "2023"
+        },
+        {
+          "title": "信贷资产证券化、信贷扩张与商业银行风险",
+          "author": "张亦弛",
+          "degree": "MFin",
+          "year": "2023"
+        },
+        {
+          "title": "中文版家族企业去家族化与企业融资偏好——来自中国2008-2023年上市家族企业",
+          "author": "谢汶霖",
+          "degree": "MFin",
+          "year": "2023"
+        },
+        {
+          "title": "注册制度改革能降低内幕交易吗——来自创业板的证据",
+          "author": "赵奕然",
+          "degree": "MFin",
+          "year": "2023"
+        },
+        {
+          "title": "经济政策不确定性对企业违规行为的影响",
+          "author": "王佳琳",
+          "degree": "MFin",
+          "year": "2023"
+        },
+        {
+          "title": "“国家队”持股对A股上市公司全要素生产率的影响",
+          "author": "刘栩嫣",
+          "degree": "MFin",
+          "year": "2023"
+        },
+        {
+          "title": "现金持有和企业韧性的关系：来自新冠疫情的证据",
+          "author": "田丞然",
+          "degree": "MFin",
+          "year": "2023"
+        },
+        {
+          "title": "数字普惠金融发展对城乡消费差距的影响",
+          "author": "戴若西",
+          "degree": "MFin",
+          "year": "2023"
+        },
+        {
+          "title": "房地产政策对涉房城投债融资成本的影响研究——以“三道红线”为例",
+          "author": "王晨瑞雪",
+          "degree": "MFin",
+          "year": "2023"
+        },
+        {
+          "title": "家族企业代际传承中的战略变革研究-以森马服饰为例",
+          "author": "柯城",
+          "degree": "MBA",
+          "year": "2023"
+        },
+        {
+          "title": "出口目的国互联网发展环境对中国跨境电商出口的影响",
+          "author": "田鹏",
+          "degree": "MFin",
+          "year": "2023"
+        },
+        {
+          "title": "企业盈余管理行为的同伴效应：来自A股上市公司的证据",
+          "author": "张海蓉",
+          "degree": "MFin",
+          "year": "2023"
+        },
+        {
+          "title": "股市对特朗普遇刺事件的反应：行业扶持、税收与 贸易政策",
+          "author": "朱莹莹",
+          "degree": "MFin",
+          "year": "2023"
+        },
+        {
+          "title": "政务服务信息化促进企业数字化转型——来自信息惠民国家试点政策的证据",
+          "author": "程弋洋",
+          "degree": "MFin",
+          "year": "2023"
+        },
+        {
+          "title": "控股股东高股权质押背景下“假回购”的实证研究",
+          "author": "齐高宇",
+          "degree": "MFin",
+          "year": "2023"
+        },
+        {
+          "title": "高管-员工薪酬差距对企业创新的影响",
+          "author": "陈思羽",
+          "degree": "MFin",
+          "year": "2023"
+        },
+        {
+          "title": "企业数字化转型对权益资本成本的影响研究",
+          "author": "曾凤清",
+          "degree": "MFin",
+          "year": "2023"
+        },
+        {
+          "title": "代理成本如何影响 REITs 市场表现？基于中国 REITs 市场的实证研究",
+          "author": "江林安",
+          "degree": "MFin",
+          "year": "2022"
+        },
+        {
+          "title": "基于注意力机制的深度强化学习模型于股票投资组合权重分配的应用：以中国A股市场为例",
+          "author": "钱泽葭",
+          "degree": "MFin",
+          "year": "2022"
+        },
+        {
+          "title": "主并方数字化转型水平对并购绩效的影响",
+          "author": "余昊宇",
+          "degree": "MBA",
+          "year": "2022"
+        },
+        {
+          "title": "转换公司债赎回公告对股价的影响：以中国台湾市场为例",
+          "author": "余子毅",
+          "degree": "MFin",
+          "year": "2022"
+        },
+        {
+          "title": "AIGC 技术发展背景下数字营销公司的企业战略 --以 R 企业为例",
+          "author": "刘畅",
+          "degree": "MFin",
+          "year": "2022"
+        }
+      ]
+    },
+    "蒋亮": {
+      "english_name": "Liang Jiang",
+      "profile_url": "https://fisf.fudan.edu.cn/en_show-112-79.html",
+      "total": 21,
+      "mfin": 11,
+      "mba": 5,
+      "emba": 5,
+      "theses": [
+        {
+          "title": "互联网企业集群式数据中心管理新模式研究 ——以“B 公司”为例",
+          "author": "曹豫",
+          "degree": "MFin",
+          "year": "2025"
+        },
+        {
+          "title": "美国制裁政策对中国光伏产业的经济影响以及其应对研究",
+          "author": "赵蓉蓉",
+          "degree": "EMBA",
+          "year": "2025"
+        },
+        {
+          "title": "逆全球化下中国跨境电商公司的战略研究 ——基于TikTok的成功启示视角",
+          "author": "李怡华",
+          "degree": "MFin",
+          "year": "2023"
+        },
+        {
+          "title": "工业测量企业在中国智能测量业务发展战略研究 ——以“Z公司”为例",
+          "author": "孙涛",
+          "degree": "EMBA",
+          "year": "2023"
+        },
+        {
+          "title": "中国半导体第三方检测公司发展战略研究 ——以J检测公司为例",
+          "author": "尚跃",
+          "degree": "EMBA",
+          "year": "2023"
+        },
+        {
+          "title": "多元化民营企业“投资+运营”战略研究-以复星集团对南钢股份投资运营为例",
+          "author": "祝捷",
+          "degree": "MFin",
+          "year": "2023"
+        },
+        {
+          "title": "基于机器学习对个人不良贷款还款的预测",
+          "author": "夏怡卿",
+          "degree": "MFin",
+          "year": "2023"
+        },
+        {
+          "title": "营养功能糖果行业的品牌战略研究 ——以 M 公司为例",
+          "author": "粟政东",
+          "degree": "MBA",
+          "year": "2023"
+        },
+        {
+          "title": "电信运营商通讯类服务与定存类金融产品结合营销策略研究—以中国电信翼支付号卡套餐产品为例",
+          "author": "高然",
+          "degree": "MBA",
+          "year": "2023"
+        },
+        {
+          "title": "从退出视角解析政府风险投资对企业绩效的影响",
+          "author": "温雅璇",
+          "degree": "MFin",
+          "year": "2023"
+        },
+        {
+          "title": "国际商务卡发行的管理策略研究—以A公司为例",
+          "author": "章媛媛",
+          "degree": "MBA",
+          "year": "2023"
+        },
+        {
+          "title": "政府干预、银行竞争与企业债务违约风险",
+          "author": "刘畅",
+          "degree": "MFin",
+          "year": "2023"
+        },
+        {
+          "title": "低利率环境下F人寿保险公司产品策略研究",
+          "author": "王旭",
+          "degree": "MBA",
+          "year": "2023"
+        },
+        {
+          "title": "可持续发展报告指引对A股上市公司 二级市场表现的影响",
+          "author": "包欣琳",
+          "degree": "MFin",
+          "year": "2023"
+        },
+        {
+          "title": "国货美妆冲击背景下外资美妆公司营销策略研究 ——以L集团为例",
+          "author": "邓昱皓",
+          "degree": "MFin",
+          "year": "2023"
+        },
+        {
+          "title": "二级资本债券发行对城市商业银行资产质量的影响及风险应对管理研究——以宁波银行为例",
+          "author": "党维谦",
+          "degree": "MBA",
+          "year": "2023"
+        },
+        {
+          "title": "中国股市的舆情效应研究",
+          "author": "张玙佳",
+          "degree": "MFin",
+          "year": "2023"
+        },
+        {
+          "title": "新能源汽车行业上市企业拓普集团的再融资策略研究",
+          "author": "黄景国",
+          "degree": "EMBA",
+          "year": "2022"
+        },
+        {
+          "title": "中国房地产市场情绪与价格预测",
+          "author": "龚沛承",
+          "degree": "MFin",
+          "year": "2022"
+        },
+        {
+          "title": "基于Omega模型优化的A股市场动量与反转再平衡策略",
+          "author": "陆柏臻",
+          "degree": "MFin",
+          "year": "2022"
+        },
+        {
+          "title": "广发证券公司发展战略研究",
+          "author": "谭笑羽",
+          "degree": "EMBA",
+          "year": "2021"
+        }
+      ]
+    },
+    "许闲": {
+      "english_name": "Xian Xu",
+      "profile_url": "https://fisf.fudan.edu.cn/en_show-112-158.html",
+      "total": 1,
+      "mfin": 1,
+      "mba": 0,
+      "emba": 0,
+      "theses": [
+        {
+          "title": "股票市场波动对保险需求的影响研究",
+          "author": "陈智霖",
+          "degree": "MFin",
+          "year": "2023"
+        }
+      ]
+    },
+    "钱军": {
+      "english_name": "Jun \"QJ\" Qian",
+      "profile_url": "https://fisf.fudan.edu.cn/en_show-112-69.html",
+      "total": 9,
+      "mfin": 1,
+      "mba": 2,
+      "emba": 6,
+      "theses": [
+        {
+          "title": "F银行在华零售业务的发展战略研究",
+          "author": "林似蓴",
+          "degree": "EMBA",
+          "year": "2025"
+        },
+        {
+          "title": "减持新规下企业分红行为的差异化路径 对经营绩效的影响 ——基于剑桥科技与恒铭达的案例比较分析",
+          "author": "韩维",
+          "degree": "MBA",
+          "year": "2023"
+        },
+        {
+          "title": "中国体育用品企业跨国并购策略对品牌全球化战略的驱动效应——基于安踏集团核心竞争力构建的案例研究",
+          "author": "唐建玺",
+          "degree": "MFin",
+          "year": "2023"
+        },
+        {
+          "title": "业绩承诺视角下信息技术行业并购的创新绩效研究 ——以昆仑万维为例",
+          "author": "刘学欧",
+          "degree": "MBA",
+          "year": "2023"
+        },
+        {
+          "title": "汇川技术发展战略研究",
+          "author": "杨培林",
+          "degree": "EMBA",
+          "year": "2022"
+        },
+        {
+          "title": "金融赋能互联网医疗生态平台的价值剖析——以平安好医生为例",
+          "author": "郭利敏",
+          "degree": "EMBA",
+          "year": "2022"
+        },
+        {
+          "title": "公募REITs底层资产运营对其市值管理的影响分析 --以国君临港REIT与华安张江REIT为例",
+          "author": "王绪合",
+          "degree": "EMBA",
+          "year": "2022"
+        },
+        {
+          "title": "不动产证券化进程中 民营企业REITs发展的必由之路",
+          "author": "李亚鹏",
+          "degree": "EMBA",
+          "year": "2021"
+        },
+        {
+          "title": "文旅行业实施资产证券化提升价值研究",
+          "author": "吕梦龙",
+          "degree": "EMBA",
+          "year": "2020"
+        }
+      ]
+    },
+    "陈华锋": {
+      "english_name": "Huafeng (Jason) Chen",
+      "profile_url": "https://fisf.fudan.edu.cn/en_show-112-112.html",
+      "total": 6,
+      "mfin": 2,
+      "mba": 3,
+      "emba": 1,
+      "theses": [
+        {
+          "title": "差异化竞争战略对于高科技仪器公司的影响研究 ——以A公司为例",
+          "author": "赵嘉胤",
+          "degree": "EMBA",
+          "year": "2023"
+        },
+        {
+          "title": "战略联盟深度对股价崩盘风险的影响研究",
+          "author": "肖娟",
+          "degree": "MFin",
+          "year": "2023"
+        },
+        {
+          "title": "Y 银行上海分行科创贷产品营销策略研究",
+          "author": "陈名浩",
+          "degree": "MBA",
+          "year": "2023"
+        },
+        {
+          "title": "企业开展期货套期保值的适当性问题研究 -以猪肉加工企业J为例",
+          "author": "李函洋",
+          "degree": "MBA",
+          "year": "2023"
+        },
+        {
+          "title": "经济放缓时期的商业银行战略研究",
+          "author": "张诚哲",
+          "degree": "MBA",
+          "year": "2023"
+        },
+        {
+          "title": "碳排放政策对企业生产率和绿色要素生产率的影响",
+          "author": "郑楷樾",
+          "degree": "MFin",
+          "year": "2023"
+        }
+      ]
+    },
+    "陈诗一": {
+      "english_name": "Shiyi Chen",
+      "profile_url": "https://fisf.fudan.edu.cn/en_show-112-77.html",
+      "total": 4,
+      "mfin": 0,
+      "mba": 0,
+      "emba": 4,
+      "theses": [
+        {
+          "title": "平台扩张视角下直播电商区域发展差异的归因——以抖音/TikTok全球化为例",
+          "author": "李安钰",
+          "degree": "EMBA",
+          "year": "2023"
+        },
+        {
+          "title": "海外并购模式下中国汽车出海战略研究——基于吉利集团并购多案例研究",
+          "author": "兰军",
+          "degree": "EMBA",
+          "year": "2023"
+        },
+        {
+          "title": "区块链在碳数据库建设及分润方法上的创新应用",
+          "author": "林力",
+          "degree": "EMBA",
+          "year": "2023"
+        },
+        {
+          "title": "清洁电器跨国企业全球供应链管理竞争优势和品牌策略研究 ——以 P 公司为例",
+          "author": "邵长东",
+          "degree": "EMBA",
+          "year": "2021"
+        }
+      ]
+    },
+    "陈钊": {
+      "english_name": "Zhao Chen",
+      "profile_url": "https://econ.fudan.edu.cn/info/1028/14249.htm",
+      "total": 8,
+      "mfin": 1,
+      "mba": 0,
+      "emba": 7,
+      "theses": [
+        {
+          "title": "无人农技服务数字化平台的推广策略研究-以D公司为例",
+          "author": "施丽丽",
+          "degree": "EMBA",
+          "year": "2023"
+        },
+        {
+          "title": "工业自动化服务企业软硬件协同战略设计 ——以A公司为例",
+          "author": "洪先文",
+          "degree": "EMBA",
+          "year": "2023"
+        },
+        {
+          "title": "混合所有制改革中的“初创即混合”模式研究 ——以杭州湾大桥发展公司运营管理实践为例",
+          "author": "盛悠",
+          "degree": "EMBA",
+          "year": "2023"
+        },
+        {
+          "title": "议价能力变化下航运金融企业应对方法研究 ——以集装箱租赁企业为例",
+          "author": "顾寅俊",
+          "degree": "EMBA",
+          "year": "2023"
+        },
+        {
+          "title": "医疗联合体政策实施效果研究",
+          "author": "倪渢玮",
+          "degree": "EMBA",
+          "year": "2022"
+        },
+        {
+          "title": "国际消费中心城市建设对消费提升的影响分析 ——以成都为例",
+          "author": "朱晓雄",
+          "degree": "EMBA",
+          "year": "2021"
+        },
+        {
+          "title": "新时期民营企业内部腐败特征及治理举措研究 ------ 以 XX 集团为例",
+          "author": "孙忠振",
+          "degree": "EMBA",
+          "year": "2020"
+        },
+        {
+          "title": "数字化改造机加工工厂的绩效评估方案优化",
+          "author": "陈月华",
+          "degree": "MFin",
+          "year": "2020"
+        }
+      ]
+    },
+    "马畅": {
+      "english_name": "Chang Ma",
+      "profile_url": "https://fisf.fudan.edu.cn/en_show-112-88.html",
+      "total": 20,
+      "mfin": 12,
+      "mba": 7,
+      "emba": 1,
+      "theses": [
+        {
+          "title": "Is China paying for the electrification of vehicles: the effect of Chinese EV subsidies on global emissions and reliance on fossil fuels",
+          "author": "Chutchan Lohawatcharagul",
+          "degree": "MFin",
+          "year": "2025"
+        },
+        {
+          "title": "金融科技服务商业银行的管理优化 -以 HG 银行的软件测试优化为例",
+          "author": "戚大伟",
+          "degree": "EMBA",
+          "year": "2024"
+        },
+        {
+          "title": "银行普惠业务考核占比加重背景下银行内部风险管理效益分析——以工商银行X支行为例",
+          "author": "董彦升",
+          "degree": "MBA",
+          "year": "2023"
+        },
+        {
+          "title": "短期国际资本流动与资产价格",
+          "author": "刘礼嘉",
+          "degree": "MFin",
+          "year": "2023"
+        },
+        {
+          "title": "离岸家族信托作为风险管理工具在提升中国家族企业传承中的作用",
+          "author": "罗晓辉",
+          "degree": "MBA",
+          "year": "2023"
+        },
+        {
+          "title": "互联网公司数据资产定价研究-以拓尔思为例",
+          "author": "邹颖琛",
+          "degree": "MBA",
+          "year": "2023"
+        },
+        {
+          "title": "税收优惠对高新技术企业内部薪酬差距的影响",
+          "author": "袁宇远",
+          "degree": "MFin",
+          "year": "2023"
+        },
+        {
+          "title": "媒体关注是否影响企业的漂绿行为——以辉丰股份为例",
+          "author": "巢成汗",
+          "degree": "MBA",
+          "year": "2023"
+        },
+        {
+          "title": "绿色信贷政策实施对商业银行信贷风险的影响研究",
+          "author": "张家琪",
+          "degree": "MFin",
+          "year": "2023"
+        },
+        {
+          "title": "数字化转型与企业全球化——来自中国的证据",
+          "author": "王均溢",
+          "degree": "MFin",
+          "year": "2023"
+        },
+        {
+          "title": "企业感知经济政策不确定性对对外直接投资的影响",
+          "author": "王贝宁",
+          "degree": "MFin",
+          "year": "2023"
+        },
+        {
+          "title": "财政补贴对城投公司融资成本的影响",
+          "author": "徐骏",
+          "degree": "MBA",
+          "year": "2023"
+        },
+        {
+          "title": "员工持股能够提高企业绿色信息披露的质量吗？",
+          "author": "贺芸婷",
+          "degree": "MFin",
+          "year": "2023"
+        },
+        {
+          "title": "绿色金融资产证券化融资动因及效应研究—— 以“20华润电投ABN001”资产支持票据为例",
+          "author": "陈卓良",
+          "degree": "MBA",
+          "year": "2023"
+        },
+        {
+          "title": "地方政府城投债规模对企业金融化的影响研究",
+          "author": "李峙霖",
+          "degree": "MFin",
+          "year": "2023"
+        },
+        {
+          "title": "地方产业政策对企业并购绩效的影响研究",
+          "author": "刘炼",
+          "degree": "MFin",
+          "year": "2023"
+        },
+        {
+          "title": "绿色金融发展对非绿色企业的绩效影响",
+          "author": "熊隽伦",
+          "degree": "MBA",
+          "year": "2022"
+        },
+        {
+          "title": "“新闻”对人民币兑美元汇率的影响 ——基于宏观经济数据预期差的实证分析",
+          "author": "张昭璞",
+          "degree": "MFin",
+          "year": "2022"
+        },
+        {
+          "title": "政府引导基金对我国上市企业创新质量的影响研究",
+          "author": "蔡锦涛",
+          "degree": "MFin",
+          "year": "2022"
+        },
+        {
+          "title": "货币政策冲击对跨境资本流动的时变影响研究——基于TVP-SV-VAR模型的实证分析",
+          "author": "何泽亨",
+          "degree": "MFin",
+          "year": "2022"
+        }
+      ]
+    },
+    "高华声": {
+      "english_name": "Huasheng Gao",
+      "profile_url": "https://fisf.fudan.edu.cn/en_show-112-67.html",
+      "total": 23,
+      "mfin": 13,
+      "mba": 4,
+      "emba": 6,
+      "theses": [
+        {
+          "title": "境外耐心资本对国内被投资企业发展的影响 ——以巴菲特对比亚迪的投资为例",
+          "author": "张前威",
+          "degree": "EMBA",
+          "year": "2025"
+        },
+        {
+          "title": "后疫情时代 A 公司薪酬管理优化研究",
+          "author": "季晓栋",
+          "degree": "EMBA",
+          "year": "2025"
+        },
+        {
+          "title": "基于品牌社区关系视角下顾客忠诚度对医疗美容行业影响的浅析",
+          "author": "孟靖艺",
+          "degree": "MFin",
+          "year": "2024"
+        },
+        {
+          "title": "科技园区对科技企业融资服务路径优化研究——以中关村科技园为例",
+          "author": "费明凯",
+          "degree": "EMBA",
+          "year": "2023"
+        },
+        {
+          "title": "碳中和债券发行动因及效应分析——以上市公司紫 金矿业集团“21 紫金矿业 GN001”为例",
+          "author": "王东尼",
+          "degree": "MBA",
+          "year": "2023"
+        },
+        {
+          "title": "文化娱乐信息对金融市场的影响—以脱口秀大会为例",
+          "author": "王巧新",
+          "degree": "EMBA",
+          "year": "2023"
+        },
+        {
+          "title": "列入美国实体清单会增加股价崩盘风险吗？——来自中国A股市场的证据",
+          "author": "沈子添",
+          "degree": "MFin",
+          "year": "2023"
+        },
+        {
+          "title": "投资者非理性行为与股价异常波动案例研究 ——以川大智胜为例",
+          "author": "金仲夏",
+          "degree": "MBA",
+          "year": "2023"
+        },
+        {
+          "title": "S黄金上市公司发展战略研究",
+          "author": "郭鹏",
+          "degree": "MBA",
+          "year": "2023"
+        },
+        {
+          "title": "专利抵质押会促进创业吗?来自中国的实证分析",
+          "author": "司雨佳",
+          "degree": "MFin",
+          "year": "2023"
+        },
+        {
+          "title": "制造业企业绿色技术创新与商业信用融资 ——基于供应链议价权的视角",
+          "author": "王云客",
+          "degree": "MFin",
+          "year": "2023"
+        },
+        {
+          "title": "国资基石投资者可以抑制上市后股价波动吗——来自香港市场的证据",
+          "author": "曹煦同",
+          "degree": "MFin",
+          "year": "2023"
+        },
+        {
+          "title": "财政政策能促进制造业回流吗？——基于14国面板数据的研究",
+          "author": "熊世超",
+          "degree": "MFin",
+          "year": "2023"
+        },
+        {
+          "title": "企业金融化对创新的影响——基于金融资产期限结构的视角",
+          "author": "朱宸希",
+          "degree": "MFin",
+          "year": "2023"
+        },
+        {
+          "title": "基于四重分析框架下国债利率期限结构研究",
+          "author": "黄筱轩",
+          "degree": "MFin",
+          "year": "2023"
+        },
+        {
+          "title": "降佣降费对卖方分析师行业的影响",
+          "author": "沈雨轩",
+          "degree": "MFin",
+          "year": "2023"
+        },
+        {
+          "title": "ESG评级引入与企业漂绿：来自中国A股制造业上市公司的证据",
+          "author": "王裕堃",
+          "degree": "MFin",
+          "year": "2023"
+        },
+        {
+          "title": "ESG评级分歧、信息披露与投资者保护：基于中国A股市场的实证分析",
+          "author": "朱志郅",
+          "degree": "MFin",
+          "year": "2023"
+        },
+        {
+          "title": "私募股权投资特征对上市公司的多维影响",
+          "author": "叶天风",
+          "degree": "MFin",
+          "year": "2022"
+        },
+        {
+          "title": "绿色创新能力如何影响财务绩效——从行业差异与媒体关注角度",
+          "author": "刘广成",
+          "degree": "MFin",
+          "year": "2022"
+        },
+        {
+          "title": "美国经验视角下香港SPAC市场高门槛对DeSPAC超额收益影响的实证分析",
+          "author": "张汶锋",
+          "degree": "MBA",
+          "year": "2021"
+        },
+        {
+          "title": "上市公司面值退市的原因分析 ——以广汇汽车为例",
+          "author": "赵雅楠",
+          "degree": "EMBA",
+          "year": "2020"
+        },
+        {
+          "title": "经济政策不确定性对保险行业股市表现的影响",
+          "author": "姚安琪",
+          "degree": "EMBA",
+          "year": "2020"
+        }
+      ]
+    },
+    "鲁小萌": {
+      "english_name": "Xiaomeng Lu",
+      "profile_url": "https://fisf.fudan.edu.cn/en_show-112-157.html",
+      "total": 3,
+      "mfin": 3,
+      "mba": 0,
+      "emba": 0,
+      "theses": [
+        {
+          "title": "ETF价格偏离：影响因素、机制与市场影响",
+          "author": "邹楚伊",
+          "degree": "MFin",
+          "year": "2023"
+        },
+        {
+          "title": "ESG悖论：全球冲击下的短期成本与长期韧性",
+          "author": "张瀚予",
+          "degree": "MFin",
+          "year": "2023"
+        },
+        {
+          "title": "员工持股计划对企业创新的影响研究",
+          "author": "花月",
+          "degree": "MFin",
+          "year": "2023"
+        }
+      ]
+    },
+    "黄毅": {
+      "english_name": "Yi Huang",
+      "profile_url": "https://fisf.fudan.edu.cn/en_show-112-172.html",
+      "total": 2,
+      "mfin": 0,
+      "mba": 0,
+      "emba": 2,
+      "theses": [
+        {
+          "title": "女性健康对创业的影响 ——基于对X地区女性的调研",
+          "author": "张孟爱",
+          "degree": "EMBA",
+          "year": "2022"
+        },
+        {
+          "title": "云计算商业应用的需求研究：金融用户视角",
+          "author": "杨志全",
+          "degree": "EMBA",
+          "year": "2022"
+        }
+      ]
+    }
+  }
+}

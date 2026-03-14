@@ -1,0 +1,303 @@
+{
+  "_metadata": {
+    "description": "Faculty profile URLs for FISF (Fudan International School of Finance) and related institutions",
+    "date_collected": "2026-03-11",
+    "source": "fisf.fudan.edu.cn and related university websites",
+    "notes": "English profile URLs use 'en_show-112-XX' prefix; Chinese profile URLs use 'show-65-XX' prefix. Departed faculty may only have pages at their new institutions."
+  },
+
+  "tenure_track": {
+    "高华声": {
+      "english_name": "Huasheng Gao",
+      "fisf_en": "https://fisf.fudan.edu.cn/en_show-112-67.html",
+      "fisf_cn": "https://fisf.fudan.edu.cn/show-65-67.html",
+      "role": "Deputy Dean of Faculty and Research, Professor of Finance"
+    },
+    "蒋亮": {
+      "english_name": "Liang Jiang",
+      "fisf_en": "https://fisf.fudan.edu.cn/en_show-112-79.html",
+      "fisf_cn": "https://fisf.fudan.edu.cn/show-65-79.html",
+      "role": "Associate Professor of Finance"
+    },
+    "马畅": {
+      "english_name": "Chang Ma",
+      "fisf_en": "https://fisf.fudan.edu.cn/en_show-112-88.html",
+      "fisf_cn": "https://fisf.fudan.edu.cn/show-65-88.html",
+      "role": "Associate Professor of Finance"
+    },
+    "吴文斌": {
+      "english_name": "Wenbin Wu",
+      "fisf_en": "https://fisf.fudan.edu.cn/en_show-112-74.html",
+      "fisf_cn": "https://fisf.fudan.edu.cn/show-65-74.html",
+      "role": "Associate Professor of Finance"
+    },
+    "汤海涵": {
+      "english_name": "Haihan Tang",
+      "fisf_en": "https://fisf.fudan.edu.cn/en_show-112-72.html",
+      "fisf_cn": "https://fisf.fudan.edu.cn/show-65-72.html",
+      "role": "Associate Professor of Finance"
+    },
+    "王遐昕": {
+      "english_name": "Xiaxin Wang",
+      "fisf_en": "https://fisf.fudan.edu.cn/en_show-112-89.html",
+      "fisf_cn": "https://fisf.fudan.edu.cn/show-65-89.html",
+      "role": "Associate Professor of Economics"
+    },
+    "陈华锋": {
+      "english_name": "Huafeng (Jason) Chen",
+      "fisf_en": "https://fisf.fudan.edu.cn/en_show-112-112.html",
+      "fisf_cn": "https://fisf.fudan.edu.cn/show-65-116.html",
+      "role": "Professor of Finance"
+    },
+    "孙林": {
+      "english_name": "Lin Sun",
+      "fisf_en": "https://fisf.fudan.edu.cn/en_show-112-70.html",
+      "fisf_cn": "https://fisf.fudan.edu.cn/show-65-70.html",
+      "role": "Associate Professor of Finance (untenured)"
+    },
+    "鲁小萌": {
+      "english_name": "Xiaomeng Lu",
+      "fisf_en": "https://fisf.fudan.edu.cn/en_show-112-157.html",
+      "fisf_cn": "https://fisf.fudan.edu.cn/show-65-159.html",
+      "role": "Associate Professor of Finance (untenured)"
+    },
+    "朱蕾": {
+      "english_name": "Julie Lei Zhu",
+      "fisf_en": "https://fisf.fudan.edu.cn/en_show-112-96.html",
+      "fisf_cn": "https://fisf.fudan.edu.cn/show-65-97.html",
+      "role": "Professor of Accounting"
+    },
+    "焦阳": {
+      "english_name": "Yang Jiao",
+      "fisf_en": null,
+      "fisf_cn": null,
+      "status": "departed",
+      "notes": "Left FISF (was Assistant Professor 2019-2023). Now Assistant Professor of Economics at Singapore Management University.",
+      "current_profile": "https://sites.google.com/site/yangjiao0606/",
+      "current_institution": "Singapore Management University"
+    }
+  },
+
+  "teaching_practice_track": {
+    "唐敦哲": {
+      "english_name": "Dunzhe Tang",
+      "fisf_en": "https://fisf.fudan.edu.cn/en_show-112-159.html",
+      "fisf_cn": "https://fisf.fudan.edu.cn/show-65-163.html",
+      "role": "Assistant Professor of Finance (Teaching-Track)"
+    },
+    "童国士": {
+      "english_name": "Guoshi Tong",
+      "fisf_en": "https://fisf.fudan.edu.cn/en_show-112-160.html",
+      "fisf_cn": "https://fisf.fudan.edu.cn/show-65-164.html",
+      "role": "Associate Professor of Finance (Teaching-Track)"
+    },
+    "施文韵": {
+      "english_name": "Wenyun Shi",
+      "fisf_en": "https://fisf.fudan.edu.cn/en_show-112-170.html",
+      "fisf_cn": "https://fisf.fudan.edu.cn/show-65-178.html",
+      "role": "Associate Professor of Accounting (Teaching-Track)"
+    },
+    "杨春柳": {
+      "english_name": "Chunliu (Chloe) Yang",
+      "fisf_en": "https://fisf.fudan.edu.cn/en_show-112-86.html",
+      "fisf_cn": "https://fisf.fudan.edu.cn/show-65-86.html",
+      "role": "Associate Professor of Finance (Teaching-Track)"
+    },
+    "施东辉": {
+      "english_name": "Donghui Shi",
+      "fisf_en": "https://fisf.fudan.edu.cn/en_show-112-106.html",
+      "fisf_cn": "https://fisf.fudan.edu.cn/show-65-109.html",
+      "role": "Professor of Finance (Practice-Track)"
+    },
+    "傅承德": {
+      "english_name": "Cheng-Der Fuh",
+      "fisf_en": null,
+      "fisf_cn": null,
+      "status": "departed",
+      "notes": "No longer listed on current FISF faculty page. Previously Professor of Finance at FISF. Affiliated with Graduate Institute of Statistics, National Central University, Taiwan.",
+      "current_profile": null,
+      "current_institution": "National Central University, Taiwan (Graduate Institute of Statistics)"
+    }
+  },
+
+  "leadership_visiting_courtesy": {
+    "钱军": {
+      "english_name": "Jun \"QJ\" Qian",
+      "fisf_en": "https://fisf.fudan.edu.cn/en_show-112-69.html",
+      "fisf_cn": "https://fisf.fudan.edu.cn/show-65-69.html",
+      "role": "Executive Dean, Professor of Finance"
+    },
+    "张纯信": {
+      "english_name": "Charles Chang",
+      "fisf_en": "https://fisf.fudan.edu.cn/en_show-112-75.html",
+      "fisf_cn": "https://fisf.fudan.edu.cn/show-65-75.html",
+      "role": "Deputy Dean of Academics, Professor of Finance"
+    },
+    "王永钦": {
+      "english_name": "Yongqin Wang",
+      "fisf_en": "https://fisf.fudan.edu.cn/en_show-112-156.html",
+      "fisf_cn": "https://fisf.fudan.edu.cn/show-65-158.html",
+      "role": "Professor by Courtesy"
+    },
+    "陈诗一": {
+      "english_name": "Shiyi Chen",
+      "fisf_en": "https://fisf.fudan.edu.cn/en_show-112-77.html",
+      "fisf_cn": "https://fisf.fudan.edu.cn/show-65-77.html",
+      "role": "Special-Term Professor of Economics"
+    },
+    "黄毅": {
+      "english_name": "Yi Huang",
+      "fisf_en": "https://fisf.fudan.edu.cn/en_show-112-172.html",
+      "fisf_cn": "https://fisf.fudan.edu.cn/show-65-180.html",
+      "role": "Assistant Dean, Professor of Finance (On Leave)"
+    },
+    "许闲": {
+      "english_name": "Xian Xu",
+      "fisf_en": "https://fisf.fudan.edu.cn/en_show-112-158.html",
+      "fisf_cn": "https://fisf.fudan.edu.cn/show-65-162.html",
+      "role": "Visiting Assistant Professor of Finance / Professor by Courtesy"
+    }
+  },
+
+  "departed": {
+    "John Harold Rogers": {
+      "chinese_name": null,
+      "fisf_en": null,
+      "fisf_cn": null,
+      "status": "departed",
+      "notes": "Was Professor at FISF after retiring from the Federal Reserve in 2021. No longer on current FISF faculty listing. Personal website still references Fudan affiliation.",
+      "current_profile": "https://www.johnrogerseconomist.net/",
+      "current_institution": "Formerly FISF / Federal Reserve (retired)"
+    },
+    "周亦凡": {
+      "english_name": "Yifan Zhou",
+      "fisf_en": null,
+      "fisf_cn": null,
+      "status": "departed",
+      "notes": "Now at Xi'an Jiaotong-Liverpool University (XJTLU).",
+      "current_profile": "https://scholar.xjtlu.edu.cn/en/persons/YifanZhou/",
+      "current_institution": "Xi'an Jiaotong-Liverpool University (XJTLU)"
+    },
+    "王珂礼": {
+      "english_name": "Christoph Nedopil Wang",
+      "fisf_en": null,
+      "fisf_cn": null,
+      "status": "departed",
+      "notes": "Now Director of Griffith Asia Institute and Professor at Griffith University.",
+      "current_profile": "https://experts.griffith.edu.au/44240-christoph-nedopil-wang",
+      "current_institution": "Griffith University"
+    },
+    "周思力": {
+      "english_name": "Alex Sili Zhou",
+      "fisf_en": null,
+      "fisf_cn": null,
+      "status": "departed",
+      "notes": "Now at University of Macau, Faculty of Business Administration.",
+      "current_profile": "https://fba.um.edu.mo/zh-hant/faculty/silizhou/",
+      "alt_profile": "https://fss.um.edu.mo/alex-sili-zhou-%E5%91%A8%E6%80%9D%E5%8A%9B/",
+      "current_institution": "University of Macau"
+    },
+    "郭翔宇": {
+      "english_name": "Xiangyu Guo",
+      "fisf_en": null,
+      "fisf_cn": null,
+      "status": "departed",
+      "notes": "Now Director of Research at Research Center for Real Estate Finance, PBC School of Finance, Tsinghua University.",
+      "current_profile": "https://xyguo.github.io/",
+      "current_institution": "Tsinghua University PBC School of Finance"
+    },
+    "彭秋莎": {
+      "english_name": "Qiusha Peng",
+      "fisf_en": null,
+      "fisf_cn": null,
+      "status": "departed",
+      "notes": "Was Assistant Professor at FISF. No longer on current faculty page. Google Sites page still references FISF affiliation but may be outdated.",
+      "current_profile": "https://sites.google.com/site/pengqiusha2010/home",
+      "current_institution": "Unknown current affiliation"
+    },
+    "Richard Werner": {
+      "chinese_name": null,
+      "fisf_en": null,
+      "fisf_cn": null,
+      "status": "departed",
+      "notes": "Now Professor of Banking and Economics at University of Winchester, UK. Previously affiliated with FISF.",
+      "current_profile": "https://www.winchester.ac.uk/about-us/leadership-and-governance/staff-directory/staff-profiles/werner.php",
+      "alt_profile": "https://professorwerner.org/",
+      "current_institution": "University of Winchester"
+    }
+  },
+
+  "external_fudan_school_of_economics": {
+    "陈钊": {
+      "english_name": "Zhao Chen",
+      "econ_fudan_profile": "https://econ.fudan.edu.cn/info/1028/14249.htm",
+      "institution": "Fudan University School of Economics",
+      "role": "Professor, Vice Dean of School of Economics"
+    },
+    "张宗新": {
+      "english_name": "Zongxin Zhang",
+      "econ_fudan_profile": "https://econ.fudan.edu.cn/info/1028/14266.htm",
+      "institution": "Fudan University School of Economics / Institute of Finance",
+      "role": "Professor of Finance"
+    },
+    "李志青": {
+      "english_name": "Zhiqing Li",
+      "econ_fudan_profile": "https://econ.fudan.edu.cn/info/1028/14145.htm",
+      "fisf_en_profile": "https://fisf.fudan.edu.cn/en_show-112-137.html",
+      "institution": "Fudan University School of Economics",
+      "role": "Professor, Director of Environmental Economics Research Center",
+      "notes": "The FISF English page (en_show-112-137) returns a notice/error page ('提示信息'), suggesting the profile may have been removed or redirected."
+    },
+    "李钊": {
+      "english_name": "Zhao Li",
+      "econ_fudan_profile": null,
+      "institution": "Fudan University School of Economics (unconfirmed)",
+      "role": "Unknown",
+      "notes": "No faculty member named '李钊' was found in the Fudan School of Economics faculty directory (econ.fudan.edu.cn/szdw1/jsml1.htm). This person may have left, or the name may need verification. Not found in current listings."
+    },
+    "周光友": {
+      "english_name": "Guangyou Zhou",
+      "econ_fudan_profile": "https://econ.fudan.edu.cn/info/1028/14265.htm",
+      "institution": "Fudan University School of Economics / Digital Finance Research Center",
+      "role": "Professor, Director of Digital Finance Research Center"
+    }
+  },
+
+  "quick_lookup": {
+    "高华声 / Huasheng Gao": "https://fisf.fudan.edu.cn/en_show-112-67.html",
+    "蒋亮 / Liang Jiang": "https://fisf.fudan.edu.cn/en_show-112-79.html",
+    "马畅 / Chang Ma": "https://fisf.fudan.edu.cn/en_show-112-88.html",
+    "吴文斌 / Wenbin Wu": "https://fisf.fudan.edu.cn/en_show-112-74.html",
+    "汤海涵 / Haihan Tang": "https://fisf.fudan.edu.cn/en_show-112-72.html",
+    "王遐昕 / Xiaxin Wang": "https://fisf.fudan.edu.cn/en_show-112-89.html",
+    "陈华锋 / Huafeng (Jason) Chen": "https://fisf.fudan.edu.cn/en_show-112-112.html",
+    "孙林 / Lin Sun": "https://fisf.fudan.edu.cn/en_show-112-70.html",
+    "鲁小萌 / Xiaomeng Lu": "https://fisf.fudan.edu.cn/en_show-112-157.html",
+    "朱蕾 / Julie Lei Zhu": "https://fisf.fudan.edu.cn/en_show-112-96.html",
+    "焦阳 / Yang Jiao": "https://sites.google.com/site/yangjiao0606/ (departed; now at SMU Singapore)",
+    "唐敦哲 / Dunzhe Tang": "https://fisf.fudan.edu.cn/en_show-112-159.html",
+    "童国士 / Guoshi Tong": "https://fisf.fudan.edu.cn/en_show-112-160.html",
+    "施文韵 / Wenyun Shi": "https://fisf.fudan.edu.cn/en_show-112-170.html",
+    "杨春柳 / Chunliu (Chloe) Yang": "https://fisf.fudan.edu.cn/en_show-112-86.html",
+    "施东辉 / Donghui Shi": "https://fisf.fudan.edu.cn/en_show-112-106.html",
+    "傅承德 / Cheng-Der Fuh": "No current FISF page (departed; formerly at National Central University, Taiwan)",
+    "钱军 / Jun QJ Qian": "https://fisf.fudan.edu.cn/en_show-112-69.html",
+    "张纯信 / Charles Chang": "https://fisf.fudan.edu.cn/en_show-112-75.html",
+    "王永钦 / Yongqin Wang": "https://fisf.fudan.edu.cn/en_show-112-156.html",
+    "陈诗一 / Shiyi Chen": "https://fisf.fudan.edu.cn/en_show-112-77.html",
+    "黄毅 / Yi Huang": "https://fisf.fudan.edu.cn/en_show-112-172.html",
+    "许闲 / Xian Xu": "https://fisf.fudan.edu.cn/en_show-112-158.html",
+    "John Harold Rogers": "https://www.johnrogerseconomist.net/ (departed from FISF)",
+    "周亦凡 / Yifan Zhou": "https://scholar.xjtlu.edu.cn/en/persons/YifanZhou/ (now at XJTLU)",
+    "王珂礼 / Christoph Nedopil Wang": "https://experts.griffith.edu.au/44240-christoph-nedopil-wang (now at Griffith)",
+    "周思力 / Alex Sili Zhou": "https://fba.um.edu.mo/zh-hant/faculty/silizhou/ (now at University of Macau)",
+    "郭翔宇 / Xiangyu Guo": "https://xyguo.github.io/ (now at Tsinghua PBCSF)",
+    "彭秋莎 / Qiusha Peng": "https://sites.google.com/site/pengqiusha2010/home (departed; current affiliation unclear)",
+    "Richard Werner": "https://www.winchester.ac.uk/about-us/leadership-and-governance/staff-directory/staff-profiles/werner.php (now at University of Winchester)",
+    "陈钊 / Zhao Chen": "https://econ.fudan.edu.cn/info/1028/14249.htm (Fudan School of Economics)",
+    "张宗新 / Zongxin Zhang": "https://econ.fudan.edu.cn/info/1028/14266.htm (Fudan School of Economics)",
+    "李志青 / Zhiqing Li": "https://econ.fudan.edu.cn/info/1028/14145.htm (Fudan School of Economics)",
+    "李钊 / Zhao Li": "Not found in Fudan School of Economics faculty directory",
+    "周光友 / Guangyou Zhou": "https://econ.fudan.edu.cn/info/1028/14265.htm (Fudan School of Economics)"
+  }
+}

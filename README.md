@@ -1,6 +1,6 @@
 # FISF Thesis Supervisors — Faculty Directory & Supervision Statistics
 
-Interactive data reports on thesis supervision at **Fudan University's Fanhai International School of Finance (FISF)**.
+Interactive data reports on thesis supervision at **Fudan University's International School of Finance (FISF)**.
 
 ## Reports
 

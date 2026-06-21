@@ -1,1 +1,1313 @@
-/workspace/output/fisf-thesis-supervisors.html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FISF Thesis Supervisors — Faculty Directory & Supervision Statistics</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/5.5.0/echarts.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="https://unpkg.com/phosphor-icons"></script>
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      fontFamily: {
+        display: ['"DM Serif Display"', 'Georgia', 'serif'],
+        body: ['"Inter"', 'system-ui', 'sans-serif'],
+        mono: ['"JetBrains Mono"', 'monospace'],
+      },
+      colors: {
+        fudan: { 50:'#f0f4ff', 100:'#dce4f8', 200:'#b8c9f0', 400:'#6b8bd4', 500:'#3d5fa0', 600:'#2a4a82', 700:'#1e3768', 800:'#14264d', 900:'#0c1833' },
+        accent: { gold:'#c9a84c', amber:'#e8b94a', warm:'#f4e4c1' },
+        glass: { light:'rgba(255,255,255,0.72)', mid:'rgba(255,255,255,0.45)', dark:'rgba(255,255,255,0.18)' },
+        cat: { tenure:'#3d5fa0', teaching:'#2a8a6e', visiting:'#9b6db0', external:'#c47834' }
+      }
+    }
+  }
+}
+</script>
+<style>
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Inter', system-ui, sans-serif;
+  background: #f3f1ed;
+  color: #1e2837;
+  margin: 0;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+body::before {
+  content: '';
+  position: fixed; inset: 0; z-index: 0; pointer-events: none;
+  background: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  background-size: 200px;
+}
+.progress-bar {
+  position: fixed; top: 0; left: 0; height: 3px; z-index: 9999;
+  background: linear-gradient(90deg, #3d5fa0, #c9a84c);
+  width: 0%; transition: width 0.1s linear;
+}
+.hero-section {
+  min-height: 90vh;
+  display: flex; align-items: center; justify-content: center;
+  position: relative;
+  background: linear-gradient(165deg, #0c1833 0%, #1e3768 40%, #2a4a82 70%, #3d5fa0 100%);
+  overflow: hidden;
+}
+.hero-section::after {
+  content: ''; position: absolute; inset: 0; pointer-events: none;
+  background: radial-gradient(ellipse at 70% 20%, rgba(201,168,76,0.15) 0%, transparent 60%),
+              radial-gradient(ellipse at 20% 80%, rgba(61,95,160,0.2) 0%, transparent 50%);
+}
+.hero-grid {
+  position: absolute; inset: 0; pointer-events: none; opacity: 0.06;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.3) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.3) 1px, transparent 1px);
+  background-size: 60px 60px;
+}
+.hero-float { animation: heroFloat 6s ease-in-out infinite; }
+@keyframes heroFloat { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-12px)} }
+.glass-card {
+  background: rgba(255,255,255,0.72);
+  backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255,255,255,0.85);
+  border-radius: 16px;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.06), 0 1px 4px rgba(0,0,0,0.04);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.glass-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 40px rgba(0,0,0,0.1), 0 2px 8px rgba(0,0,0,0.06);
+}
+.chart-container {
+  background: rgba(255,255,255,0.6);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255,255,255,0.8);
+  border-radius: 20px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.06);
+}
+.cat-badge {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 4px 12px; border-radius: 100px;
+  font-size: 0.72rem; font-weight: 600; letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+.cat-tenure { background: rgba(61,95,160,0.12); color: #2a4a82; }
+.cat-teaching { background: rgba(42,138,110,0.12); color: #1e6b55; }
+.cat-visiting { background: rgba(155,109,176,0.12); color: #7a4f90; }
+.cat-external { background: rgba(196,120,52,0.12); color: #9a5a1e; }
+.cat-dot { width: 8px; height: 8px; border-radius: 50%; }
+.cat-dot.tenure { background: #3d5fa0; }
+.cat-dot.teaching { background: #2a8a6e; }
+.cat-dot.visiting { background: #9b6db0; }
+.cat-dot.external { background: #c47834; }
+.stat-pill {
+  display: inline-flex; align-items: center; gap: 4px;
+  padding: 3px 10px; border-radius: 8px;
+  font-size: 0.75rem; font-weight: 600;
+  font-family: 'JetBrains Mono', monospace;
+}
+.pub-tag {
+  font-size: 0.7rem; font-style: italic; color: #6b7280;
+  line-height: 1.5; border-left: 2px solid #dce4f8; padding-left: 10px;
+  margin-top: 6px;
+}
+.insight-card {
+  background: linear-gradient(135deg, rgba(61,95,160,0.06), rgba(201,168,76,0.06));
+  border: 1px solid rgba(61,95,160,0.15);
+  border-radius: 14px; padding: 20px 24px;
+}
+.section-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.7rem; font-weight: 500;
+  letter-spacing: 0.15em; text-transform: uppercase;
+  color: #6b8bd4; margin-bottom: 8px;
+}
+.section-title {
+  font-family: 'DM Serif Display', Georgia, serif;
+  font-size: clamp(1.8rem, 4vw, 2.8rem);
+  line-height: 1.15; color: #14264d;
+}
+.fade-up { opacity: 0; transform: translateY(30px); }
+/* Thesis dropdown styles */
+.thesis-toggle {
+  display: inline-flex; align-items: center; gap: 5px;
+  padding: 5px 12px; border-radius: 8px;
+  font-size: 0.72rem; font-weight: 600;
+  font-family: 'JetBrains Mono', monospace;
+  background: linear-gradient(135deg, #f0f4ff, #e8eaf4);
+  color: #3d5fa0; border: 1px solid #dce4f8;
+  cursor: pointer; transition: all 0.2s ease;
+  letter-spacing: 0.02em;
+}
+.thesis-toggle:hover { background: linear-gradient(135deg, #dce4f8, #d0d8f0); border-color: #b8c9f0; }
+.thesis-toggle .arrow { display: inline-block; transition: transform 0.3s ease; font-size: 0.65rem; }
+.thesis-toggle.active .arrow { transform: rotate(180deg); }
+.thesis-list {
+  max-height: 0; overflow: hidden; transition: max-height 0.4s ease;
+  margin-top: 0;
+}
+.thesis-list.open { max-height: 2000px; margin-top: 10px; }
+.thesis-list-inner {
+  border-top: 1px solid #e5e7eb;
+  padding-top: 10px;
+  max-height: 300px; overflow-y: auto;
+}
+.thesis-list-inner::-webkit-scrollbar { width: 5px; }
+.thesis-list-inner::-webkit-scrollbar-track { background: transparent; }
+.thesis-list-inner::-webkit-scrollbar-thumb { background: #d0d5e0; border-radius: 3px; }
+.thesis-item {
+  display: flex; gap: 8px; padding: 6px 0;
+  border-bottom: 1px solid #f3f4f6; font-size: 0.72rem; line-height: 1.45;
+}
+.thesis-item:last-child { border-bottom: none; }
+.thesis-item .ti-year {
+  flex-shrink: 0; font-family: 'JetBrains Mono', monospace;
+  font-weight: 500; color: #9ca3af; font-size: 0.68rem;
+  min-width: 32px;
+}
+.thesis-item .ti-title { color: #374151; flex: 1; }
+.thesis-item .ti-degree {
+  flex-shrink: 0; font-family: 'JetBrains Mono', monospace;
+  font-size: 0.62rem; font-weight: 600; padding: 1px 6px;
+  border-radius: 4px; height: fit-content; white-space: nowrap;
+}
+.ti-mfin { background: #eff3ff; color: #3d5fa0; }
+.ti-mba { background: #ecfdf5; color: #166534; }
+.ti-emba { background: #fffbeb; color: #92400e; }
+.ti-other { background: #f3f4f6; color: #6b7280; }
+.thesis-item .ti-author {
+  flex-shrink: 0; color: #9ca3af; font-size: 0.68rem; min-width: 40px; text-align: right;
+}
+.prof-link {
+  color: inherit; text-decoration: none;
+  border-bottom: 1.5px solid transparent;
+  transition: border-color 0.2s, color 0.2s;
+}
+.prof-link:hover { color: #3d5fa0; border-bottom-color: #6b8bd4; }
+@media (max-width: 768px) {
+  .glass-card { border-radius: 12px; }
+  .chart-container { border-radius: 14px; }
+  .hero-section { min-height: 80vh; }
+}
+</style>
+</head>
+<body>
+<div class="progress-bar" id="progressBar"></div>
+
+<!-- ===== HERO ===== -->
+<section class="hero-section">
+  <div class="hero-grid"></div>
+  <div class="relative z-10 text-center px-6 max-w-4xl mx-auto">
+    <div class="hero-float mb-6">
+      <span class="inline-block px-4 py-1.5 rounded-full bg-white/10 backdrop-blur border border-white/20 text-white/70 font-mono text-xs tracking-widest uppercase">Fudan University Thesis Repository</span>
+    </div>
+    <h1 class="font-display text-white leading-tight" style="font-size:clamp(2.6rem,7vw,4.8rem);">FISF Thesis<br>Supervisors</h1>
+    <p class="mt-5 text-blue-200/80 font-body text-lg md:text-xl max-w-2xl mx-auto leading-relaxed">
+      Faculty Directory &amp; Supervision Statistics<br>
+      <span class="text-blue-300/50 text-base">Fudan International School of Finance</span>
+    </p>
+    <div class="mt-10 flex flex-wrap justify-center gap-4">
+      <div class="px-5 py-3 rounded-xl bg-white/10 backdrop-blur border border-white/15">
+        <div class="font-mono text-3xl font-bold text-white">1,194</div>
+        <div class="text-blue-200/60 text-xs mt-0.5 tracking-wide uppercase">Total Theses</div>
+      </div>
+      <div class="px-5 py-3 rounded-xl bg-white/10 backdrop-blur border border-white/15">
+        <div class="font-mono text-3xl font-bold text-accent-gold">36</div>
+        <div class="text-blue-200/60 text-xs mt-0.5 tracking-wide uppercase">Supervisors</div>
+      </div>
+      <div class="px-5 py-3 rounded-xl bg-white/10 backdrop-blur border border-white/15">
+        <div class="font-mono text-3xl font-bold text-white">512</div>
+        <div class="text-blue-200/60 text-xs mt-0.5 tracking-wide uppercase">MFin Theses</div>
+      </div>
+    </div>
+    <div class="mt-14 animate-bounce">
+      <svg class="mx-auto w-6 h-6 text-white/30" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 14l-7 7m0 0l-7-7m7 7V3"/></svg>
+    </div>
+  </div>
+</section>
+<!-- ===== OVERVIEW CHARTS ===== -->
+<section class="relative py-20 md:py-28 px-4">
+  <div class="max-w-6xl mx-auto">
+    <div class="fade-up text-center mb-14">
+      <div class="section-label">Overview</div>
+      <h2 class="section-title">Supervision at a Glance</h2>
+      <p class="mt-3 text-gray-500 max-w-xl mx-auto text-sm leading-relaxed">
+        Distribution of 1,194 theses across 36 supervisors and three degree programs at the International School of Finance (2019&ndash;2025).
+      </p>
+    </div>
+    <div class="grid grid-cols-1 lg:grid-cols-5 gap-6">
+      <div class="lg:col-span-3 chart-container p-5 fade-up">
+        <h3 class="font-display text-lg text-fudan-800 mb-1">Theses per Supervisor</h3>
+        <p class="text-xs text-gray-400 mb-3 font-mono">HORIZONTAL BAR — sorted by total count</p>
+        <div id="barChart" style="width:100%;height:920px;"></div>
+      </div>
+      <div class="lg:col-span-2 chart-container p-5 fade-up">
+        <h3 class="font-display text-lg text-fudan-800 mb-1">Degree Breakdown</h3>
+        <p class="text-xs text-gray-400 mb-3 font-mono">1,194 TOTAL THESES</p>
+        <div id="donutChart" style="width:100%;height:340px;"></div>
+        <div class="mt-4 grid grid-cols-3 gap-2 text-center">
+          <div class="rounded-lg bg-fudan-50 py-2">
+            <div class="font-mono text-xl font-bold text-fudan-600">512</div>
+            <div class="text-xs text-gray-500">MFin</div>
+          </div>
+          <div class="rounded-lg bg-green-50 py-2">
+            <div class="font-mono text-xl font-bold text-emerald-600">487</div>
+            <div class="text-xs text-gray-500">MBA</div>
+          </div>
+          <div class="rounded-lg bg-amber-50 py-2">
+            <div class="font-mono text-xl font-bold text-amber-600">195</div>
+            <div class="text-xs text-gray-500">EMBA</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- ===== FACULTY CATEGORIES ===== -->
+<section class="relative py-16 px-4">
+  <div class="max-w-6xl mx-auto">
+    <div class="fade-up text-center mb-12">
+      <div class="section-label">Classification</div>
+      <h2 class="section-title">Faculty Categories</h2>
+    </div>
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 fade-up">
+      <div class="glass-card p-5 border-t-4" style="border-top-color:#3d5fa0">
+        <div class="flex items-center gap-2 mb-2"><span class="cat-dot tenure"></span><span class="font-mono text-xs font-semibold text-fudan-600 uppercase tracking-wider">Tenure-Track</span></div>
+        <div class="font-display text-3xl text-fudan-800">11</div>
+        <p class="text-xs text-gray-500 mt-1 leading-relaxed">Research-active faculty. Professors & Associate Professors with PhD from top global universities.</p>
+        <div class="mt-3 font-mono text-xs text-fudan-400">588 theses supervised</div>
+      </div>
+      <div class="glass-card p-5 border-t-4" style="border-top-color:#2a8a6e">
+        <div class="flex items-center gap-2 mb-2"><span class="cat-dot teaching"></span><span class="font-mono text-xs font-semibold text-emerald-700 uppercase tracking-wider">Teaching / Practice</span></div>
+        <div class="font-display text-3xl text-fudan-800">6</div>
+        <p class="text-xs text-gray-500 mt-1 leading-relaxed">Teaching-track and practice-track professors. Highest per-faculty thesis volume, especially for MFin.</p>
+        <div class="mt-3 font-mono text-xs text-emerald-600">312 theses supervised</div>
+      </div>
+      <div class="glass-card p-5 border-t-4" style="border-top-color:#9b6db0">
+        <div class="flex items-center gap-2 mb-2"><span class="cat-dot visiting"></span><span class="font-mono text-xs font-semibold text-purple-700 uppercase tracking-wider">Visiting / Courtesy</span></div>
+        <div class="font-display text-3xl text-fudan-800">14</div>
+        <p class="text-xs text-gray-500 mt-1 leading-relaxed">Executive Dean, Deputy Deans, visiting scholars, courtesy appointments, and former faculty who have departed.</p>
+        <div class="mt-3 font-mono text-xs text-purple-500">263 theses supervised</div>
+      </div>
+      <div class="glass-card p-5 border-t-4" style="border-top-color:#c47834">
+        <div class="flex items-center gap-2 mb-2"><span class="cat-dot external"></span><span class="font-mono text-xs font-semibold text-amber-700 uppercase tracking-wider">External</span></div>
+        <div class="font-display text-3xl text-fudan-800">5</div>
+        <p class="text-xs text-gray-500 mt-1 leading-relaxed">Professors from Fudan's School of Economics and other units who co-supervise FISF students.</p>
+        <div class="mt-3 font-mono text-xs text-amber-600">31 theses supervised</div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- ===== PROFESSOR CARDS ===== -->
+<section class="relative py-16 px-4" id="profiles">
+  <div class="max-w-6xl mx-auto">
+
+    <!-- TENURE-TRACK -->
+    <div class="fade-up mb-6">
+      <div class="flex items-center gap-3 mb-2"><span class="cat-dot tenure" style="width:12px;height:12px"></span>
+        <div class="section-label mb-0">Tenure-Track Faculty</div></div>
+      <h2 class="section-title text-2xl">Research-Active Professors</h2>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-5 mb-16" id="tenureCards">
+
+      <!-- Gao -->
+      <div class="glass-card p-5 fade-up">
+        <div class="flex justify-between items-start mb-3">
+          <div><div class="font-display text-lg text-fudan-800">高华声</div><div class="text-sm text-gray-500">Huasheng Gao</div></div>
+          <span class="cat-badge cat-tenure">Tenure</span>
+        </div>
+        <div class="text-xs font-semibold text-fudan-600 mb-2">Professor of Finance &middot; Deputy Dean of Faculty &amp; Research</div>
+        <div class="text-xs text-gray-500 mb-3"><span class="font-semibold">PhD:</span> University of British Columbia (Sauder)</div>
+        <div class="text-xs text-gray-600 leading-relaxed mb-3">
+          <span class="font-semibold">Research:</span> Corporate finance &amp; governance &middot; Executive compensation &middot; Enterprise innovation
+        </div>
+        <div class="pub-tag">"Capital Flows, Real Estate, and Local Cycles" &mdash; <em>Review of Financial Studies</em>, 2021</div>
+        <div class="flex gap-2 mt-4 flex-wrap">
+          <span class="stat-pill bg-fudan-50 text-fudan-700">68 theses</span>
+          <span class="stat-pill bg-blue-50 text-blue-700">20 MFin</span>
+          <span class="stat-pill bg-green-50 text-green-700">23 MBA</span>
+          <span class="stat-pill bg-amber-50 text-amber-700">25 EMBA</span>
+        </div>
+      </div>
+
+      <!-- Jiang -->
+      <div class="glass-card p-5 fade-up">
+        <div class="flex justify-between items-start mb-3">
+          <div><div class="font-display text-lg text-fudan-800">蒋亮</div><div class="text-sm text-gray-500">Liang Jiang</div></div>
+          <span class="cat-badge cat-tenure">Tenure</span>
+        </div>
+        <div class="text-xs font-semibold text-fudan-600 mb-2">Associate Professor of Finance</div>
+        <div class="text-xs text-gray-500 mb-3"><span class="font-semibold">PhD:</span> Singapore Management University (Economics)</div>
+        <div class="text-xs text-gray-600 leading-relaxed mb-3">
+          <span class="font-semibold">Research:</span> Financial econometrics &middot; Empirical finance &middot; Causal inference
+        </div>
+        <div class="pub-tag">"Bootstrap Inference for Quantile Treatment Effects" &mdash; <em>Review of Economics and Statistics</em>, 2024</div>
+        <div class="flex gap-2 mt-4 flex-wrap">
+          <span class="stat-pill bg-fudan-50 text-fudan-700">71 theses</span>
+          <span class="stat-pill bg-blue-50 text-blue-700">28 MFin</span>
+          <span class="stat-pill bg-green-50 text-green-700">32 MBA</span>
+          <span class="stat-pill bg-amber-50 text-amber-700">11 EMBA</span>
+        </div>
+      </div>
+
+      <!-- Ma -->
+      <div class="glass-card p-5 fade-up">
+        <div class="flex justify-between items-start mb-3">
+          <div><div class="font-display text-lg text-fudan-800">马畅</div><div class="text-sm text-gray-500">Chang Ma</div></div>
+          <span class="cat-badge cat-tenure">Tenure</span>
+        </div>
+        <div class="text-xs font-semibold text-fudan-600 mb-2">Associate Professor of Finance</div>
+        <div class="text-xs text-gray-500 mb-3"><span class="font-semibold">PhD:</span> Johns Hopkins University (Economics, 2018)</div>
+        <div class="text-xs text-gray-600 leading-relaxed mb-3">
+          <span class="font-semibold">Research:</span> International finance &middot; Macroeconomics &middot; Macroprudential policy
+        </div>
+        <div class="pub-tag">"Modern Pandemics: Recession and Recovery" &mdash; <em>JEEA</em>, 2023</div>
+        <div class="flex gap-2 mt-4 flex-wrap">
+          <span class="stat-pill bg-fudan-50 text-fudan-700">65 theses</span>
+          <span class="stat-pill bg-blue-50 text-blue-700">40 MFin</span>
+          <span class="stat-pill bg-green-50 text-green-700">21 MBA</span>
+          <span class="stat-pill bg-amber-50 text-amber-700">4 EMBA</span>
+        </div>
+      </div>
+
+      <!-- Wang Xiaxin -->
+      <div class="glass-card p-5 fade-up">
+        <div class="flex justify-between items-start mb-3">
+          <div><div class="font-display text-lg text-fudan-800">王遐昕</div><div class="text-sm text-gray-500">Xiaxin Wang</div></div>
+          <span class="cat-badge cat-tenure">Tenure</span>
+        </div>
+        <div class="text-xs font-semibold text-fudan-600 mb-2">Associate Professor of Economics</div>
+        <div class="text-xs text-gray-500 mb-3"><span class="font-semibold">PhD:</span> UC San Diego (Economics, 2018)</div>
+        <div class="text-xs text-gray-600 leading-relaxed mb-3">
+          <span class="font-semibold">Research:</span> Public finance &middot; Taxation &middot; Trade policy
+        </div>
+        <div class="pub-tag">"The Impacts of the U.S. Trade War on Chinese Exporters" &mdash; <em>Review of Economics and Statistics</em>, 2024</div>
+        <div class="flex gap-2 mt-4 flex-wrap">
+          <span class="stat-pill bg-fudan-50 text-fudan-700">73 theses</span>
+          <span class="stat-pill bg-blue-50 text-blue-700">22 MFin</span>
+          <span class="stat-pill bg-green-50 text-green-700">45 MBA</span>
+          <span class="stat-pill bg-amber-50 text-amber-700">6 EMBA</span>
+        </div>
+      </div>
+
+      <!-- Wu -->
+      <div class="glass-card p-5 fade-up">
+        <div class="flex justify-between items-start mb-3">
+          <div><div class="font-display text-lg text-fudan-800">吴文斌</div><div class="text-sm text-gray-500">Wenbin Wu</div></div>
+          <span class="cat-badge cat-tenure">Tenure</span>
+        </div>
+        <div class="text-xs font-semibold text-fudan-600 mb-2">Associate Professor of Finance</div>
+        <div class="text-xs text-gray-500 mb-3"><span class="font-semibold">PhD:</span> UC San Diego (Economics, 2017)</div>
+        <div class="text-xs text-gray-600 leading-relaxed mb-3">
+          <span class="font-semibold">Research:</span> Monetary economics &middot; Applied macroeconomics &middot; International finance
+        </div>
+        <div class="pub-tag">"A Unified Measure of Fed Monetary Policy Shocks" &mdash; <em>Journal of Monetary Economics</em>, 2021</div>
+        <div class="flex gap-2 mt-4 flex-wrap">
+          <span class="stat-pill bg-fudan-50 text-fudan-700">68 theses</span>
+          <span class="stat-pill bg-blue-50 text-blue-700">17 MFin</span>
+          <span class="stat-pill bg-green-50 text-green-700">47 MBA</span>
+          <span class="stat-pill bg-amber-50 text-amber-700">4 EMBA</span>
+        </div>
+      </div>
+
+      <!-- Tang Haihan -->
+      <div class="glass-card p-5 fade-up">
+        <div class="flex justify-between items-start mb-3">
+          <div><div class="font-display text-lg text-fudan-800">汤海涵</div><div class="text-sm text-gray-500">Haihan Tang</div></div>
+          <span class="cat-badge cat-tenure">Tenure</span>
+        </div>
+        <div class="text-xs font-semibold text-fudan-600 mb-2">Associate Professor of Finance</div>
+        <div class="text-xs text-gray-500 mb-3"><span class="font-semibold">PhD:</span> University of Cambridge (Economics, 2017)</div>
+        <div class="text-xs text-gray-600 leading-relaxed mb-3">
+          <span class="font-semibold">Research:</span> Econometric theory &middot; Financial econometrics &middot; Applied econometrics
+        </div>
+        <div class="pub-tag">"A Large Confirmatory Dynamic Factor Model" &mdash; <em>Journal of Econometrics</em>, 2025</div>
+        <div class="flex gap-2 mt-4 flex-wrap">
+          <span class="stat-pill bg-fudan-50 text-fudan-700">61 theses</span>
+          <span class="stat-pill bg-blue-50 text-blue-700">30 MFin</span>
+          <span class="stat-pill bg-green-50 text-green-700">23 MBA</span>
+          <span class="stat-pill bg-amber-50 text-amber-700">8 EMBA</span>
+        </div>
+      </div>
+
+      <!-- Sun Lin -->
+      <div class="glass-card p-5 fade-up">
+        <div class="flex justify-between items-start mb-3">
+          <div><div class="font-display text-lg text-fudan-800">孙林</div><div class="text-sm text-gray-500">Lin Sun</div></div>
+          <span class="cat-badge cat-tenure">Tenure</span>
+        </div>
+        <div class="text-xs font-semibold text-fudan-600 mb-2">Associate Professor of Finance (untenured)</div>
+        <div class="text-xs text-gray-500 mb-3"><span class="font-semibold">PhD:</span> Singapore Management University (2017)</div>
+        <div class="text-xs text-gray-600 leading-relaxed mb-3">
+          <span class="font-semibold">Research:</span> Empirical asset pricing &middot; Hedge funds &amp; mutual funds &middot; ESG investing
+        </div>
+        <div class="pub-tag">"Public Hedge Funds" &mdash; <em>Journal of Financial Economics</em>, 2019</div>
+        <div class="flex gap-2 mt-4 flex-wrap">
+          <span class="stat-pill bg-fudan-50 text-fudan-700">62 theses</span>
+          <span class="stat-pill bg-blue-50 text-blue-700">19 MFin</span>
+          <span class="stat-pill bg-green-50 text-green-700">38 MBA</span>
+          <span class="stat-pill bg-amber-50 text-amber-700">5 EMBA</span>
+        </div>
+      </div>
+
+      <!-- Zhu Lei -->
+      <div class="glass-card p-5 fade-up">
+        <div class="flex justify-between items-start mb-3">
+          <div><div class="font-display text-lg text-fudan-800">朱蕾</div><div class="text-sm text-gray-500">Julie Lei Zhu</div></div>
+          <span class="cat-badge cat-tenure">Tenure</span>
+        </div>
+        <div class="text-xs font-semibold text-fudan-600 mb-2">Professor of Accounting</div>
+        <div class="text-xs text-gray-500 mb-3"><span class="font-semibold">PhD:</span> Columbia University (Business School)</div>
+        <div class="text-xs text-gray-600 leading-relaxed mb-3">
+          <span class="font-semibold">Research:</span> Empirical financial economics &middot; Financial accounting &middot; Accounting-based asset pricing
+        </div>
+        <div class="pub-tag">"Dissecting the Long-term Performance of the Chinese Stock Market" &mdash; <em>Journal of Finance</em>, 2024</div>
+        <div class="flex gap-2 mt-4 flex-wrap">
+          <span class="stat-pill bg-fudan-50 text-fudan-700">17 theses</span>
+          <span class="stat-pill bg-blue-50 text-blue-700">1 MFin</span>
+          <span class="stat-pill bg-green-50 text-green-700">9 MBA</span>
+          <span class="stat-pill bg-amber-50 text-amber-700">7 EMBA</span>
+        </div>
+      </div>
+
+      <!-- Chen Huafeng -->
+      <div class="glass-card p-5 fade-up">
+        <div class="flex justify-between items-start mb-3">
+          <div><div class="font-display text-lg text-fudan-800">陈华锋</div><div class="text-sm text-gray-500">Huafeng (Jason) Chen</div></div>
+          <span class="cat-badge cat-tenure">Tenure</span>
+        </div>
+        <div class="text-xs font-semibold text-fudan-600 mb-2">Professor of Finance</div>
+        <div class="text-xs text-gray-500 mb-3"><span class="font-semibold">PhD:</span> University of Chicago (Booth School of Business)</div>
+        <div class="text-xs text-gray-600 leading-relaxed mb-3">
+          <span class="font-semibold">Research:</span> Empirical asset pricing &middot; Quantitative investment
+        </div>
+        <div class="pub-tag">"Do Cash Flows of Growth Stocks Really Grow Faster?" &mdash; <em>Journal of Finance</em> (top 20 most-read)</div>
+        <div class="flex gap-2 mt-4 flex-wrap">
+          <span class="stat-pill bg-fudan-50 text-fudan-700">28 theses</span>
+          <span class="stat-pill bg-blue-50 text-blue-700">10 MFin</span>
+          <span class="stat-pill bg-green-50 text-green-700">9 MBA</span>
+          <span class="stat-pill bg-amber-50 text-amber-700">9 EMBA</span>
+        </div>
+      </div>
+
+      <!-- Lu Xiaomeng -->
+      <div class="glass-card p-5 fade-up">
+        <div class="flex justify-between items-start mb-3">
+          <div><div class="font-display text-lg text-fudan-800">鲁小萌</div><div class="text-sm text-gray-500">Xiaomeng Lu</div></div>
+          <span class="cat-badge cat-tenure">Tenure</span>
+        </div>
+        <div class="text-xs font-semibold text-fudan-600 mb-2">Associate Professor of Finance (untenured)</div>
+        <div class="text-xs text-gray-500 mb-3"><span class="font-semibold">PhD:</span> Cornell University (Economics)</div>
+        <div class="text-xs text-gray-600 leading-relaxed mb-3">
+          <span class="font-semibold">Research:</span> Behavioral finance &middot; Empirical asset pricing &middot; FinTech impact on investors
+        </div>
+        <div class="pub-tag">"FinTech Platforms and Mutual Fund Distribution" &mdash; <em>Management Science</em>, 2025</div>
+        <div class="flex gap-2 mt-4 flex-wrap">
+          <span class="stat-pill bg-fudan-50 text-fudan-700">30 theses</span>
+          <span class="stat-pill bg-blue-50 text-blue-700">15 MFin</span>
+          <span class="stat-pill bg-green-50 text-green-700">15 MBA</span>
+        </div>
+      </div>
+
+      <!-- Jiao Yang (NEW) -->
+      <div class="glass-card p-5 fade-up">
+        <div class="flex justify-between items-start mb-3">
+          <div><div class="font-display text-lg text-fudan-800">焦阳</div><div class="text-sm text-gray-500">Yang Jiao</div></div>
+          <span class="cat-badge cat-tenure">Tenure</span>
+        </div>
+        <div class="text-xs font-semibold text-fudan-600 mb-2">Assistant Professor of Finance</div>
+        <div class="text-xs text-gray-500 mb-3"><span class="font-semibold">PhD:</span> Columbia University (Economics, 2018)</div>
+        <div class="text-xs text-gray-600 leading-relaxed mb-3">
+          <span class="font-semibold">Research:</span> International finance &middot; Macroeconomics &middot; International trade
+        </div>
+        <div class="pub-tag">"The Impacts of the U.S. Trade War on Chinese Exporters" &mdash; <em>Review of Economics and Statistics</em>, 2024 (Pushan Award)</div>
+        <div class="flex gap-2 mt-4 flex-wrap">
+          <span class="stat-pill bg-fudan-50 text-fudan-700">45 theses</span>
+          <span class="stat-pill bg-blue-50 text-blue-700">25 MFin</span>
+          <span class="stat-pill bg-green-50 text-green-700">20 MBA</span>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- TEACHING / PRACTICE-TRACK -->
+    <div class="fade-up mb-6">
+      <div class="flex items-center gap-3 mb-2"><span class="cat-dot teaching" style="width:12px;height:12px"></span>
+        <div class="section-label mb-0">Teaching &amp; Practice-Track Faculty</div></div>
+      <h2 class="section-title text-2xl">High-Volume Supervisors</h2>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-5 mb-16" id="teachingCards">
+
+      <!-- Tang Dunzhe -->
+      <div class="glass-card p-5 fade-up border-l-4" style="border-left-color:#2a8a6e">
+        <div class="flex justify-between items-start mb-3">
+          <div><div class="font-display text-lg text-fudan-800">唐敦哲</div><div class="text-sm text-gray-500">Dunzhe Tang</div></div>
+          <span class="cat-badge cat-teaching">Teaching</span>
+        </div>
+        <div class="text-xs font-semibold text-emerald-700 mb-1">Assistant Professor of Finance (Teaching-Track)</div>
+        <div class="inline-block px-2 py-0.5 rounded bg-amber-100 text-amber-800 text-xs font-bold mb-2">Most theses: #1</div>
+        <div class="text-xs text-gray-500 mb-3"><span class="font-semibold">PhD:</span> Tsinghua University (Applied Econ) &middot; MS Stanford (Statistics)</div>
+        <div class="text-xs text-gray-600 leading-relaxed mb-3">
+          <span class="font-semibold">Research:</span> Fintech &amp; blockchain &middot; Digital currency (CBDC) &middot; Rural digital finance
+        </div>
+        <div class="flex gap-2 mt-3 flex-wrap">
+          <span class="stat-pill bg-fudan-50 text-fudan-700 font-bold">84 theses</span>
+          <span class="stat-pill bg-blue-50 text-blue-700 font-bold">73 MFin</span>
+          <span class="stat-pill bg-green-50 text-green-700">7 MBA</span>
+          <span class="stat-pill bg-amber-50 text-amber-700">4 EMBA</span>
+        </div>
+      </div>
+
+      <!-- Tong Guoshi -->
+      <div class="glass-card p-5 fade-up border-l-4" style="border-left-color:#2a8a6e">
+        <div class="flex justify-between items-start mb-3">
+          <div><div class="font-display text-lg text-fudan-800">童国士</div><div class="text-sm text-gray-500">Guoshi Tong</div></div>
+          <span class="cat-badge cat-teaching">Teaching</span>
+        </div>
+        <div class="text-xs font-semibold text-emerald-700 mb-1">Assoc. Professor of Finance (Teaching-Track) &middot; Academic Dir. Undergrad</div>
+        <div class="inline-block px-2 py-0.5 rounded bg-amber-100 text-amber-800 text-xs font-bold mb-2">Most theses: #2</div>
+        <div class="text-xs text-gray-500 mb-3"><span class="font-semibold">PhD:</span> University of British Columbia (Econ &amp; Financial Mathematics)</div>
+        <div class="text-xs text-gray-600 leading-relaxed mb-3">
+          <span class="font-semibold">Research:</span> Empirical asset pricing &middot; International finance &middot; Big data &amp; China's markets
+        </div>
+        <div class="pub-tag">"Scaled PCA: A New Approach to Dimension Reduction" &mdash; <em>Management Science</em>, 2022</div>
+        <div class="flex gap-2 mt-3 flex-wrap">
+          <span class="stat-pill bg-fudan-50 text-fudan-700 font-bold">73 theses</span>
+          <span class="stat-pill bg-blue-50 text-blue-700 font-bold">62 MFin</span>
+          <span class="stat-pill bg-green-50 text-green-700">9 MBA</span>
+          <span class="stat-pill bg-amber-50 text-amber-700">2 EMBA</span>
+        </div>
+      </div>
+
+      <!-- Shi Wenyun -->
+      <div class="glass-card p-5 fade-up border-l-4" style="border-left-color:#2a8a6e">
+        <div class="flex justify-between items-start mb-3">
+          <div><div class="font-display text-lg text-fudan-800">施文韵</div><div class="text-sm text-gray-500">Wenyun Shi</div></div>
+          <span class="cat-badge cat-teaching">Teaching</span>
+        </div>
+        <div class="text-xs font-semibold text-emerald-700 mb-2">Associate Professor of Accounting (Teaching-Track)</div>
+        <div class="text-xs text-gray-500 mb-3"><span class="font-semibold">PhD:</span> University of Texas at Dallas (Finance, 2014)</div>
+        <div class="text-xs text-gray-600 leading-relaxed mb-3">
+          <span class="font-semibold">Research:</span> Financial accounting &middot; FinTech &middot; Chinese market &amp; asset pricing
+        </div>
+        <div class="pub-tag">"Spillover Effects in Managerial Compensation" &mdash; <em>Journal of Empirical Finance</em>, 2023</div>
+        <div class="flex gap-2 mt-3 flex-wrap">
+          <span class="stat-pill bg-fudan-50 text-fudan-700">36 theses</span>
+          <span class="stat-pill bg-blue-50 text-blue-700">0 MFin</span>
+          <span class="stat-pill bg-green-50 text-green-700">34 MBA</span>
+          <span class="stat-pill bg-amber-50 text-amber-700">2 EMBA</span>
+        </div>
+      </div>
+
+      <!-- Yang Chunliu -->
+      <div class="glass-card p-5 fade-up border-l-4" style="border-left-color:#2a8a6e">
+        <div class="flex justify-between items-start mb-3">
+          <div><div class="font-display text-lg text-fudan-800">杨春柳</div><div class="text-sm text-gray-500">Chunliu (Chloe) Yang</div></div>
+          <span class="cat-badge cat-teaching">Teaching</span>
+        </div>
+        <div class="text-xs font-semibold text-emerald-700 mb-2">Assoc. Professor of Finance (Teaching-Track) &middot; Academic Dir. FMBA FT</div>
+        <div class="text-xs text-gray-500 mb-3"><span class="font-semibold">PhD:</span> INSEAD (Finance)</div>
+        <div class="text-xs text-gray-600 leading-relaxed mb-3">
+          <span class="font-semibold">Research:</span> Empirical asset pricing &middot; Behavioral finance &middot; Mutual funds
+        </div>
+        <div class="flex gap-2 mt-3 flex-wrap">
+          <span class="stat-pill bg-fudan-50 text-fudan-700">65 theses</span>
+          <span class="stat-pill bg-blue-50 text-blue-700">25 MFin</span>
+          <span class="stat-pill bg-green-50 text-green-700">40 MBA</span>
+        </div>
+      </div>
+
+      <!-- Shi Donghui -->
+      <div class="glass-card p-5 fade-up border-l-4" style="border-left-color:#2a8a6e">
+        <div class="flex justify-between items-start mb-3">
+          <div><div class="font-display text-lg text-fudan-800">施东辉</div><div class="text-sm text-gray-500">Donghui Shi</div></div>
+          <span class="cat-badge cat-teaching">Practice</span>
+        </div>
+        <div class="text-xs font-semibold text-emerald-700 mb-2">Professor of Finance (Practice-Track) &middot; Academic Dir. Finance EMBA &amp; FTB</div>
+        <div class="text-xs text-gray-500 mb-3"><span class="font-semibold">PhD:</span> Shanghai Jiao Tong University (Management, 2004)</div>
+        <div class="text-xs text-gray-600 leading-relaxed mb-3">
+          <span class="font-semibold">Research:</span> Market microstructure &middot; Corporate governance &middot; Behavioral finance &middot; Capital market reform
+        </div>
+        <div class="pub-tag">"Retail Trading and Return Predictability in China" &mdash; <em>JFQA</em>, 2025</div>
+        <div class="flex gap-2 mt-3 flex-wrap">
+          <span class="stat-pill bg-fudan-50 text-fudan-700">47 theses</span>
+          <span class="stat-pill bg-blue-50 text-blue-700">2 MFin</span>
+          <span class="stat-pill bg-green-50 text-green-700">30 MBA</span>
+          <span class="stat-pill bg-amber-50 text-amber-700">15 EMBA</span>
+        </div>
+      </div>
+
+      <!-- Fu Chengde (NEW) -->
+      <div class="glass-card p-5 fade-up border-l-4" style="border-left-color:#2a8a6e">
+        <div class="flex justify-between items-start mb-3">
+          <div><div class="font-display text-lg text-fudan-800">傅承德</div><div class="text-sm text-gray-500">Cheng-Der Fuh</div></div>
+          <span class="cat-badge cat-teaching">Teaching</span>
+        </div>
+        <div class="text-xs font-semibold text-emerald-700 mb-2">Professor of Finance (Teaching-Track) &middot; Director, EMF Program</div>
+        <div class="text-xs text-gray-500 mb-3"><span class="font-semibold">PhD:</span> Iowa State University (Statistics, 1989)</div>
+        <div class="text-xs text-gray-600 leading-relaxed mb-3">
+          <span class="font-semibold">Research:</span> Quantitative finance &middot; Applied probability &middot; Financial engineering
+        </div>
+        <div class="flex gap-2 mt-3 flex-wrap">
+          <span class="stat-pill bg-fudan-50 text-fudan-700">7 theses</span>
+          <span class="stat-pill bg-blue-50 text-blue-700">7 MFin</span>
+        </div>
+      </div>
+
+    </div>
+    <!-- VISITING / COURTESY / SPECIAL-TERM -->
+    <div class="fade-up mb-6">
+      <div class="flex items-center gap-3 mb-2"><span class="cat-dot visiting" style="width:12px;height:12px"></span>
+        <div class="section-label mb-0">Special-Term, Visiting &amp; Courtesy</div></div>
+      <h2 class="section-title text-2xl">Leadership &amp; Affiliated Faculty</h2>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-5 mb-16" id="visitingCards">
+
+      <!-- Charles Chang -->
+      <div class="glass-card p-5 fade-up border-l-4" style="border-left-color:#9b6db0">
+        <div class="flex justify-between items-start mb-3">
+          <div><div class="font-display text-lg text-fudan-800">张纯信</div><div class="text-sm text-gray-500">Charles Chang</div></div>
+          <span class="cat-badge cat-visiting">Leadership</span>
+        </div>
+        <div class="text-xs font-semibold text-purple-700 mb-2">Deputy Dean of Academics &middot; Professor of Finance &middot; Dir. Fintech Research Center</div>
+        <div class="text-xs text-gray-500 mb-3"><span class="font-semibold">PhD:</span> UC Berkeley (Haas School of Business)</div>
+        <div class="text-xs text-gray-600 leading-relaxed mb-3">
+          <span class="font-semibold">Research:</span> Fintech &middot; Investments &amp; corporate finance &middot; Behavioral finance (emerging markets)
+        </div>
+        <div class="pub-tag">Published in <em>JFE</em>, <em>J. Corporate Finance</em>, <em>JIMF</em>, <em>J. Banking &amp; Finance</em></div>
+        <div class="flex gap-2 mt-3 flex-wrap">
+          <span class="stat-pill bg-fudan-50 text-fudan-700">42 theses</span>
+          <span class="stat-pill bg-blue-50 text-blue-700">10 MFin</span>
+          <span class="stat-pill bg-green-50 text-green-700">16 MBA</span>
+          <span class="stat-pill bg-amber-50 text-amber-700">16 EMBA</span>
+        </div>
+      </div>
+
+      <!-- Qian Jun -->
+      <div class="glass-card p-5 fade-up border-l-4" style="border-left-color:#9b6db0">
+        <div class="flex justify-between items-start mb-3">
+          <div><div class="font-display text-lg text-fudan-800">钱军</div><div class="text-sm text-gray-500">Jun "QJ" Qian</div></div>
+          <span class="cat-badge cat-visiting">Leadership</span>
+        </div>
+        <div class="text-xs font-semibold text-purple-700 mb-2">Executive Dean &middot; Professor of Finance (founding dean since 2017)</div>
+        <div class="text-xs text-gray-500 mb-3"><span class="font-semibold">PhD:</span> University of Pennsylvania (Financial Economics)</div>
+        <div class="text-xs text-gray-600 leading-relaxed mb-3">
+          <span class="font-semibold">Research:</span> Capital markets (China) &middot; Corporate finance &middot; Shadow banking &middot; International finance
+        </div>
+        <div class="pub-tag">"Law, finance, and economic growth in China" &mdash; <em>JFE</em>, 2005 (All-Star Paper Award)</div>
+        <div class="flex gap-2 mt-3 flex-wrap">
+          <span class="stat-pill bg-fudan-50 text-fudan-700">52 theses</span>
+          <span class="stat-pill bg-blue-50 text-blue-700">10 MFin</span>
+          <span class="stat-pill bg-green-50 text-green-700">23 MBA</span>
+          <span class="stat-pill bg-amber-50 text-amber-700">19 EMBA</span>
+        </div>
+      </div>
+
+      <!-- John Rogers -->
+      <div class="glass-card p-5 fade-up border-l-4" style="border-left-color:#9b6db0">
+        <div class="flex justify-between items-start mb-3">
+          <div><div class="font-display text-lg text-fudan-800" style="font-size:1rem">John Harold Rogers</div><div class="text-sm text-gray-400 italic">No longer listed at FISF</div></div>
+          <span class="cat-badge cat-visiting">Visiting</span>
+        </div>
+        <div class="text-xs font-semibold text-purple-700 mb-2">Professor of Finance (joined 2021) &middot; Fmr. Sr. Adviser, Federal Reserve Board (1994&ndash;2021)</div>
+        <div class="text-xs text-gray-500 mb-3"><span class="font-semibold">PhD:</span> University of Virginia (Economics)</div>
+        <div class="text-xs text-gray-600 leading-relaxed mb-3">
+          <span class="font-semibold">Research:</span> Monetary economics &amp; policy &middot; International finance &amp; exchange rates &middot; US-China economic tension
+        </div>
+        <div class="pub-tag">"How Wide is the Border?" &mdash; <em>American Economic Review</em>, 1996</div>
+        <div class="flex gap-2 mt-3 flex-wrap">
+          <span class="stat-pill bg-fudan-50 text-fudan-700">21 theses</span>
+          <span class="stat-pill bg-blue-100 text-blue-800 font-bold">21 MFin (100%)</span>
+        </div>
+      </div>
+
+      <!-- Wang Yongqin -->
+      <div class="glass-card p-5 fade-up border-l-4" style="border-left-color:#9b6db0">
+        <div class="flex justify-between items-start mb-3">
+          <div><div class="font-display text-lg text-fudan-800">王永钦</div><div class="text-sm text-gray-500">Yongqin Wang</div></div>
+          <span class="cat-badge cat-visiting">Courtesy</span>
+        </div>
+        <div class="text-xs font-semibold text-purple-700 mb-2">Professor by Courtesy &middot; Primary: Professor of Economics, Fudan School of Econ</div>
+        <div class="text-xs text-gray-500 mb-3"><span class="font-semibold">PhD:</span> Fudan University (Economics, 2004) &middot; Post-doc at Yale</div>
+        <div class="text-xs text-gray-600 leading-relaxed mb-3">
+          <span class="font-semibold">Research:</span> Financial economics (leverage cycles, shadow banking) &middot; Monetary economics &middot; Chinese economy
+        </div>
+        <div class="flex gap-2 mt-3 flex-wrap">
+          <span class="stat-pill bg-fudan-50 text-fudan-700">16 theses</span>
+          <span class="stat-pill bg-blue-50 text-blue-700">6 MFin</span>
+          <span class="stat-pill bg-green-50 text-green-700">3 MBA</span>
+          <span class="stat-pill bg-amber-50 text-amber-700">7 EMBA</span>
+        </div>
+      </div>
+
+      <!-- Chen Shiyi -->
+      <div class="glass-card p-5 fade-up border-l-4" style="border-left-color:#9b6db0">
+        <div class="flex justify-between items-start mb-3">
+          <div><div class="font-display text-lg text-fudan-800">陈诗一</div><div class="text-sm text-gray-500">Shiyi Chen</div></div>
+          <span class="cat-badge cat-visiting">Special-Term</span>
+        </div>
+        <div class="text-xs font-semibold text-purple-700 mb-2">Special-Term Professor of Economics &middot; Director Green Finance Research Center</div>
+        <div class="text-xs text-gray-500 mb-3"><span class="font-semibold">PhD:</span> Kyungpook National University, South Korea (Econometrics, 2006)</div>
+        <div class="text-xs text-gray-600 leading-relaxed mb-3">
+          <span class="font-semibold">Research:</span> Applied econometrics &middot; Green finance &middot; Energy &amp; environment economics
+        </div>
+        <div class="pub-tag">"Combating Cross-border Externalities" &mdash; <em>Journal of Public Economics</em>, 2025</div>
+        <div class="flex gap-2 mt-3 flex-wrap">
+          <span class="stat-pill bg-fudan-50 text-fudan-700">14 theses</span>
+          <span class="stat-pill bg-green-50 text-green-700">5 MBA</span>
+          <span class="stat-pill bg-amber-50 text-amber-700">9 EMBA</span>
+        </div>
+      </div>
+
+      <!-- Huang Yi -->
+      <div class="glass-card p-5 fade-up border-l-4" style="border-left-color:#9b6db0">
+        <div class="flex justify-between items-start mb-3">
+          <div><div class="font-display text-lg text-fudan-800">黄毅</div><div class="text-sm text-gray-500">Yi Huang</div></div>
+          <span class="cat-badge cat-visiting">On Leave</span>
+        </div>
+        <div class="text-xs font-semibold text-purple-700 mb-2">Assistant Dean &middot; Professor of Finance (On Leave) &middot; Fmr. IMF Economist</div>
+        <div class="text-xs text-gray-500 mb-3"><span class="font-semibold">PhD:</span> London Business School (Economics)</div>
+        <div class="text-xs text-gray-600 leading-relaxed mb-3">
+          <span class="font-semibold">Research:</span> International macro &amp; finance &middot; Digital economy &amp; FinTech &middot; Entrepreneurship
+        </div>
+        <div class="pub-tag">"FinTech Credit and Entrepreneurial Growth" &mdash; <em>Journal of Finance</em>, 2024</div>
+        <div class="flex gap-2 mt-3 flex-wrap">
+          <span class="stat-pill bg-fudan-50 text-fudan-700">18 theses</span>
+          <span class="stat-pill bg-green-50 text-green-700">6 MBA</span>
+          <span class="stat-pill bg-amber-50 text-amber-700">12 EMBA</span>
+        </div>
+      </div>
+
+      <!-- Xu Xian -->
+      <div class="glass-card p-5 fade-up border-l-4" style="border-left-color:#9b6db0">
+        <div class="flex justify-between items-start mb-3">
+          <div><div class="font-display text-lg text-fudan-800">许闲</div><div class="text-sm text-gray-500">Xian Xu</div></div>
+          <span class="cat-badge cat-visiting">Visiting</span>
+        </div>
+        <div class="text-xs font-semibold text-purple-700 mb-2">Visiting Asst. Professor &middot; Primary: Professor, Fudan School of Econ (Insurance &amp; Risk Mgmt)</div>
+        <div class="text-xs text-gray-500 mb-3"><span class="font-semibold">PhD:</span> Karlsruhe Institute of Technology (Insurance)</div>
+        <div class="text-xs text-gray-600 leading-relaxed mb-3">
+          <span class="font-semibold">Research:</span> FinTech &amp; InsurTech &middot; Insurance behavior &amp; regulation &middot; Disaster economics
+        </div>
+        <div class="flex gap-2 mt-3 flex-wrap">
+          <span class="stat-pill bg-fudan-50 text-fudan-700">8 theses</span>
+          <span class="stat-pill bg-blue-50 text-blue-700">7 MFin</span>
+          <span class="stat-pill bg-green-50 text-green-700">1 MBA</span>
+        </div>
+      </div>
+
+      <!-- Zhou Yifan -->
+      <div class="glass-card p-5 fade-up border-l-4" style="border-left-color:#9b6db0">
+        <div class="flex justify-between items-start mb-3">
+          <div><div class="font-display text-lg text-fudan-800">周亦凡</div><div class="text-sm text-gray-500">Yifan Zhou</div></div>
+          <span class="cat-badge cat-visiting" style="background:rgba(155,109,176,0.08);color:#999">Departed</span>
+        </div>
+        <div class="text-xs font-semibold text-purple-700 mb-2">Fmr. Assistant Professor (2021&ndash;2025) &middot; Now at XJTLU</div>
+        <div class="text-xs text-gray-500 mb-3"><span class="font-semibold">PhD:</span> University of Melbourne (Finance, 2021)</div>
+        <div class="text-xs text-gray-600 leading-relaxed mb-3">
+          <span class="font-semibold">Research:</span> Political economy &middot; Empirical corporate finance &middot; Bank lending
+        </div>
+        <div class="pub-tag">"A Liberalization Spillover: From Equities to Loans" &mdash; <em>JFQA</em>, 2024</div>
+        <div class="flex gap-2 mt-3 flex-wrap">
+          <span class="stat-pill bg-fudan-50 text-fudan-700">33 theses</span>
+          <span class="stat-pill bg-blue-50 text-blue-700">21 MFin</span>
+          <span class="stat-pill bg-green-50 text-green-700">12 MBA</span>
+        </div>
+      </div>
+
+      <!-- Christoph Nedopil (NEW) -->
+      <div class="glass-card p-5 fade-up border-l-4" style="border-left-color:#9b6db0">
+        <div class="flex justify-between items-start mb-3">
+          <div><div class="font-display text-lg text-fudan-800">王珂礼</div><div class="text-sm text-gray-500">Christoph Nedopil Wang</div></div>
+          <span class="cat-badge cat-visiting" style="background:rgba(155,109,176,0.08);color:#999">Departed</span>
+        </div>
+        <div class="text-xs font-semibold text-purple-700 mb-2">Fmr. Assoc. Professor &middot; Now at Griffith University &middot; Green Finance &amp; Development Center</div>
+        <div class="text-xs text-gray-500 mb-3"><span class="font-semibold">PhD:</span> TU Berlin (Economics)</div>
+        <div class="text-xs text-gray-600 leading-relaxed mb-3">
+          <span class="font-semibold">Research:</span> Green finance &middot; Belt &amp; Road Initiative &middot; Sustainable development
+        </div>
+        <div class="flex gap-2 mt-3 flex-wrap">
+          <span class="stat-pill bg-fudan-50 text-fudan-700">21 theses</span>
+          <span class="stat-pill bg-blue-50 text-blue-700">18 MFin</span>
+          <span class="stat-pill bg-green-50 text-green-700">3 MBA</span>
+        </div>
+      </div>
+
+      <!-- Zhou Sili (NEW) -->
+      <div class="glass-card p-5 fade-up border-l-4" style="border-left-color:#9b6db0">
+        <div class="flex justify-between items-start mb-3">
+          <div><div class="font-display text-lg text-fudan-800">周思力</div><div class="text-sm text-gray-500">Alex Sili Zhou</div></div>
+          <span class="cat-badge cat-visiting" style="background:rgba(155,109,176,0.08);color:#999">Departed</span>
+        </div>
+        <div class="text-xs font-semibold text-purple-700 mb-2">Fmr. Assistant Professor &middot; Now at University of Macau</div>
+        <div class="text-xs text-gray-500 mb-3"><span class="font-semibold">PhD:</span> Singapore Management University (Finance, 2017)</div>
+        <div class="text-xs text-gray-600 leading-relaxed mb-3">
+          <span class="font-semibold">Research:</span> Empirical asset pricing &middot; Mutual funds &middot; Information in financial markets
+        </div>
+        <div class="flex gap-2 mt-3 flex-wrap">
+          <span class="stat-pill bg-fudan-50 text-fudan-700">19 theses</span>
+          <span class="stat-pill bg-blue-50 text-blue-700">10 MFin</span>
+          <span class="stat-pill bg-green-50 text-green-700">9 MBA</span>
+        </div>
+      </div>
+
+      <!-- Guo Xiangyu (NEW) -->
+      <div class="glass-card p-5 fade-up border-l-4" style="border-left-color:#9b6db0">
+        <div class="flex justify-between items-start mb-3">
+          <div><div class="font-display text-lg text-fudan-800">郭翔宇</div><div class="text-sm text-gray-500">Xiangyu Guo</div></div>
+          <span class="cat-badge cat-visiting" style="background:rgba(155,109,176,0.08);color:#999">Departed</span>
+        </div>
+        <div class="text-xs font-semibold text-purple-700 mb-2">Fmr. Assistant Professor &middot; Now at Tsinghua PBCSF</div>
+        <div class="text-xs text-gray-500 mb-3"><span class="font-semibold">PhD:</span> National University of Singapore (Real Estate, 2018)</div>
+        <div class="text-xs text-gray-600 leading-relaxed mb-3">
+          <span class="font-semibold">Research:</span> Real estate finance &middot; Urban economics &middot; Housing markets
+        </div>
+        <div class="flex gap-2 mt-3 flex-wrap">
+          <span class="stat-pill bg-fudan-50 text-fudan-700">9 theses</span>
+          <span class="stat-pill bg-blue-50 text-blue-700">5 MFin</span>
+          <span class="stat-pill bg-green-50 text-green-700">4 MBA</span>
+        </div>
+      </div>
+
+      <!-- Peng Qiusha (NEW) -->
+      <div class="glass-card p-5 fade-up border-l-4" style="border-left-color:#9b6db0">
+        <div class="flex justify-between items-start mb-3">
+          <div><div class="font-display text-lg text-fudan-800">彭秋莎</div><div class="text-sm text-gray-500">Qiusha Peng</div></div>
+          <span class="cat-badge cat-visiting" style="background:rgba(155,109,176,0.08);color:#999">Departed</span>
+        </div>
+        <div class="text-xs font-semibold text-purple-700 mb-2">Fmr. Assistant Professor of Finance</div>
+        <div class="text-xs text-gray-500 mb-3"><span class="font-semibold">PhD:</span> University of Pennsylvania (Economics, 2015)</div>
+        <div class="text-xs text-gray-600 leading-relaxed mb-3">
+          <span class="font-semibold">Research:</span> Financial markets &middot; Macroeconomics &middot; Labor economics
+        </div>
+        <div class="flex gap-2 mt-3 flex-wrap">
+          <span class="stat-pill bg-fudan-50 text-fudan-700">7 theses</span>
+          <span class="stat-pill bg-blue-50 text-blue-700">4 MFin</span>
+          <span class="stat-pill bg-green-50 text-green-700">3 MBA</span>
+        </div>
+      </div>
+
+      <!-- Richard Werner (NEW) -->
+      <div class="glass-card p-5 fade-up border-l-4" style="border-left-color:#9b6db0">
+        <div class="flex justify-between items-start mb-3">
+          <div><div class="font-display text-lg text-fudan-800" style="font-size:1rem">Richard Werner</div><div class="text-sm text-gray-400 italic">Visiting Professor</div></div>
+          <span class="cat-badge cat-visiting">Visiting</span>
+        </div>
+        <div class="text-xs font-semibold text-purple-700 mb-2">Professor of Banking &amp; Finance &middot; Coined the term "Quantitative Easing"</div>
+        <div class="text-xs text-gray-500 mb-3"><span class="font-semibold">DPhil:</span> University of Oxford (Economics)</div>
+        <div class="text-xs text-gray-600 leading-relaxed mb-3">
+          <span class="font-semibold">Research:</span> Banking &amp; credit creation &middot; Monetary economics &middot; Disaggregated credit
+        </div>
+        <div class="flex gap-2 mt-3 flex-wrap">
+          <span class="stat-pill bg-fudan-50 text-fudan-700">2 theses</span>
+          <span class="stat-pill bg-blue-50 text-blue-700">2 MFin</span>
+        </div>
+      </div>
+
+      <!-- Jaeyoon Lee (NEW) -->
+      <div class="glass-card p-5 fade-up border-l-4" style="border-left-color:#9b6db0">
+        <div class="flex justify-between items-start mb-3">
+          <div><div class="font-display text-lg text-fudan-800" style="font-size:1rem">Jaeyoon Lee</div><div class="text-sm text-gray-400 italic">Visiting / Adjunct</div></div>
+          <span class="cat-badge cat-visiting">Visiting</span>
+        </div>
+        <div class="text-xs font-semibold text-purple-700 mb-2">Visiting Faculty</div>
+        <div class="text-xs text-gray-600 leading-relaxed mb-3">
+          <span class="font-semibold">Research:</span> Finance
+        </div>
+        <div class="flex gap-2 mt-3 flex-wrap">
+          <span class="stat-pill bg-fudan-50 text-fudan-700">1 thesis</span>
+          <span class="stat-pill bg-blue-50 text-blue-700">1 MFin</span>
+        </div>
+      </div>
+
+    </div>
+    <!-- EXTERNAL SUPERVISORS -->
+    <div class="fade-up mb-6">
+      <div class="flex items-center gap-3 mb-2"><span class="cat-dot external" style="width:12px;height:12px"></span>
+        <div class="section-label mb-0">External Supervisors</div></div>
+      <h2 class="section-title text-2xl">Fudan School of Economics</h2>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 mb-16" id="externalCards">
+
+      <!-- Chen Zhao -->
+      <div class="glass-card p-5 fade-up border-l-4" style="border-left-color:#c47834">
+        <div class="flex justify-between items-start mb-3">
+          <div><div class="font-display text-lg text-fudan-800">陈钊</div><div class="text-sm text-gray-500">Zhao Chen</div></div>
+          <span class="cat-badge cat-external">External</span>
+        </div>
+        <div class="text-xs font-semibold text-amber-700 mb-2">Professor &amp; Deputy Dean, School of Economics, Fudan</div>
+        <div class="text-xs text-gray-500 mb-3"><span class="font-semibold">PhD:</span> Fudan University (Economics, 2001)</div>
+        <div class="text-xs text-gray-600 leading-relaxed mb-3">
+          <span class="font-semibold">Research:</span> Chinese economy (tax policy) &middot; Urban &amp; regional economics &middot; Development economics
+        </div>
+        <div class="pub-tag">"Regulating Conglomerates" &mdash; <em>AER</em>, 2025</div>
+        <div class="flex gap-2 mt-3 flex-wrap">
+          <span class="stat-pill bg-fudan-50 text-fudan-700">11 theses</span>
+          <span class="stat-pill bg-blue-50 text-blue-700">1 MFin</span>
+          <span class="stat-pill bg-amber-50 text-amber-700">10 EMBA</span>
+        </div>
+      </div>
+
+      <!-- Zhang Zongxin -->
+      <div class="glass-card p-5 fade-up border-l-4" style="border-left-color:#c47834">
+        <div class="flex justify-between items-start mb-3">
+          <div><div class="font-display text-lg text-fudan-800">张宗新</div><div class="text-sm text-gray-500">Zongxin Zhang</div></div>
+          <span class="cat-badge cat-external">External</span>
+        </div>
+        <div class="text-xs font-semibold text-amber-700 mb-2">Professor of Finance, School of Economics, Fudan</div>
+        <div class="text-xs text-gray-500 mb-3"><span class="font-semibold">PhD:</span> Jilin University (Economics, 2002)</div>
+        <div class="text-xs text-gray-600 leading-relaxed mb-3">
+          <span class="font-semibold">Research:</span> Securities market research &middot; Capital markets &amp; investment &middot; Quantitative finance
+        </div>
+        <div class="flex gap-2 mt-3 flex-wrap">
+          <span class="stat-pill bg-fudan-50 text-fudan-700">17 theses</span>
+          <span class="stat-pill bg-amber-50 text-amber-700">17 EMBA</span>
+        </div>
+      </div>
+
+      <!-- Li Zhiqing -->
+      <div class="glass-card p-5 fade-up border-l-4" style="border-left-color:#c47834">
+        <div class="flex justify-between items-start mb-3">
+          <div><div class="font-display text-lg text-fudan-800">李志青</div><div class="text-sm text-gray-500">Zhiqing Li</div></div>
+          <span class="cat-badge cat-external">External</span>
+        </div>
+        <div class="text-xs font-semibold text-amber-700 mb-2">Professor, School of Economics, Fudan &middot; Dir. Environmental Economics Center</div>
+        <div class="text-xs text-gray-600 leading-relaxed mb-3">
+          <span class="font-semibold">Research:</span> Environmental economics &middot; Energy &amp; climate change &middot; Green finance
+        </div>
+        <div class="flex gap-2 mt-3 flex-wrap">
+          <span class="stat-pill bg-fudan-50 text-fudan-700">1 thesis</span>
+          <span class="stat-pill bg-amber-50 text-amber-700">1 EMBA</span>
+        </div>
+      </div>
+
+      <!-- Li Zhao (NEW) -->
+      <div class="glass-card p-5 fade-up border-l-4" style="border-left-color:#c47834">
+        <div class="flex justify-between items-start mb-3">
+          <div><div class="font-display text-lg text-fudan-800">李钊</div><div class="text-sm text-gray-500">Zhao Li</div></div>
+          <span class="cat-badge cat-external">External</span>
+        </div>
+        <div class="text-xs font-semibold text-amber-700 mb-2">School of Economics, Fudan University</div>
+        <div class="flex gap-2 mt-3 flex-wrap">
+          <span class="stat-pill bg-fudan-50 text-fudan-700">1 thesis</span>
+          <span class="stat-pill bg-amber-50 text-amber-700">1 EMBA</span>
+        </div>
+      </div>
+
+      <!-- Zhou Guangyou (NEW) -->
+      <div class="glass-card p-5 fade-up border-l-4" style="border-left-color:#c47834">
+        <div class="flex justify-between items-start mb-3">
+          <div><div class="font-display text-lg text-fudan-800">周光友</div><div class="text-sm text-gray-500">Guangyou Zhou</div></div>
+          <span class="cat-badge cat-external">External</span>
+        </div>
+        <div class="text-xs font-semibold text-amber-700 mb-2">Professor, School of Economics, Fudan University</div>
+        <div class="text-xs text-gray-600 leading-relaxed mb-3">
+          <span class="font-semibold">Research:</span> Monetary economics &middot; Financial markets &middot; Digital currency
+        </div>
+        <div class="flex gap-2 mt-3 flex-wrap">
+          <span class="stat-pill bg-fudan-50 text-fudan-700">1 thesis</span>
+          <span class="stat-pill bg-amber-50 text-amber-700">1 EMBA</span>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</section>
+<!-- ===== INSIGHTS ===== -->
+<section class="relative py-16 px-4">
+  <div class="max-w-4xl mx-auto">
+    <div class="fade-up text-center mb-10">
+      <div class="section-label">Patterns</div>
+      <h2 class="section-title">Key Insights</h2>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div class="insight-card fade-up">
+        <div class="font-mono text-xs text-fudan-400 mb-2 uppercase tracking-wider">MFin Concentration</div>
+        <p class="text-sm text-gray-700 leading-relaxed">Teaching-track faculty <strong>Tang Dunzhe</strong> (73 MFin) and <strong>Tong Guoshi</strong> (62 MFin) supervise the most MFin theses, accounting for <strong>26%</strong> of all 512 MFin theses between just two supervisors.</p>
+      </div>
+      <div class="insight-card fade-up">
+        <div class="font-mono text-xs text-fudan-400 mb-2 uppercase tracking-wider">Degree Split</div>
+        <p class="text-sm text-gray-700 leading-relaxed">Of 1,194 total theses, <strong>512 are MFin</strong> (43%), 487 are MBA (41%), and 195 are EMBA (16%). Tenure-track faculty supervise across all three; practice-track and external faculty lean heavily toward MBA/EMBA.</p>
+      </div>
+      <div class="insight-card fade-up">
+        <div class="font-mono text-xs text-fudan-400 mb-2 uppercase tracking-wider">100% MFin</div>
+        <p class="text-sm text-gray-700 leading-relaxed"><strong>John Rogers</strong> supervised exclusively MFin students (21/21), reflecting his role as a dedicated research mentor for the Master of Finance program before departing FISF. <strong>Fu Chengde</strong> (7/7) also supervises only MFin.</p>
+      </div>
+      <div class="insight-card fade-up">
+        <div class="font-mono text-xs text-fudan-400 mb-2 uppercase tracking-wider">Faculty Turnover</div>
+        <p class="text-sm text-gray-700 leading-relaxed">Several supervisors have left FISF: <strong>Zhou Yifan</strong> (33 theses, now at XJTLU), <strong>Nedopil Wang</strong> (21, Griffith), <strong>Zhou Sili</strong> (19, Macau), <strong>Guo Xiangyu</strong> (9, Tsinghua), <strong>Rogers</strong> and <strong>Peng Qiusha</strong>. <strong>Yi Huang</strong> is on leave.</p>
+      </div>
+      <div class="insight-card fade-up md:col-span-2">
+        <div class="font-mono text-xs text-fudan-400 mb-2 uppercase tracking-wider">Research Breadth</div>
+        <p class="text-sm text-gray-700 leading-relaxed">FISF's 36 supervisors span a wide research spectrum: from <strong>macro/international finance</strong> (Ma, Wu, Rogers, Jiao, Huang) to <strong>asset pricing</strong> (Tong, Sun, Chen H., Lu, Zhou S.), <strong>corporate finance</strong> (Gao, Qian, Zhou Y.), <strong>FinTech</strong> (Tang D., Chang, Xu), <strong>econometrics</strong> (Jiang, Tang H., Fuh), <strong>green finance</strong> (Nedopil, Chen S., Li Z.), and <strong>accounting</strong> (Shi W., Zhu). PhDs come from Chicago, Columbia, Cambridge, Berkeley, UPenn, JHU, LBS, INSEAD, Oxford, and other top institutions worldwide.</p>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- ===== FOOTER ===== -->
+<footer class="py-10 px-4 text-center border-t border-gray-200/50">
+  <p class="text-xs text-gray-400 max-w-xl mx-auto leading-relaxed">
+    Data sourced from <span class="font-mono">thesis.fudan.edu.cn</span> &mdash; Fudan University Thesis Repository.<br>
+    Faculty profiles sourced from <span class="font-mono">fisf.fudan.edu.cn</span> and public academic pages.<br>
+    314 theses with full titles available (sidebar filter); 1,194 theses counted via advanced fuzzy search (2019&ndash;2025).<br>
+    Click professor names for faculty profiles. Expand &ldquo;thesis titles available&rdquo; to browse supervised theses. Data collected March 2026.
+  </p>
+</footer>
+<script>
+// ===== PROGRESS BAR =====
+window.addEventListener('scroll', () => {
+  const h = document.documentElement.scrollHeight - window.innerHeight;
+  document.getElementById('progressBar').style.width = (window.scrollY / h * 100) + '%';
+});
+
+// ===== GSAP SCROLL ANIMATIONS =====
+gsap.registerPlugin(ScrollTrigger);
+gsap.utils.toArray('.fade-up').forEach(el => {
+  gsap.to(el, {
+    opacity: 1, y: 0, duration: 0.8, ease: 'power2.out',
+    scrollTrigger: { trigger: el, start: 'top 88%', once: true }
+  });
+});
+
+// ===== ECHARTS: BAR CHART =====
+const barData = [
+  { name: 'D. Tang 唐敦哲', mfin: 73, mba: 7, emba: 4 },
+  { name: 'X. Wang 王遐昕', mfin: 22, mba: 45, emba: 6 },
+  { name: 'G. Tong 童国士', mfin: 62, mba: 9, emba: 2 },
+  { name: 'L. Jiang 蒋亮', mfin: 28, mba: 32, emba: 11 },
+  { name: 'H. Gao 高华声', mfin: 20, mba: 23, emba: 25 },
+  { name: 'W. Wu 吴文斌', mfin: 17, mba: 47, emba: 4 },
+  { name: 'C. Ma 马畅', mfin: 40, mba: 21, emba: 4 },
+  { name: 'C. Yang 杨春柳', mfin: 25, mba: 40, emba: 0 },
+  { name: 'L. Sun 孙林', mfin: 19, mba: 38, emba: 5 },
+  { name: 'H. Tang 汤海涵', mfin: 30, mba: 23, emba: 8 },
+  { name: 'J. Qian 钱军', mfin: 10, mba: 23, emba: 19 },
+  { name: 'D. Shi 施东辉', mfin: 2, mba: 30, emba: 15 },
+  { name: 'Y. Jiao 焦阳', mfin: 25, mba: 20, emba: 0 },
+  { name: 'C. Chang 张纯信', mfin: 10, mba: 16, emba: 16 },
+  { name: 'W. Shi 施文韵', mfin: 0, mba: 34, emba: 2 },
+  { name: 'Y. Zhou 周亦凡', mfin: 21, mba: 12, emba: 0 },
+  { name: 'X. Lu 鲁小萌', mfin: 15, mba: 15, emba: 0 },
+  { name: 'H. Chen 陈华锋', mfin: 10, mba: 9, emba: 9 },
+  { name: 'J. Rogers', mfin: 21, mba: 0, emba: 0 },
+  { name: 'C. Nedopil 王珂礼', mfin: 18, mba: 3, emba: 0 },
+  { name: 'S. Zhou 周思力', mfin: 10, mba: 9, emba: 0 },
+  { name: 'Y. Huang 黄毅', mfin: 0, mba: 6, emba: 12 },
+  { name: 'J. Zhu 朱蕾', mfin: 1, mba: 9, emba: 7 },
+  { name: 'Z. Zhang 张宗新', mfin: 0, mba: 0, emba: 17 },
+  { name: 'Y. Wang 王永钦', mfin: 6, mba: 3, emba: 7 },
+  { name: 'S. Chen 陈诗一', mfin: 0, mba: 5, emba: 9 },
+  { name: 'Z. Chen 陈钊', mfin: 1, mba: 0, emba: 10 },
+  { name: 'X. Guo 郭翔宇', mfin: 5, mba: 4, emba: 0 },
+  { name: 'X. Xu 许闲', mfin: 7, mba: 1, emba: 0 },
+  { name: 'C. Fuh 傅承德', mfin: 7, mba: 0, emba: 0 },
+  { name: 'Q. Peng 彭秋莎', mfin: 4, mba: 3, emba: 0 },
+  { name: 'R. Werner', mfin: 2, mba: 0, emba: 0 },
+  { name: 'Z. Li 李志青', mfin: 0, mba: 0, emba: 1 },
+  { name: 'Z. Li 李钊', mfin: 0, mba: 0, emba: 1 },
+  { name: 'G. Zhou 周光友', mfin: 0, mba: 0, emba: 1 },
+  { name: 'J. Lee', mfin: 1, mba: 0, emba: 0 }
+];
+barData.sort((a, b) => (b.mfin+b.mba+b.emba) - (a.mfin+a.mba+a.emba));
+
+const barChart = echarts.init(document.getElementById('barChart'), null, { renderer: 'svg' });
+barChart.setOption({
+  tooltip: {
+    trigger: 'axis', axisPointer: { type: 'shadow' },
+    backgroundColor: 'rgba(255,255,255,0.95)', borderColor: '#e5e7eb', borderWidth: 1,
+    textStyle: { fontFamily: 'Inter', fontSize: 12, color: '#1e2837' },
+    formatter: function(p) {
+      let t = '<div style="font-weight:600;margin-bottom:4px">' + p[0].name + '</div>';
+      let total = 0;
+      p.forEach(s => { total += s.value; t += '<div style="display:flex;justify-content:space-between;gap:16px"><span>' + s.marker + ' ' + s.seriesName + '</span><span style="font-family:JetBrains Mono;font-weight:600">' + s.value + '</span></div>'; });
+      t += '<div style="border-top:1px solid #e5e7eb;margin-top:4px;padding-top:4px;font-weight:700;text-align:right">Total: ' + total + '</div>';
+      return t;
+    }
+  },
+  legend: { top: 0, right: 0, textStyle: { fontFamily: 'Inter', fontSize: 11 }, itemWidth: 12, itemHeight: 12, itemGap: 16 },
+  grid: { left: 130, right: 20, top: 30, bottom: 10 },
+  xAxis: { type: 'value', axisLabel: { fontFamily: 'JetBrains Mono', fontSize: 10, color: '#9ca3af' }, splitLine: { lineStyle: { color: '#f3f4f6' } }, axisLine: { show: false }, axisTick: { show: false } },
+  yAxis: { type: 'category', data: barData.map(d => d.name).reverse(), axisLabel: { fontFamily: 'Inter', fontSize: 11, color: '#4b5563' }, axisLine: { show: false }, axisTick: { show: false } },
+  series: [
+    { name: 'MFin', type: 'bar', stack: 'total', data: barData.map(d => d.mfin).reverse(), itemStyle: { color: '#3d5fa0', borderRadius: [0,0,0,0] }, barWidth: 16 },
+    { name: 'MBA', type: 'bar', stack: 'total', data: barData.map(d => d.mba).reverse(), itemStyle: { color: '#2a8a6e' }, barWidth: 16 },
+    { name: 'EMBA', type: 'bar', stack: 'total', data: barData.map(d => d.emba).reverse(), itemStyle: { color: '#c9a84c', borderRadius: [0,3,3,0] }, barWidth: 16 }
+  ],
+  animationDuration: 1200, animationEasing: 'cubicOut'
+});
+
+// ===== ECHARTS: DONUT CHART =====
+const donutChart = echarts.init(document.getElementById('donutChart'), null, { renderer: 'svg' });
+donutChart.setOption({
+  tooltip: {
+    backgroundColor: 'rgba(255,255,255,0.95)', borderColor: '#e5e7eb', borderWidth: 1,
+    textStyle: { fontFamily: 'Inter', fontSize: 12, color: '#1e2837' },
+    formatter: '{b}: {c} ({d}%)'
+  },
+  series: [{
+    type: 'pie', radius: ['48%', '78%'], center: ['50%', '50%'],
+    avoidLabelOverlap: true,
+    itemStyle: { borderRadius: 6, borderColor: '#fff', borderWidth: 3 },
+    label: { show: true, fontFamily: 'Inter', fontSize: 12, color: '#4b5563',
+      formatter: '{b}\n{d}%', lineHeight: 18 },
+    labelLine: { length: 12, length2: 8 },
+    emphasis: { itemStyle: { shadowBlur: 20, shadowColor: 'rgba(0,0,0,0.12)' } },
+    data: [
+      { value: 512, name: 'MFin', itemStyle: { color: '#3d5fa0' } },
+      { value: 487, name: 'MBA', itemStyle: { color: '#2a8a6e' } },
+      { value: 195, name: 'EMBA', itemStyle: { color: '#c9a84c' } }
+    ],
+    animationType: 'scale', animationDuration: 1000, animationEasing: 'cubicOut'
+  }]
+});
+
+// ===== RESIZE =====
+window.addEventListener('resize', () => { barChart.resize(); donutChart.resize(); });
+
+// ===== THESIS DATA & PROFILE LINKS =====
+const thesisData = {
+"John Harold Rogers":[["Impact of Industrial Robot Application on Labor Market: Evidence from A-Share Manufacturing Listed Companies","郑屹","MFin","2023"],["Influencing Factors of Personal NPLs: Analysis Based on Household Financial Vulnerability","谭皓昀","MFin","2023"],["Research on Fed Monetary Policy Impact on Chinese Stock Market: Transmission Channels and Policy Surprise Perspectives","汪琦阳","MFin","2023"],["Measurement and Analysis of US Financial Sanctions Against Russia: Empirical Study Based on Index Construction and Macroeconomic Impact","许庞泽","MFin","2023"],["Research on Impact of Macroprudential Regulation on Risk Contagion Among Commercial Banks","高大维","MFin","2022"],["Impact of US-China Bilateral Tensions on Stock Crash Risk: A Study Based on the Chinese Market","赖采轩","MFin","2021"],["Impact of US Monetary Policy Shocks on China's Outbound FDI: Time-varying Analysis Based on TVP-SV-VAR Model","Qiu Jun Wu","MFin","2021"]],
+"吴文斌":[["Research on Business Model Innovation of Light Steel Roof Photovoltaic Integration Company SQ","洪善早","EMBA","2024"],["Current Status and Strategies of Market Value Management in Listed Companies: A Case Study of Baosteel Group","王静","MBA","2023"],["Research on New Models of Supply Chain Finance in Commercial Banks: Strategic Optimization Based on Bank J Case Study","袁卓群","MBA","2023"],["Research on Differentiated Competitive Strategies for Investment Banking in Small and Medium Securities Companies: A Case Study of Securities Company A","罗锦","MBA","2023"],["Case Analysis of Battery Swapping Profitability Models in New Energy: A Case Study of Company A","史晶杰","EMBA","2023"],["Research on Credit Assessment System and Enterprise Risk Management in Commodity Trading: A Case Study of Company A","刘聪","EMBA","2023"],["Research on Digital Transformation and Risk Resilience in Electronic Manufacturing: A Case Study of Foxconn","余培雅","MBA","2023"],["Research on Chinese Auto Enterprises' International Expansion Strategy: A Case Study of Company A","金卫","MBA","2023"],["Analysis of Corporate Financing Strategy Based on Government Bond Yield Curve","袁弘旸","MBA","2023"],["Cross-border M&A Financing and Enterprise Performance: Role of National IC Industry Fund in Tongfu Microelectronics Case","周怡娟","MBA","2023"],["Analysis of Domestic Debt Resolution Through LGFV Governance: A Case Study of Tianjin City Construction","陆文怡","MBA","2023"],["Research on Impact of Co-Management Model on Public Fund Performance: A Case Study of Fund Company S","胡嘉","MBA","2023"],["Research on Application of Dim Sum Bonds in Offshore Debt Management of LGFVs: A Case Study of LGFV P","曹璟","MBA","2023"],["Research on KST Spin-off Listing Strategy to Address Financing Problems","徐逸","MBA","2023"],["Research on Competitive Strategy of Wealth Management at Grassroots Branches: A Case Study of Bank A","苏少力","MBA","2023"],["Impact of State-owned Capital Participation on Operating Performance of Private Listed Companies","俞非","MFin","2023"],["Impact Factors and Optimization Strategies of Bank Capital Adequacy Ratio: A Case Study of Bank G","张雨荷","MBA","2022"],["Research on Transformation Strategy from Traditional Generic to Innovative Drug Enterprises in China: A Case Study of Company A","江晶洁","MBA","2022"],["Impact Analysis of PE Investment on Corporate Operating Performance: Empirical Evidence from ChiNext Companies","钟楠","MFin","2022"],["Research on Value Creation of Bank Supply Chain Finance: A Case Study of Company A","姚岱均","MBA","2022"]],
+"周亦凡":[["Impact of Executive Technology Background on Corporate Innovation: Empirical Analysis of Chinese Listed Companies","YUJIE ZHOU","MFin","2022"]],
+"唐敦哲":[["Impact of Environmental Regulation on Green Transformation of Heavy Polluting Enterprises: A Quasi-natural Experiment Based on the New Environmental Protection Law","仲贝翎","MFin","2023"],["Research on ESG Evaluation System Construction and Optimization for Semiconductor Enterprises: A Case Study of Enterprise XYZ","刁春华","EMBA","2023"],["The Importance of Institutional Investors: Empirical Analysis Based on Public Fund Holder Structure","李享","MFin","2023"],["Impact of AI Development Level on Agency Costs of Listed Companies","周欣颖","MFin","2023"],["Impact of Medical Insurance Payment Method Reform on Chinese Pharmaceutical Listed Companies","梅竹松","MFin","2023"],["The Path of Wealth Management: A Comparative Study of Family Office Strategies in China and Globally","李晓晴","MFin","2023"],["Capital Market Opening and Corporate Strategic Aggressiveness: Evidence Based on Stock Connect","程薇璇","MFin","2023"],["Ownership Structure and Excess Cash Holdings of Subsidiaries","周心宁","MFin","2023"],["Liquidity Impact and Price Effects of Introducing Market Makers in STAR Market Stocks","梅煜东","MFin","2023"],["Venture Capital Institution Types and Corporate Innovation: An Empirical Study Based on ChiNext-listed Companies","徐一凡","MFin","2023"],["Empirical Study on Impact of Large Shareholder Reduction Restriction Policy on Stock Liquidity","陈楚风","MFin","2023"],["The 'Real Estate Illusion' and Household Financial Risk Asset Allocation: Empirical Study Based on CHFS Data","郭芮汐","MFin","2023"],["Research on Impact of Mixed Ownership Reform on Financial Value of SOEs: A Case Study of Company S","张佳成","MBA","2023"],["Impact of Digital Transformation on Comprehensive Enterprise Performance","林旭姿","MFin","2023"],["Impact of Chinese Investment on Central America: A Case Study of El Salvador","CARLOS ROBERTO LOPEZ ALDANA","MBA","2023"],["Impact of Three Red Lines Policy on Financing Performance of Real Estate Enterprises","周芑岙","MFin","2023"],["Entrepreneurial Team Relationship Types, R&D Investment, and Company Growth: Evidence from Sci-Tech Enterprises","王颜涛","MFin","2023"],["Supply Chain Digitalization in Photovoltaic Industry: A Case Study of Longi Green Energy","张露文","MBA","2023"],["Corporate Venture Capital and Parent Company Innovation Performance: A Study of A-Share Listed SOEs","甘泉","MFin","2023"],["Impact of Information Value on Investor Interactive Platforms on Stock Abnormal Returns","林楷哲","MFin","2023"],["Impact of Gender of Financial Executives on Financial Leverage in Chinese Listed Companies","刘欣琳","MFin","2023"],["Impact of Fintech Innovation Regulatory Pilot Programs on Enterprise Productivity","费沸","MFin","2023"],["Impact of Stock Connect Trading Disclosure Mechanism Adjustments on A-Share Volatility","姚奕良","MFin","2023"],["Impact of Enhanced Minority Shareholder Regulatory Awareness on New Quality Productivity: A Study Based on China Securities Investor Services Center","陈佳怡","MFin","2023"],["Impact of Bankruptcy Judicial Reform on Regional Entrepreneurship and Innovation: Evidence from Bankruptcy Court Pilots","陈小戎","MFin","2023"],["Impact of National IC Industry Investment Fund Reduction on Corporate Investment Efficiency","黄馨","MFin","2023"],["Impact of Green Bond Issuance on Enterprise Financial Stability: Evidence from Chinese Enterprises","XING HAN LAN","MFin","2023"],["Impact of MD&A Information Efficiency on Stock Price Synchronicity: Evidence from A-share Listed Companies (2019-2023)","陈达","MFin","2022"],["Research on Corporate Strategy: A Case Study of Lighting Company OP","贲经义","EMBA","2022"],["Impact of Corporate Governance on Post-IPO Stock Performance Under the Registration System","曾宪达","MFin","2022"]],
+"孙林":[["Research on Customer Profiling and Digital Strategies for Personal Pension Business at Bank A","阙丹怡","MBA","2023"],["Performance Analysis of M&A Transformation in Internet Finance Platforms: A Case Study of East Money's Acquisition of Tongxin Securities","程荞","MBA","2023"],["Research on Innovative Financing Leasing Models in Building Energy-Saving Equipment Industry","何建军","EMBA","2023"],["Research on Operational Outsourcing Strategy of Fund Companies: A Case Study of Fund Company H","孙栋轩","MBA","2023"],["Impact of Tightened HFT Regulation on Quantitative Private Fund Competitiveness: A Case Study of Fund Company Z","胡晓慧","MBA","2023"],["Research on Impact of Public Fund Dividend Behavior on Fund Flows","刘欣语","MFin","2023"],["Impact of Buy-Side Institutional Research Intensity and Topics on Stock Prices","廖妍昕","MFin","2023"],["Research on Motivations and Effects of NIO's Green Battery Asset Securitization","张劭","MBA","2023"],["Business Model Transformation of Pet Food Companies in the Pet Economy: A Case Study of Guaibao Pet","吴萌萌","MBA","2023"],["Research on Finance Lease Product Strategy for Consumer Healthcare Market of Company X","王妤","MBA","2023"],["Research on Information Security Management in Consumer Electronics Supply Chain: A Case Study of Company Z","白慧林","MBA","2023"],["Impact of Fund Managers' Professional Match on Chinese Public Fund Performance","盛开","MFin","2023"],["Research on Market-Based Optimization of Public Fund Marketing Strategies: A Case Study of Company A","陆庆","EMBA","2021"]],
+"张宗新":[["Research on Financing Motivations and Risks of Public Rental Housing REITs: A Case Study of CR Home Nest REIT","王妍","EMBA","2025"],["Discovery of Local Factors and Evaluation of Their Effectiveness in Secondary Markets","袁国华","EMBA","2025"],["Research on Optimizing Investor Protection for Small Investors in Chinese Public Funds: A Case Study of Fund Company A","许野","EMBA","2023"],["Research on Risk Identification and Control Optimization in Margin Trading: A Case Study of Securities Company A","叶佳","EMBA","2023"],["Research on Optimization of Post-Investment Management in PE Fund Companies: A Case Study of Project Y at Company X","李琦琦","EMBA","2023"],["Research on Compliance Risk Management of Investment Trading Behavior in Fund Company A","张耀文","EMBA","2023"]],
+"张纯信":[["Utility of Private Secondary Market and Data for VC Fund Operational Decisions and Reporting","NICHOLAS JAMES JOHNSTONE","MBA","2025"],["Comparative Study of Virtual Digital Humans versus Live Streaming by Real Persons: A Case Study of Douyin","付至威","MFin","2023"],["Research on Development Strategy of SMEs in Quantum Information Technology: A Case Study of Enterprise D","陆阳","EMBA","2023"],["Case Study of Cross-Disciplinary Integration Between Experiential Education and Brand Management: Little Knight Silk Road Rally","李铁军","MFin","2023"],["Research on Innovation and Entrepreneurship Incubation: A Case Study of Youth Entrepreneurship","陳謙民","EMBA","2023"],["Manufacturing Digital Transformation Strategy and Implementation Effectiveness: A Case Study of Shoe Enterprise N","赖建宏","EMBA","2023"],["Supply Chain Risk, Cash Holding Behavior and Corporate Innovation","金可欣","MFin","2023"],["Integration of Sentiment Index and Market Return Prediction: PLS Analysis with Multi-source Sentiment Proxies","狄泽宇","MFin","2023"],["Research on Impact of Carbon Emission Rights Pledge Loans on Enterprise Financing: A Case Study of Huaneng International","孙斐倩","MBA","2023"],["Analysis of GenAI Empowering Meeting Software Product Innovation: A Case Study of Company W","李诚尧","MBA","2023"],["Research on the Impact of Foreign Banks on Risk-Taking of Chinese Commercial Banks","郑凯萱","EMBA","2021"]],
+"施东辉":[["An Empirical Study on the Impact of Major Litigation Events on Stock Prices","冒小建","EMBA","2025"],["Research on Market Value Management Dilemmas and Breakthrough Paths of Company AZSS","唐普阔","EMBA","2025"],["Research on M&A Integration in China's Medical Device Distribution Industry: A Case Study of Company J","陆启勇","MBA","2023"],["Research on Marketing Strategy of BYD New Energy Vehicles","戎行之","MBA","2023"],["Research on Pricing and Risk Management of Phoenix Snowball Products","张敏捷","MBA","2023"],["Research on Duplicate Guarantee Risk Control in Movable Property Finance via Knowledge Graphs: A Case Study of Credit Center A","张心远","MBA","2023"],["Research on Innovation and Application of Smart Elderly Care Service Model: A Case Study of Company D","殷凡","MBA","2023"],["Research on the Impact of Equity Incentives on Enterprise Performance in Photovoltaic Company A","周寒阳","MBA","2022"],["Research on Index Futures Price Volatility Prediction and Trading Strategy Based on Machine Learning","许蔚","EMBA","2021"]],
+"施文韵":[["Analysis of Pathways and Effects of ESG Practices Enhancing Enterprise Value: A Case Study of Securities Company X","康淑婷","MBA","2024"],["Research on Proprietary Investment Strategies of Securities Companies: A Case Study of Securities Company G","户永红","MBA","2023"],["Analysis of Insurance Intermediary Business Transformation Under Integration Policy: A Case Study of Company DT","王岩","MBA","2023"],["Game Theory Analysis of National Centralized Procurement and Its Impact on Pharmaceutical Enterprises","高静丽","EMBA","2023"],["Research on Marketing Channel Optimization for Ophthalmology Medical Devices at Company GS","戴珂珂","EMBA","2023"],["Research on Localization Strategy of Marine Oil and Gas Equipment Under US-China Trade Friction: A Case Study of CNOOC","崔奕奕","MBA","2023"],["Research on Competitive Strategy of Financial Products of Internet Enterprises: A Case Study of Meituan","顾珏炜","MBA","2023"],["Value Creation of PE Fund Management and Exit Behavior on Pharmaceutical Enterprises: A Case Study of Boya Bio","董文辛","MBA","2023"],["Impact of Directed Convertible Bond Payment on M&A Performance: A Case Study of Shenma Stock","朱干","MBA","2023"],["Research on Asset-Liability Management Strategies of Chinese Insurers in Low Interest Rate Environment: Analysis of Life Insurance Company T","徐洁仪","MBA","2023"],["Research on Investment and Financing in Cultural Tourism Industry: A Case Study of City Y Film Studio Project","易建邦","MBA","2023"],["Research on Credit Risk Management of Commercial Bank Investment Banking: A Case Study of Bank S","肖奂洋","MBA","2023"],["Research on Fund Advisory Business Operating Models of Securities Companies: A Case Study of Securities Company A","陈佳婧","MBA","2023"],["Impact of Document No. 35 on Debt Resolution Methods of Municipal Investment Platforms","李靖旸","MBA","2023"],["Research on Value Creation in Cross-Industry M&A: A Case Study of Junda Shares Acquiring Jetai Technology","陈嘉慧","MBA","2023"],["Research on Cost Reduction and Efficiency Improvement of Logistics Listed Companies: A Case Study of Company D","张宏宇","MBA","2023"],["Domestic Substitution and Independent Innovation of Chinese Enterprises Under U.S. Supply Chain Disruption","曾德利","MBA","2023"],["Impact of Earnout Clause Characteristics on Long-term M&A Performance","陈曼珂","MBA","2023"],["Research on Market Strategy of Instrument Distributors Under Direct Sales Challenges: A Case Study of Company Z","宫少博","MBA","2023"],["Strategic Transformation of Foreign Bank Wealth Management in China: A Case Study of Bank Y","许名扬","MBA","2023"],["Research on Type II Restricted Stock Implementation in ChiNext Enterprises: A Case Study of East Money","王陈洲","MBA","2023"],["Research on ESG Transformation of Trust Companies: A Case Study of Trust Company J","朱迪","MBA","2023"],["Impact of ESG Practice on Enterprise Value in Lithium Battery Companies: A Case Study of Tianqi Lithium","肖奕立","MBA","2022"],["Research on Securities Company Proprietary Bill Trading Operations: A Case Study of Securities Firm H","周蕾","MBA","2022"]],
+"朱蕾":[["Research on Financial Risk Evaluation and Prevention for Enterprise H","翟林丰","EMBA","2025"],["Research on Supply Chain Efficiency and Enhancement Strategies in Discount Supermarkets: A Case Study of HMNB","胡大雷","EMBA","2023"],["Research on Pathways for Commercial Banks to Support Silver Economy and Chinese-style Elderly Care Development","蒋令宏","EMBA","2023"],["Impact of SOE Spin-Off Listing on Operating Performance: A Case Study of CCCC's Spin-Off via Qilian Mountain","王延","MBA","2023"],["Research on Development Strategy of Wafer Foundry Enterprise S Under Deglobalization","江山","EMBA","2023"],["Comparative Research on Digital Transformation Strategy of Sino-US Manufacturing Based on Dynamic Capabilities Theory: Haier Group and General Electric","洪梦怡","MFin","2023"],["Research on Actual Controller's Shareholding Ratio and Post-IPO Performance","姚逸波","MBA","2023"],["Analysis of Impact of Performance Commitment Mechanisms on Major Asset Restructuring M&A Prices","沈钊冉","MBA","2023"],["Empowering Business-Finance Integration Through Intelligent Digital Applications: A Case Study of Company H","樊祎迪","MBA","2023"],["Identification and Response to Financial Fraud in Real Estate Audits: A Case Study of Audit Failure of Company A","毕程欢","MBA","2023"]],
+"李志青":[["Path to ESG Development for Small and Medium-Sized Enterprises: A Case Study of Enterprise X","沈巨峰","MFin","2023"],["Research on Management Strategy of Soil Remediation Projects: A Case Study of KD Environmental Group","史童伟","EMBA","2023"]],
+"杨春柳":[["Research on Optimization of Performance Evaluation Index System for Shared Financial Services Center at Company Q","沈康翔","MBA","2023"],["Pricing Analysis of Stochastic Volatility Models Based on CSI 300 ETF Options","高培皓","MFin","2023"],["Research on Xiaomi Automobile Development Strategy Under AI Background","张济原","MBA","2023"],["Research on Marketing Channel Strategy Optimization of Wealth Management Subsidiary: A Case Study of Bank C","何谐","MBA","2023"],["Research on Impact of Carbon Emission Trading System on Enterprise Performance: A Case Study of Huaneng International","朱鸿嘉","MBA","2023"],["Research on Commodity Financialization and Futures Market Risk: A Case Study of Private Fund Management Companies","王超凡","MBA","2023"],["Marketing Strategy Optimization for Mobile Game Company L","柳萌","MBA","2023"],["Impact of Institutional Investor Valuation Disagreement on Long-Term Stock Performance of IPO Firms","林梓林","MFin","2023"],["Research on AI Industry Service Platforms Empowering Digital Transformation: A Case Study of 'Model Digital Factory'","陈昊","MBA","2023"],["Positive Feedback Trading Behavior of Chinese Passive ETF Investors","王紫琪","MFin","2023"],["Impact of Chinese Economic Policy Uncertainty on Commercial Bank Operating Efficiency","郑燕","MFin","2023"],["Impact of PE on Digital Transformation of Manufacturing: Evidence from A-share Listed Companies","黃競麗","MFin","2023"],["Optimization and Innovation of Insurance Product Sales in Commercial Banks Under Fee Reduction: A Case Study of Branch A of Bank J","黄海涛","MBA","2023"],["Research on Business Development Strategy of Small Public Fund Companies: A Case Study of Fund Company Z","王文博","MBA","2023"],["Research on Outbound Call Strategy in Retail Banking of Joint-Stock Commercial Banks: A Case Study of Branch S of Bank X","王帝","MBA","2023"],["Impact of Global Semiconductor Export Controls on Financial Performance of Chinese Listed Semiconductor Companies","王关塍","MFin","2023"],["Research on Impact of Investor Sentiment on Stock Returns and Volatility: Based on Financing Constraints and Risk-taking","林泽伟","MFin","2023"],["Relationship Between Institutional Trading Information and Stock Prices: Evidence from Taiwan Market","简叡","MFin","2022"]],
+"汤海涵":[["New Framework for Corporate Cross-border Payments: Synergistic Evolution of Geopolitics, Financial Regulation, and Frontier Technology","朱晓梅","EMBA","2024"],["Research on Optimization of Training System at Securities Company A","杨小霞","MBA","2023"],["Research on Sports Event Marketing Strategies of Sports Company L","党天珩","MBA","2023"],["Impact of Entity List Policy on Corporate R&D Activities: A Case Study of SMIC","徐俊冰","MBA","2023"],["Mechanism of Market Stabilization Role of the 'National Team' from a Sentiment Perspective","吕彦泽","MFin","2023"],["Research on Multi-Dimensional Driving Mechanisms of Novel Drug Delivery Devices Based on System Dynamics: A Case Study of Company X","戴思天","EMBA","2023"],["Research on Trust Business Transformation Under Asset Management Regulations: A Case Study of Company A","郑泽轩","EMBA","2023"],["Research on Digital Marketing Customer Acquisition Strategy of Education Company A","陈文良","EMBA","2023"],["The Relationship Between Team-based Funds and Fund Performance","苏方觉晓","MFin","2023"],["Research on Platform Strategy of Industrial Bank","李艺伟","MBA","2023"],["Research on Path and Economic Consequences of Supply Chain Digital Transformation in Company D","周涵怡","MBA","2023"],["Research on Impact of Corporate Overinvestment on A-share Discounts","王馨怡","MFin","2023"],["Does Income Risk Incentivize Households to Improve Financial Asset Allocation Efficiency? Micro-level Evidence from CHFS","叶满","MFin","2023"],["Empirical Research on Price Impact Factors of China's Carbon Market","傅正义","MFin","2023"],["Research on Opportunities and Challenges of Wealth Management Digitalization: A Case Study of Commercial Bank Z","张静静","EMBA","2022"]],
+"王永钦":[["Research on M&A and Reorganization Motivations and Performance of Small and Medium Banks: A Case Study of Bank L","韩翔","EMBA","2023"],["Research on Local LGFV Transformation Strategy from Sci-Tech Innovation Bond Perspective: A Case Study of Anhui Province","田甜","EMBA","2023"],["Impact of Ownership on Overseas Expansion at Different Life Cycle Stages: Chinese Manufacturing Listed Companies","张雨莛","MFin","2023"],["Management Overconfidence and Equity Pledge","罗卿","MFin","2023"]],
+"王遐昕":[["Research on Insurance Brokerage Team Management Under Non-Employment Relationships: A Case Study of Team Y at Firm X","谭露","EMBA","2025"],["Research on Digital Transformation of Intelligent Manufacturing in Zhengzhou Coal Mining Machinery Group","黄宇栋","MBA","2023"],["Differentiation Strategy and Effectiveness Analysis for Small IT Service Enterprises: A Case Study of Company FX","项彪","MFin","2023"],["Research on AI Empowering Enterprise Compliance Management: A Case Study of Company J's Intelligent Compliance System","高梓瑜","MBA","2023"],["Strategic Adjustment of Cross-border Logistics Driven by Regional Differences: A Case Study of J&T Express in Southeast Asia","姚雨晴","MBA","2023"],["Research on Market Risk Management of Private Chemical Enterprises: A Case Study of Styrene Processing Company J","池碧钰","MBA","2023"],["Research on Carbon Information Disclosure Evaluation of Oil Enterprises Under 'Dual Carbon' Goals: A Case Study of Sinopec","甘予馨","MBA","2023"],["Construction and Application of Change Management Model for Kunlun Energy","张方圆","MBA","2023"],["Strategic Transformation of Real Estate Enterprises Under New Urbanization: A Case Study of Company L","周启航","MBA","2023"],["Research on Third-party Payment Innovation Under Online Payment Agent Services: A Case Study of Company A","刘爱娜","MBA","2023"],["Research on Technology Innovation Strategy of Analog Chip Enterprises: A Case Study of Company N","赵冉","MBA","2023"],["Who Are the Smartest Foreign Institutional Investors: QFII Investment Returns and Preferences in A-shares","蒙楠冰","MFin","2023"],["Research on Empowering Commercial Bank Intensive Operations with Digital Workforce: A Case Study of Bank G","曹凡","MBA","2023"],["Selection and Value Impact of Local SOE Capital Investment in Listed Private Enterprises Under Reverse Mixed Ownership Reform: A Case Study of Mianyang","潘琳","MFin","2023"],["Research on Corporate Credit Strategy of ICBC SH Branch Under Interest Rate Liberalization and Self-discipline Mechanism","施斯","MBA","2023"],["Research on Manufacturing Loan Management Issues and Optimization in Small City Commercial Banks: A Case Study of Bank A","朱嘉薇","MBA","2022"],["Impact of IPO Market Performance on Secondary Market Stock Returns and Investor Sentiment","陈冠安","MFin","2022"],["How Industrial Policy Affects Corporate Investment and Financing Behavior","胡雨轩","MFin","2022"]],
+"童国士":[["Internationalization from 'Domestic Substitution' to 'Cross-border Expansion': Company LDM's Two-wave Expansion","沈侃","EMBA","2023"],["Impact of Mixed Ownership Reform on Inefficient Investment of State-owned Manufacturing Enterprises on A-shares","郭亮","MFin","2023"],["The Belt and Road Initiative and Cross-border M&A Performance","刘葳洋","MFin","2023"],["Impact of Nationalization of Private Enterprises on Dividends: Evidence from Chinese Listed Companies","李智超","MFin","2023"],["Impact of Early-stage Institutional Financing Rounds on Post-IPO Financial Performance","余勤","MFin","2023"],["Capital Market Opening and Environmental Information Disclosure Quality: Evidence from Stock Connect","李美婷","MFin","2023"],["Research on Credit Risk Early Warning Model for Listed Companies Based on SSA-XGBoost","马逸杰","MFin","2023"],["Impact of Capital Market Opening on Green Innovation: A Quasi-Natural Experiment Based on A-Share Inclusion in MSCI Index","魏先佳","MFin","2023"],["Credit Asset Securitization, Credit Expansion, and Commercial Bank Risk","张亦弛","MFin","2023"],["De-Familization of Family Enterprises and Financing Preferences: Evidence from Chinese Listed Family Enterprises (2008-2023)","谢汶霖","MFin","2023"],["Can Registration System Reform Reduce Insider Trading? Evidence from ChiNext","赵奕然","MFin","2023"],["Impact of Economic Policy Uncertainty on Corporate Non-Compliance Behavior","王佳琳","MFin","2023"],["Impact of 'National Team' Holdings on Total Factor Productivity of A-share Listed Companies","刘栩嫣","MFin","2023"],["Cash Holdings and Enterprise Resilience: Evidence from the COVID-19 Pandemic","田丞然","MFin","2023"],["Impact of Digital Inclusive Finance Development on Urban-Rural Consumption Gap","戴若西","MFin","2023"],["Research on Impact of Real Estate Policy on LGFV Bond Financing Costs: A Case Study of the 'Three Red Lines'","王晨瑞雪","MFin","2023"],["Research on Strategic Transformation in Intergenerational Succession of Family Enterprises: A Case Study of Semir","柯城","MBA","2023"],["Impact of Internet Development in Export Destinations on China's Cross-border E-commerce Exports","田鹏","MFin","2023"],["Peer Effects in Corporate Earnings Management: Evidence from A-Share Listed Companies","张海蓉","MFin","2023"],["Stock Market Reaction to Trump Assassination Attempt: Industry Support, Tax and Trade Policy","朱莹莹","MFin","2023"],["Government Service Informatization Promoting Enterprise Digital Transformation: Evidence from National Pilot Policy","程弋洋","MFin","2023"],["Empirical Research on 'Pseudo Buyback' Under High Equity Pledge by Controlling Shareholders","齐高宇","MFin","2023"],["Impact of Executive-Employee Compensation Gap on Corporate Innovation","陈思羽","MFin","2023"],["Research on Impact of Enterprise Digital Transformation on Cost of Equity","曾凤清","MFin","2023"],["How Do Agency Costs Affect REITs Market Performance? Empirical Study of China's REITs Market","江林安","MFin","2022"],["Application of Deep Reinforcement Learning with Attention Mechanism to Stock Portfolio Weight Allocation: China A-Share Market","钱泽葭","MFin","2022"],["Impact of Acquirer's Digital Transformation Level on M&A Performance","余昊宇","MBA","2022"],["Impact of Convertible Bond Redemption Announcements on Stock Prices: Evidence from Taiwan Market","余子毅","MFin","2022"],["Enterprise Strategy of Digital Marketing Companies Under AIGC Technology: A Case Study of Enterprise R","刘畅","MFin","2022"]],
+"蒋亮":[["Research on New Clustered Data Center Management Models in Internet Enterprises: A Case Study of Company B","曹豫","MFin","2025"],["Research on Economic Impact of U.S. Sanctions on China's Photovoltaic Industry and Countermeasures","赵蓉蓉","EMBA","2025"],["Strategic Research on Chinese Cross-border E-commerce Under Deglobalization: Insights from TikTok's Success","李怡华","MFin","2023"],["Research on Development Strategy of Intelligent Measurement Business for Industrial Measurement Enterprises in China: A Case Study of Company Z","孙涛","EMBA","2023"],["Development Strategy of Chinese Third-Party Semiconductor Testing Companies: A Case Study of Testing Company J","尚跃","EMBA","2023"],["Research on 'Investment Plus Operation' Strategy of Diversified Private Enterprises: A Case Study of Fosun Group and Nanjing Steel","祝捷","MFin","2023"],["Prediction of Personal Non-performing Loan Repayment Based on Machine Learning","夏怡卿","MFin","2023"],["Research on Brand Strategy of Nutritional Functional Candy Industry: A Case Study of Company M","粟政东","MBA","2023"],["Research on Marketing Strategy Combining Telecom Services with Deposit Products: A Case Study of China Telecom Wing Pay","高然","MBA","2023"],["Analysis of Government VC Impact on Enterprise Performance from the Exit Perspective","温雅璇","MFin","2023"],["Research on Management Strategy of International Business Card Issuance: A Case Study of Company A","章媛媛","MBA","2023"],["Government Intervention, Bank Competition, and Corporate Debt Default Risk","刘畅","MFin","2023"],["Research on Product Strategy of Life Insurance Company F in Low Interest Rate Environment","王旭","MBA","2023"],["Impact of Sustainability Reporting Guidelines on Secondary Market Performance of A-share Companies","包欣琳","MFin","2023"],["Research on Marketing Strategy of Foreign Cosmetics Companies Under Impact of Domestic Brands: A Case Study of Group L","邓昱皓","MFin","2023"],["Research on Impact of Tier-2 Capital Bond Issuance on City Commercial Bank Asset Quality: A Case Study of Ningbo Bank","党维谦","MBA","2023"],["Research on Public Opinion Effects in China's Stock Market","张玙佳","MFin","2023"],["Research on Refinancing Strategies of Tuopu Group in the New Energy Vehicle Industry","黄景国","EMBA","2022"],["Market Sentiment and Price Prediction in Chinese Real Estate Market","龚沛承","MFin","2022"],["Momentum and Reversal Rebalancing Strategy in A-share Market Optimized by Omega Model","陆柏臻","MFin","2022"],["Research on Development Strategy of Guangfa Securities","谭笑羽","EMBA","2021"]],
+"许闲":[["Research on Impact of Stock Market Volatility on Insurance Demand","陈智霖","MFin","2023"]],
+"钱军":[["Research on Development Strategy of Retail Business in China for Bank F","林似蓴","EMBA","2025"],["Differentiated Paths of Corporate Dividend Behavior Under New Reduction Rules and Impact on Operating Performance: A Comparative Case Analysis","韩维","MBA","2023"],["Driving Effect of Cross-border M&A Strategy on Brand Globalization of Chinese Sports Goods Enterprises: A Case Study of Anta Group","唐建玺","MFin","2023"],["Research on Innovation Performance of IT Industry M&A from Performance Commitment Perspective: A Case Study of Kunlun Tech","刘学欧","MBA","2023"],["Research on Development Strategy of Inovance Technology","杨培林","EMBA","2022"],["Analysis of Value Creation When Finance Empowers Internet Healthcare Platforms: A Case Study of Ping An Good Doctor","郭利敏","EMBA","2022"],["Analysis of Impact of Underlying Asset Operations on Market Value of Public REITs: Guojun Lingang REIT and Huaan Zhangjiang REIT","王绪合","EMBA","2022"],["The Necessary Path for Private Enterprise REIT Development in Real Estate Securitization","李亚鹏","EMBA","2021"],["Research on Value Enhancement Through Asset Securitization in Cultural Tourism Industry","吕梦龙","EMBA","2020"]],
+"陈华锋":[["Research on Impact of Differentiated Competitive Strategies on High-Tech Instrument Companies: A Case Study of Company A","赵嘉胤","EMBA","2023"],["Research on Impact of Strategic Alliance Depth on Stock Price Crash Risk","肖娟","MFin","2023"],["Research on Marketing Strategy of Sci-Tech Innovation Loan at Bank Y Shanghai Branch","陈名浩","MBA","2023"],["Research on Appropriateness of Futures Hedging by Enterprises: A Case Study of Pork Processing Enterprise J","李函洋","MBA","2023"],["Strategic Research on Commercial Banks During Economic Slowdown","张诚哲","MBA","2023"],["Impact of Carbon Emission Policy on Enterprise Productivity and Green Factor Productivity","郑楷樾","MFin","2023"]],
+"陈诗一":[["Attribution of Regional Development Differences in Live Streaming E-commerce from Platform Expansion Perspective: Douyin/TikTok Globalization","李安钰","EMBA","2023"],["Research on China's Auto Overseas Expansion Under Overseas M&A: Multi-Case Study of Geely Group","兰军","EMBA","2023"],["Innovative Application of Blockchain in Carbon Database Construction and Revenue Sharing Methods","林力","EMBA","2023"],["Research on Global Supply Chain Management Advantages and Brand Strategy of Multinational Clean Appliance Enterprises: A Case Study of Company P","邵长东","EMBA","2021"]],
+"陈钊":[["Research on Promotion Strategy of Unmanned Agricultural Technology Digital Platforms: A Case Study of Company D","施丽丽","EMBA","2023"],["Software-Hardware Synergy Strategy Design for Industrial Automation Service Enterprises: A Case Study of Company A","洪先文","EMBA","2023"],["Research on 'Mixed from Inception' Model in Mixed Ownership Reform: A Case Study of Hangzhou Bay Bridge Development Company","盛悠","EMBA","2023"],["Research on Adaptation of Shipping Finance Enterprises Under Bargaining Power Changes: A Case Study of Container Leasing","顾寅俊","EMBA","2023"],["Research on Implementation Effectiveness of Medical Alliance Policy","倪渢玮","EMBA","2022"],["Analysis of Impact of International Consumption Center City on Consumer Spending: A Case Study of Chengdu","朱晓雄","EMBA","2021"],["Research on Internal Corruption Characteristics and Governance Measures in Private Enterprises: A Case Study of Group XX","孙忠振","EMBA","2020"],["Optimization of Performance Evaluation for Digital Transformation in Mechanical Processing Factories","陈月华","MFin","2020"]],
+"马畅":[["Is China paying for the electrification of vehicles: the effect of Chinese EV subsidies on global emissions and reliance on fossil fuels","Chutchan Lohawatcharagul","MFin","2025"],["Management Optimization of Fintech Services for Commercial Banks: Software Testing Optimization at Bank HG","戚大伟","EMBA","2024"],["Analysis of Internal Risk Management Effectiveness Under Increased Assessment of Inclusive Finance Business: A Case Study of ICBC Branch X","董彦升","MBA","2023"],["Short-term International Capital Flows and Asset Prices","刘礼嘉","MFin","2023"],["The Role of Offshore Family Trusts as Risk Management Tools in Chinese Family Enterprise Succession","罗晓辉","MBA","2023"],["Research on Data Asset Valuation of Internet Companies: A Case Study of TRS","邹颖琛","MBA","2023"],["Impact of Tax Incentives on Internal Salary Gap in High-tech Enterprises","袁宇远","MFin","2023"],["Does Media Attention Affect Corporate Greenwashing? A Case Study of Huifeng Stock","巢成汗","MBA","2023"],["Research on Impact of Green Credit Policy on Commercial Bank Credit Risk","张家琪","MFin","2023"],["Digital Transformation and Enterprise Globalization: Evidence from China","王均溢","MFin","2023"],["Impact of Perceived Economic Policy Uncertainty on Outward Foreign Direct Investment","王贝宁","MFin","2023"],["Impact of Fiscal Subsidies on Financing Costs of Municipal Investment Companies","徐骏","MBA","2023"],["Can Employee Stock Ownership Improve Quality of Enterprise Green Information Disclosure?","贺芸婷","MFin","2023"],["Research on Green Finance Asset Securitization: A Case Study of '20 CR Power Investment ABN001' Asset-Backed Notes","陈卓良","MBA","2023"],["Research on Impact of Local Government LGFV Bond Scale on Corporate Financialization","李峙霖","MFin","2023"],["Research on Impact of Local Industrial Policy on Enterprise M&A Performance","刘炼","MFin","2023"],["Impact of Green Finance Development on Performance of Non-Green Enterprises","熊隽伦","MBA","2022"],["Impact of 'News' on RMB/USD Exchange Rate: Empirical Analysis Based on Macroeconomic Data Expectation Differential","张昭璞","MFin","2022"],["Research on Impact of Government Guidance Funds on Innovation Quality of Listed Enterprises in China","蔡锦涛","MFin","2022"],["Research on Time-Varying Impact of Monetary Policy Shocks on Cross-border Capital Flows: Empirical Analysis Based on TVP-SV-VAR Model","何泽亨","MFin","2022"]],
+"高华声":[["Impact of Overseas Patient Capital on Domestic Invested Enterprises: A Case Study of Buffett's Investment in BYD","张前威","EMBA","2025"],["Research on Compensation Management Optimization of Company A in the Post-Pandemic Era","季晓栋","EMBA","2025"],["Analysis of Customer Loyalty Impact on the Medical Aesthetics Industry from Brand Community Perspective","孟靖艺","MFin","2024"],["Research on Optimization of Financing Service Paths for Technology Enterprises in Science Parks: A Case Study of Zhongguancun","费明凯","EMBA","2023"],["Analysis of Motivations and Effects of Carbon-Neutral Bond Issuance: A Case Study of Zijin Mining Group","王东尼","MBA","2023"],["Impact of Cultural Entertainment Information on Financial Markets: A Case Study of Stand-up Comedy Festival","王巧新","EMBA","2023"],["Does Inclusion in the US Entity List Increase Stock Price Crash Risk? Evidence from China's A-share Market","沈子添","MFin","2023"],["Case Study of Irrational Investor Behavior and Abnormal Stock Price Fluctuations: A Case Study of Chuanda Zhisheng","金仲夏","MBA","2023"],["Research on Development Strategy of Gold Listed Company S","郭鹏","MBA","2023"],["Does Patent Pledge Promote Entrepreneurship? Empirical Evidence from China","司雨佳","MFin","2023"],["Green Technology Innovation and Trade Credit Financing in Manufacturing: From Supply Chain Bargaining Power Perspective","王云客","MFin","2023"],["Can State-owned Cornerstone Investors Suppress Post-IPO Stock Volatility? Evidence from Hong Kong","曹煦同","MFin","2023"],["Can Fiscal Policy Promote Manufacturing Repatriation? A Study Based on Panel Data from 14 Countries","熊世超","MFin","2023"],["Impact of Enterprise Financialization on Innovation: From Financial Asset Maturity Structure Perspective","朱宸希","MFin","2023"],["Research on Government Bond Yield Term Structure Based on Quadruple Analysis Framework","黄筱轩","MFin","2023"],["Impact of Commission and Fee Reduction on the Sell-side Analyst Industry","沈雨轩","MFin","2023"],["ESG Rating Introduction and Corporate Greenwashing: Evidence from Chinese A-share Manufacturing Companies","王裕堃","MFin","2023"],["ESG Rating Divergence, Information Disclosure and Investor Protection: Empirical Analysis of China's A-Share Market","朱志郅","MFin","2023"],["Multi-dimensional Impact of PE Investment Characteristics on Listed Companies","叶天风","MFin","2022"],["How Green Innovation Capability Affects Financial Performance: From Industry Differences and Media Attention Perspectives","刘广成","MFin","2022"],["Empirical Analysis of High Barriers in HK SPAC Market on DeSPAC Excess Returns from U.S. Experience Perspective","张汶锋","MBA","2021"],["Analysis of Reasons for Par Value Delisting in Listed Companies: A Case Study of Guanghui Automotive","赵雅楠","EMBA","2020"],["Impact of Economic Policy Uncertainty on Insurance Industry Stock Market Performance","姚安琪","EMBA","2020"]],
+"鲁小萌":[["ETF Price Deviations: Influencing Factors, Mechanisms, and Market Impact","邹楚伊","MFin","2023"],["The ESG Paradox: Short-term Costs and Long-term Resilience Under Global Shocks","张瀚予","MFin","2023"],["Research on Impact of Employee Stock Ownership Plans on Corporate Innovation","花月","MFin","2023"]],
+"黄毅":[["Impact of Female Health on Entrepreneurship: A Survey-Based Study of Women in Region X","张孟爱","EMBA","2022"],["Research on Demand for Commercial Applications of Cloud Computing: Financial User Perspective","杨志全","EMBA","2022"]],
+};
+const profUrls = {
+"高华声":"https://fisf.fudan.edu.cn/en_show-112-67.html",
+"蒋亮":"https://fisf.fudan.edu.cn/en_show-112-79.html",
+"马畅":"https://fisf.fudan.edu.cn/en_show-112-88.html",
+"吴文斌":"https://fisf.fudan.edu.cn/en_show-112-74.html",
+"汤海涵":"https://fisf.fudan.edu.cn/en_show-112-72.html",
+"王遐昕":"https://fisf.fudan.edu.cn/en_show-112-89.html",
+"陈华锋":"https://fisf.fudan.edu.cn/en_show-112-112.html",
+"孙林":"https://fisf.fudan.edu.cn/en_show-112-70.html",
+"鲁小萌":"https://fisf.fudan.edu.cn/en_show-112-157.html",
+"朱蕾":"https://fisf.fudan.edu.cn/en_show-112-96.html",
+"唐敦哲":"https://fisf.fudan.edu.cn/en_show-112-159.html",
+"童国士":"https://fisf.fudan.edu.cn/en_show-112-160.html",
+"施文韵":"https://fisf.fudan.edu.cn/en_show-112-170.html",
+"杨春柳":"https://fisf.fudan.edu.cn/en_show-112-86.html",
+"施东辉":"https://fisf.fudan.edu.cn/en_show-112-106.html",
+"钱军":"https://fisf.fudan.edu.cn/en_show-112-69.html",
+"张纯信":"https://fisf.fudan.edu.cn/en_show-112-75.html",
+"王永钦":"https://fisf.fudan.edu.cn/en_show-112-156.html",
+"陈诗一":"https://fisf.fudan.edu.cn/en_show-112-77.html",
+"黄毅":"https://fisf.fudan.edu.cn/en_show-112-172.html",
+"许闲":"https://fisf.fudan.edu.cn/en_show-112-158.html",
+"John Harold Rogers":"https://www.johnrogerseconomist.net/",
+"周亦凡":"https://scholar.xjtlu.edu.cn/en/persons/YifanZhou/",
+"王珂礼":"https://experts.griffith.edu.au/44240-christoph-nedopil-wang",
+"周思力":"https://fba.um.edu.mo/zh-hant/faculty/silizhou/",
+"郭翔宇":"https://xyguo.github.io/",
+"彭秋莎":"https://sites.google.com/site/pengqiusha2010/home",
+"焦阳":"https://sites.google.com/site/yangjiao0606/",
+"傅承德":"https://www.stat.ncu.edu.tw/teacher/teacher_more/6",
+"Richard Werner":"https://www.winchester.ac.uk/about-us/leadership-and-governance/staff-directory/staff-profiles/werner.php",
+"陈钊":"https://econ.fudan.edu.cn/info/1028/14249.htm",
+"张宗新":"https://econ.fudan.edu.cn/info/1028/14266.htm",
+"李志青":"https://econ.fudan.edu.cn/info/1028/14145.htm",
+"周光友":"https://econ.fudan.edu.cn/info/1028/14265.htm",
+};
+
+// ===== INJECT PROFILE LINKS & THESIS DROPDOWNS =====
+document.querySelectorAll('.glass-card').forEach(card => {
+  const nameEl = card.querySelector('.font-display.text-lg');
+  if (!nameEl) return;
+  const cnName = nameEl.textContent.trim();
+  
+  // Add profile link to the name
+  const url = profUrls[cnName];
+  if (url) {
+    const link = document.createElement('a');
+    link.href = url;
+    link.target = '_blank';
+    link.rel = 'noopener noreferrer';
+    link.className = 'prof-link';
+    link.innerHTML = nameEl.innerHTML;
+    link.title = 'View faculty profile';
+    nameEl.innerHTML = '';
+    nameEl.appendChild(link);
+  }
+  
+  // Add thesis dropdown if data exists
+  const theses = thesisData[cnName];
+  if (!theses || theses.length === 0) return;
+  
+  // Find the stat-pill container to insert after it
+  const statRow = card.querySelector('.flex.gap-2.mt-4') || card.querySelector('.flex.gap-2.mt-3');
+  if (!statRow) return;
+  
+  // Create toggle button
+  const toggleDiv = document.createElement('div');
+  toggleDiv.className = 'mt-3';
+  toggleDiv.innerHTML = '<button class="thesis-toggle" onclick="toggleTheses(this)">' +
+    '<span class="arrow">&#9660;</span> ' + theses.length + ' thesis titles available</button>';
+  
+  // Create thesis list container
+  const listDiv = document.createElement('div');
+  listDiv.className = 'thesis-list';
+  
+  let listHtml = '<div class="thesis-list-inner">';
+  theses.forEach(t => {
+    const title = t[0];
+    const author = t[1];
+    const deg = t[2];
+    const year = t[3];
+    let degClass = 'ti-other';
+    let degLabel = deg;
+    if (deg === 'MFin') { degClass = 'ti-mfin'; degLabel = 'MFin'; }
+    else if (deg === 'MBA') { degClass = 'ti-mba'; degLabel = 'MBA'; }
+    else if (deg === 'EMBA') { degClass = 'ti-emba'; degLabel = 'EMBA'; }
+    
+    listHtml += '<div class="thesis-item">' +
+      '<span class="ti-year">' + year + '</span>' +
+      '<span class="ti-title">' + title + '</span>' +
+      '<span class="ti-degree ' + degClass + '">' + degLabel + '</span>' +
+      '<span class="ti-author">' + author + '</span>' +
+      '</div>';
+  });
+  listHtml += '</div>';
+  listDiv.innerHTML = listHtml;
+  
+  statRow.after(toggleDiv);
+  toggleDiv.after(listDiv);
+});
+
+function toggleTheses(btn) {
+  btn.classList.toggle('active');
+  const listDiv = btn.parentElement.nextElementSibling;
+  if (listDiv) listDiv.classList.toggle('open');
+}
+</script>
+</body>
+</html>
